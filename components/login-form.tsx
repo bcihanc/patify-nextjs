@@ -25,7 +25,7 @@ export function LoginForm({className, ...props}: React.ComponentPropsWithoutRef<
             const {error} = await supabase.auth.signInWithOAuth({
                 provider,
                 options: {
-                    redirectTo: `${window.location.origin}/auth/oauth?next=/home`,
+                    redirectTo: "https://api.patify.net/auth/v1/callback",
                 },
             })
 
