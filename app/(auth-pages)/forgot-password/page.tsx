@@ -17,7 +17,7 @@ export default async function ForgotPassword(props: {
           <h1 className="text-2xl font-medium">Şifre Sıfırla</h1>
           <p className="text-sm text-secondary-foreground">
             Zaten bir hesabın var mı?{" "}
-            <Link className="text-primary underline" href="/sign-in">
+            <Link className="text-primary underline" href="/auth/login">
               Giriş
             </Link>
           </p>

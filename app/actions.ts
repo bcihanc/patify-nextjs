@@ -50,7 +50,7 @@ export const signInAction = async (formData: FormData) => {
   });
 
   if (error) {
-    return encodedRedirect("error", "/sign-in", error.message);
+    return encodedRedirect("error", "/auth/login", error.message);
   }
 
   return redirect("/home");
@@ -122,7 +122,7 @@ export const resetPasswordAction = async (formData: FormData) => {
 export const signOutAction = async () => {
   const supabase = await createClient();
   await supabase.auth.signOut();
-  return redirect("/sign-in");
+  return redirect("/auth/login");
 };
 
 export const deleteAccountAction = async () => {
@@ -133,5 +133,5 @@ export const deleteAccountAction = async () => {
 
   await supabase.auth.signOut();
 
-  return redirect("/sign-in");
+  return redirect("/auth/login");
 };
