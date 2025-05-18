@@ -1,14 +1,14 @@
-import { signOutAction } from "@/app/actions";
-import { hasEnvVars } from "@/utils/supabase/check-env-vars";
+import {signOutAction} from "@/app/actions";
+import {hasEnvVars} from "@/utils/supabase/check-env-vars";
 import Link from "next/link";
-import { Badge } from "./ui/badge";
-import { Button } from "./ui/button";
+import {Badge} from "./ui/badge";
+import {Button} from "./ui/button";
 import {createClient} from "@/lib/supabase/server";
 
 export default async function AuthButton() {
     const supabase = await createClient();
 
-    const { data: { user } } = await supabase.auth.getUser();
+    const {data: {user}} = await supabase.auth.getUser();
 
     const userProfile = !user?.id ? undefined : await supabase
         .from('user_profiles')
@@ -46,13 +46,18 @@ export default async function AuthButton() {
         );
     }
     return user ? (
-        <div className="flex items-center gap-4">
-            Hello {userName} 👋
-            <form action={signOutAction}>
-                <Button type="submit" variant={"outline"}>
-                    Sign out
+        <div className="flex gap-4 items-center">
+            <div className="flex items-center gap-4">
+                Hello {userName} 👋
+                <Button asChild size="sm" variant={"outline"}>
+                    <Link href="/home">Settings</Link>
                 </Button>
-            </form>
+                <form action={signOutAction}>
+                    <Button type="submit" variant={"outline"}>
+                        Sign out
+                    </Button>
+                </form>
+            </div>
         </div>
     ) : (
         <div className="flex gap-2">
@@ -60,5 +65,6 @@ export default async function AuthButton() {
                 <Link href="/auth/login">Sign in</Link>
             </Button>
         </div>
+
     );
 }
