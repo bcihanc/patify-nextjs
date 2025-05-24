@@ -14,7 +14,7 @@ export default function Hero() {
     const badges = [
         {
             image: "/images/app-store-badge.svg",
-            link: "https://apps.apple.com/tr/app/patify/id6473829482"
+            link: "https://apps.apple.com/tr/app/patify/id6478046323"
         },
         {
             image: "/images/google-play-badge.png",

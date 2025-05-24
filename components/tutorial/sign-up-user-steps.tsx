@@ -12,11 +12,11 @@ export default function SignUpUserSteps() {
           <p className="mt-4">
             This particular deployment is
             <span className="relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-xs font-medium text-secondary-foreground border">
-              "{process.env.VERCEL_ENV}"
+              "{process.env.PUBLIC_URL}"
             </span>{" "}
             on
             <span className="relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-xs font-medium text-secondary-foreground border">
-              https://{process.env.VERCEL_URL}
+              https://{process.env.PUBLIC_URL}
             </span>
             .
           </p>

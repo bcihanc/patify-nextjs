@@ -6,8 +6,8 @@ import { ThemeProvider } from "next-themes";
 import Link from "next/link";
 import "./globals.css";
 
-const defaultUrl = process.env.VERCEL_URL
-  ? `https://${process.env.VERCEL_URL}`
+const defaultUrl = process.env.PUBLIC_URL
+  ? `https://${process.env.PUBLIC_URL}`
   : "http://localhost:3000";
 
 export const metadata = {
@@ -28,6 +28,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={geistSans.className} suppressHydrationWarning>
+    <head>
+      {/* Mevcut meta etiketleri */}
+      <meta name="appleid-signin-client-id" content="com.bcc.buschat.web" />
+      <meta name="appleid-signin-scope" content="name email" />
+      <meta name="appleid-signin-redirect-uri" content="https://api.patify.net/auth/v1/callback" />
+      {/*<meta name="appleid-signin-state" content="[STATE]" />*/}
+      <meta name="appleid-signin-use-popup" content="false" />
+    </head>
       <body className="bg-background text-foreground">
         <ThemeProvider
           attribute="class"

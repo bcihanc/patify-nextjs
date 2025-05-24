@@ -1,0 +1,11 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.bcc.buschat",
+      "sha256_cert_fingerprints":
+      ["BD:F8:F8:49:AD:32:CD:DB:63:94:E8:EF:89:1D:C3:55:78:A2:56:0C:D7:DC:4F:DE:A7:E9:42:64:FF:26:FA:36"]
+    }
+  }
+]
