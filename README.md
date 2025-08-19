@@ -1,104 +1,197 @@
-<a href="https://demo-nextjs-with-supabase.vercel.app/">
-  <img alt="Next.js and Supabase Starter Kit - the fastest way to build apps with Next.js and Supabase" src="https://demo-nextjs-with-supabase.vercel.app/opengraph-image.png">
-  <h1 align="center">Next.js and Supabase Starter Kit</h1>
-</a>
+# Patify
 
-<p align="center">
- The fastest way to build apps with Next.js and Supabase
-</p>
+Next.js 15 ve Supabase ile oluşturulmuş, Apple Sign-In entegrasyonu ve temiz, duyarlı tasarıma sahip modern bir kimlik doğrulama özellikli web uygulaması.
 
-<p align="center">
-  <a href="#features"><strong>Features</strong></a> ·
-  <a href="#demo"><strong>Demo</strong></a> ·
-  <a href="#deploy-to-vercel"><strong>Deploy to Vercel</strong></a> ·
-  <a href="#clone-and-run-locally"><strong>Clone and run locally</strong></a> ·
-  <a href="#feedback-and-issues"><strong>Feedback and issues</strong></a>
-  <a href="#more-supabase-examples"><strong>More Examples</strong></a>
-</p>
-<br/>
+## ✨ Özellikler
 
-## Features
+- 🔐 **Tam Kimlik Doğrulama Sistemi** - Kayıt ol, giriş yap, çıkış yap, şifre sıfırlama
+- 🍎 **Apple Sign-In Entegrasyonu** - Apple ile sorunsuz OAuth
+- 🎨 **Modern Arayüz** - Tailwind CSS ve shadcn/ui bileşenleri ile oluşturulmuş
+- 🌙 **Karanlık/Açık Mod** - next-themes ile tema değiştirme
+- 📱 **Duyarlı Tasarım** - Mobil-öncelikli yaklaşım
+- ⚡ **Hızlı Performans** - Turbopack ile Next.js 15
+- 🔒 **Güvenli** - Supabase Auth ile çerez tabanlı oturumlar
+- 🏗️ **Tip Güvenli** - Tam TypeScript desteği
 
-- Works across the entire [Next.js](https://nextjs.org) stack
-  - App Router
-  - Pages Router
-  - Middleware
-  - Client
-  - Server
-  - It just works!
-- supabase-ssr. A package to configure Supabase Auth to use cookies
-- Styling with [Tailwind CSS](https://tailwindcss.com)
-- Components with [shadcn/ui](https://ui.shadcn.com/)
-- Optional deployment with [Supabase Vercel Integration and Vercel deploy](#deploy-your-own)
-  - Environment variables automatically assigned to Vercel project
+## 🚀 Teknoloji Yığını
 
-## Demo
+- **Framework**: [Next.js 15](https://nextjs.org/) App Router ile
+- **Kimlik Doğrulama**: [Supabase Auth](https://supabase.com/auth)
+- **Veritabanı**: [Supabase](https://supabase.com/)
+- **Stil**: [Tailwind CSS](https://tailwindcss.com/)
+- **UI Bileşenleri**: [shadcn/ui](https://ui.shadcn.com/)
+- **Tema**: [next-themes](https://github.com/pacocoursey/next-themes)
+- **Font**: [Geist](https://vercel.com/font)
+- **Dil**: [TypeScript](https://www.typescriptlang.org/)
 
-You can view a fully working demo at [demo-nextjs-with-supabase.vercel.app](https://demo-nextjs-with-supabase.vercel.app/).
+## 📋 Ön Koşullar
 
-## Deploy to Vercel
+Başlamadan önce, aşağıdakilerin mevcut olduğundan emin olun:
 
-Vercel deployment will guide you through creating a Supabase account and project.
+- Node.js 18+ yüklü
+- Bir [Supabase](https://supabase.com/) hesabı ve projesi
+- Apple Developer hesabı (Apple Sign-In için)
 
-After installation of the Supabase integration, all relevant environment variables will be assigned to the project so the deployment is fully functioning.
+## 🛠️ Kurulum
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fvercel%2Fnext.js%2Ftree%2Fcanary%2Fexamples%2Fwith-supabase&project-name=nextjs-with-supabase&repository-name=nextjs-with-supabase&demo-title=nextjs-with-supabase&demo-description=This+starter+configures+Supabase+Auth+to+use+cookies%2C+making+the+user%27s+session+available+throughout+the+entire+Next.js+app+-+Client+Components%2C+Server+Components%2C+Route+Handlers%2C+Server+Actions+and+Middleware.&demo-url=https%3A%2F%2Fdemo-nextjs-with-supabase.vercel.app%2F&external-id=https%3A%2F%2Fgithub.com%2Fvercel%2Fnext.js%2Ftree%2Fcanary%2Fexamples%2Fwith-supabase&demo-image=https%3A%2F%2Fdemo-nextjs-with-supabase.vercel.app%2Fopengraph-image.png)
-
-The above will also clone the Starter kit to your GitHub, you can clone that locally and develop locally.
-
-If you wish to just develop locally and not deploy to Vercel, [follow the steps below](#clone-and-run-locally).
-
-## Clone and run locally
-
-1. You'll first need a Supabase project which can be made [via the Supabase dashboard](https://database.new)
-
-2. Create a Next.js app using the Supabase Starter template npx command
-
+1. **Depoyu klonlayın**
    ```bash
-   npx create-next-app --example with-supabase with-supabase-app
+   git clone https://github.com/yourusername/patify-nextjs.git
+   cd patify-nextjs
    ```
 
+2. **Bağımlılıkları yükleyin**
    ```bash
-   yarn create next-app --example with-supabase with-supabase-app
+   npm install
    ```
 
-   ```bash
-   pnpm create next-app --example with-supabase with-supabase-app
+3. **Ortam değişkenlerini ayarlayın**
+   
+   Kök dizinde bir `.env.local` dosyası oluşturun:
+   ```env
+   NEXT_PUBLIC_SUPABASE_URL=supabase_proje_url_iniz
+   NEXT_PUBLIC_SUPABASE_ANON_KEY=supabase_anon_anahtariniz
+   PUBLIC_URL=http://localhost:3000
    ```
 
-3. Use `cd` to change into the app's directory
+4. **Supabase'i yapılandırın**
+   - Yeni bir Supabase projesi oluşturun
+   - Proje URL'nizi ve anon anahtarınızı ortam değişkenlerine kopyalayın
+   - Supabase kontrol panelinizde kimlik doğrulama sağlayıcılarını ayarlayın
 
-   ```bash
-   cd with-supabase-app
-   ```
+5. **Apple Sign-In'i yapılandırın** (İsteğe bağlı)
+   - Apple Developer hesabınızda Apple Sign-In'i ayarlayın
+   - Supabase'de OAuth sağlayıcısını yapılandırın
+   - Gerekirse koddaki client ID'yi güncelleyin
 
-4. Rename `.env.example` to `.env.local` and update the following:
+## 🏃‍♂️ Kullanım
 
-   ```
-   NEXT_PUBLIC_SUPABASE_URL=[INSERT SUPABASE PROJECT URL]
-   NEXT_PUBLIC_SUPABASE_ANON_KEY=[INSERT SUPABASE PROJECT API ANON KEY]
-   ```
+### Geliştirme
 
-   Both `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` can be found in [your Supabase project's API settings](https://app.supabase.com/project/_/settings/api)
+Geliştirme sunucusunu başlatın:
+```bash
+npm run dev
+```
 
-5. You can now run the Next.js local development server:
+Tarayıcınızda [http://localhost:3000](http://localhost:3000) adresini açın.
 
-   ```bash
-   npm run dev
-   ```
+### Üretim için Derleme
 
-   The starter kit should now be running on [localhost:3000](http://localhost:3000/).
+```bash
+npm run build
+npm start
+```
 
-6. This template comes with the default shadcn/ui style initialized. If you instead want other ui.shadcn styles, delete `components.json` and [re-install shadcn/ui](https://ui.shadcn.com/docs/installation/next)
+## 📁 Proje Yapısı
 
-> Check out [the docs for Local Development](https://supabase.com/docs/guides/getting-started/local-development) to also run Supabase locally.
+```
+patify-nextjs/
+├── app/                          # Next.js App Router
+│   ├── (auth-pages)/            # Authentication pages
+│   │   ├── forgot-password/     # Password reset request
+│   │   └── login/               # Login page
+│   ├── auth/                    # Auth callbacks and errors
+│   ├── home/                    # Protected home section
+│   │   └── reset-password/      # Password reset form
+│   ├── protected/               # Example protected route
+│   ├── actions.ts               # Server actions for auth
+│   ├── globals.css             # Global styles
+│   ├── layout.tsx              # Root layout
+│   └── page.tsx                # Landing page
+├── components/                  # React components
+│   ├── ui/                     # shadcn/ui components
+│   ├── tutorial/               # Tutorial components
+│   ├── header-auth.tsx         # Navigation auth state
+│   └── ...                     # Other components
+├── lib/                        # Utility libraries
+│   └── supabase/              # Supabase client configurations
+│       ├── client.ts          # Client-side client
+│       ├── middleware.ts      # Middleware client
+│       └── server.ts          # Server-side client
+├── utils/                      # Utility functions
+│   └── supabase/              # Supabase utilities
+└── public/                     # Static assets
+    └── .well-known/           # Apple app site association
+```
 
-## Feedback and issues
+## 🔐 Kimlik Doğrulama Akışı
 
-Please file feedback and issues over on the [Supabase GitHub org](https://github.com/supabase/supabase/issues/new/choose).
+Uygulama, çerez tabanlı oturumlarla Supabase Auth kullanır:
 
-## More Supabase examples
+1. **Sunucu tarafı render** - Kimlik doğrulama durumu sunucuda kontrol edilir
+2. **Middleware koruması** - Rotalar middleware aracılığıyla korunur
+3. **Çoklu kimlik doğrulama sağlayıcıları** - E-posta/şifre ve Apple Sign-In
+4. **Güvenli oturumlar** - Otomatik yenileme ile HTTPOnly çerezler
 
-- [Next.js Subscription Payments Starter](https://github.com/vercel/nextjs-subscription-payments)
-- [Cookie-based Auth and the Next.js 13 App Router (free course)](https://youtube.com/playlist?list=PL5S4mPUpp4OtMhpnp93EFSo42iQ40XjbF)
-- [Supabase Auth and the Next.js App Router](https://github.com/supabase/supabase/tree/master/examples/auth/nextjs)
+### Mevcut Kimlik Doğrulama İşlemleri
+
+- `signUpAction` - Kullanıcı kaydı
+- `signInAction` - Kullanıcı girişi
+- `signOutAction` - Kullanıcı çıkışı
+- `forgotPasswordAction` - Şifre sıfırlama isteği
+- `resetPasswordAction` - Şifre güncelleme
+- `signInWithAppleAction` - Apple OAuth akışı
+
+## 🎨 Stil ve Tema
+
+Uygulama şunları kullanır:
+
+- **Tailwind CSS** - Yardımcı program öncelikli stil için
+- **shadcn/ui** - Tutarlı, erişilebilir bileşenler için
+- **CSS değişkenleri** - Tema için (açık/karanlık mod)
+- **Geist font** - Modern tipografi için
+
+### Tema Değiştirme
+
+Karanlık ve açık temalar, navigasyondaki tema değiştirici aracılığıyla kullanılabilir.
+
+## 🔒 Güvenlik Özellikleri
+
+- Oturum yönetimi için HTTPOnly çerezler
+- Supabase aracılığıyla CSRF koruması
+- Güvenli şifre sıfırlama akışı
+- Apple ile OAuth entegrasyonu
+- Ortam değişkeni doğrulaması
+- Korumalı rota middleware'i
+
+## 🚀 Dağıtım
+
+### Vercel (Önerilen)
+
+1. GitHub deponuzu Vercel'e bağlayın
+2. Vercel kontrol panelinde ortam değişkenlerini ayarlayın
+3. Ana dala push yapıldığında otomatik olarak dağıtın
+
+### Diğer Platformlar
+
+Dağıtım platformunuzun şunları desteklediğinden emin olun:
+- Node.js 18+
+- Ortam değişkenleri
+- Statik dosya sunma
+
+## 🤝 Katkıda Bulunma
+
+Katkılar memnuniyetle karşılanır! Rehber için [CONTRIBUTING.md](CONTRIBUTING.md) dosyasına bakın.
+
+## 📄 Lisans
+
+Bu proje MIT Lisansı altında lisanslanmıştır - ayrıntılar için [LICENSE](LICENSE) dosyasına bakın.
+
+## 🆘 Destek
+
+Herhangi bir sorunla karşılaşırsanız veya sorularınız varsa:
+
+1. [Issues](https://github.com/yourusername/patify-nextjs/issues) sayfasını kontrol edin
+2. Ayrıntılı bilgilerle yeni bir sorun oluşturun
+3. Topluluk tartışmalarımıza katılın
+
+## 🙏 Teşekkürler
+
+- Harika framework için [Next.js](https://nextjs.org/) ekibi
+- Backend altyapısı için [Supabase](https://supabase.com/)
+- Güzel UI bileşenleri için [shadcn](https://twitter.com/shadcn)
+- Barındırma ve dağıtım için [Vercel](https://vercel.com/)
+
+---
+
+Patify ekibi tarafından ❤️ ile oluşturulmuştur
