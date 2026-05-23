@@ -3,8 +3,6 @@
 **Yürürlük Tarihi:** 23 Mayıs 2026
 **Son Güncelleme:** 23 Mayıs 2026
 
-> **Not:** Bu belge, hukuk danışmanının incelemesine sunulmak üzere hazırlanmış bir taslaktır. Yayımlanmadan önce hukuki gözden geçirme yapılması tavsiye edilir.
-
 ---
 
 ## 1. Veri Sorumlusu
@@ -212,6 +210,3 @@ KVKK kapsamındaki haklarınızı kullanmak için yukarıdaki adrese "KVKK Başv
 
 Başvurunuza 30 gün içinde yanıt verilmemesi halinde Kişisel Verileri Koruma Kurumu'na (KVKK) şikâyette bulunma hakkınız saklıdır.
 
----
-
-*Bu belge taslak niteliğindedir. Yayımlanmadan önce hukuki danışmandan geçirilmesi gerekir.*

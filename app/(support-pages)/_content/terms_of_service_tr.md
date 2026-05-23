@@ -1,10 +1,5 @@
 # Patify Kullanım Koşulları
 
-> **TASLAK — Avukat incelemesinden geçmeden yürürlüğe girmez.**
->
-> Bu belge hukuki danışmanlık niteliği taşımaz. İçerik, operatör tarafından yetkili bir
-> hukuk danışmanına sunulmadan uygulamaya konulmamalıdır.
-
 **Yürürlük Tarihi:** 23 Mayıs 2026
 **Son Güncelleme:** 23 Mayıs 2026
 
@@ -344,6 +339,4 @@ iletilir.
 
 ---
 
-*Bu belge bir taslaktır. Hukuki geçerlilik kazanabilmesi için yetkili bir hukuk
-danışmanı tarafından incelenmesi ve onaylanması gerekmektedir. Yürürlük tarihi:
-**23 Mayıs 2026**.*
+*Yürürlük tarihi: **23 Mayıs 2026**.*

@@ -3,8 +3,6 @@
 **Effective Date:** 23 May 2026
 **Last Updated:** 23 May 2026
 
-> **Note:** This document is a draft prepared for review by legal counsel. It is recommended that a legal review is completed before publication.
-
 ---
 
 ## 1. Data Controller
@@ -215,6 +213,3 @@ If you are not satisfied with our response, you have the right to lodge a compla
 - **Turkey:** Personal Data Protection Authority (Kişisel Verileri Koruma Kurumu — KVKK), https://www.kvkk.gov.tr
 - **EU/EEA residents:** The supervisory authority in your country of residence.
 
----
-
-*This document is a draft. Legal counsel review is required before publication.*

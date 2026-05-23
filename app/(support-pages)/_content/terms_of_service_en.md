@@ -1,10 +1,5 @@
 # Patify Terms of Service
 
-> **DRAFT — Not effective until reviewed by qualified legal counsel.**
->
-> This document does not constitute legal advice. The operator must consult a
-> licensed attorney before publishing this document.
-
 **Effective Date:** 23 May 2026
 **Last Updated:** 23 May 2026
 
@@ -344,5 +339,4 @@ same email address.
 
 ---
 
-*This document is a draft. It must be reviewed and approved by a qualified legal
-advisor before it can take legal effect. Effective date: **23 May 2026**.*
+*Effective date: **23 May 2026**.*
