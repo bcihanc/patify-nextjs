@@ -5,9 +5,9 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
 export const metadata = {
-  title: "Privacy Policy / Gizlilik Politikası | Patify",
+  title: "Terms of Service / Kullanım Koşulları | Patify",
   description:
-    "Patify Privacy Policy (KVKK + GDPR). Turkish and English versions.",
+    "Patify Terms of Service. Turkish and English versions.",
 };
 
 async function loadContent(filename: string): Promise<string> {
@@ -21,10 +21,10 @@ async function loadContent(filename: string): Promise<string> {
   return fs.readFile(filePath, "utf-8");
 }
 
-export default async function PrivacyPolicyPage() {
+export default async function TermsOfServicePage() {
   const [tr, en] = await Promise.all([
-    loadContent("privacy_policy_tr.md"),
-    loadContent("privacy_policy_en.md"),
+    loadContent("terms_of_service_tr.md"),
+    loadContent("terms_of_service_en.md"),
   ]);
 
   return (
