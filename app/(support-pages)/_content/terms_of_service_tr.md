@@ -1,7 +1,7 @@
 # Patify Kullanım Koşulları
 
 **Yürürlük Tarihi:** 23 Mayıs 2026
-**Son Güncelleme:** 23 Mayıs 2026
+**Son Güncelleme:** 12 Haziran 2026
 
 ---
 
@@ -93,6 +93,11 @@ bulunmak kesinlikle yasaktır:
 
 **f) Zararlı Hayvan İçeriği**
 - Hayvanlara yönelik şiddeti destekleyen, teşvik eden veya yücelten içerikler.
+
+**g) Hayvan Satışı ve Ticari İçerik**
+- Patify'da ücretli hayvan satışı, ticari ilan ve reklam içeriği kesinlikle
+  yasaktır. Yalnızca sahiplendirme ve kayıp/bulundu ilanları kabul edilir.
+- İhlaller içeriğin kaldırılmasına ve hesabın askıya alınmasına yol açabilir.
 
 ### 3.3 İçerik Moderasyonu
 

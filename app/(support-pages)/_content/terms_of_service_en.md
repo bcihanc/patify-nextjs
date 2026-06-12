@@ -1,7 +1,7 @@
 # Patify Terms of Service
 
 **Effective Date:** 23 May 2026
-**Last Updated:** 23 May 2026
+**Last Updated:** 12 June 2026
 
 ---
 
@@ -93,6 +93,11 @@ prohibited:
 
 **f) Harmful Animal Content**
 - Content that supports, encourages, or glorifies violence toward animals.
+
+**g) Animal Sales and Commercial Content**
+- Paid pet sales, commercial listings, and advertising content are strictly
+  prohibited on Patify. Only adoption and lost/found listings are accepted.
+- Violations may result in content removal and account suspension.
 
 ### 3.3 Content Moderation
 
