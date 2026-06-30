@@ -26,6 +26,10 @@ export default async function OgImage({
 
   const photo = listing?.images?.[0] ?? null
 
+  // Satori requires any element with >1 child to be display:flex. Building the
+  // headline as a single string keeps the title <div> at one child node.
+  const headline = `${listing && listing.status !== 'cozuldu' ? '⚠ ' : ''}${title}`
+
   return new ImageResponse(
     (
       <div
@@ -58,7 +62,7 @@ export default async function OgImage({
             gap: 16,
           }}
         >
-          <div style={{ fontSize: 64, fontWeight: 800 }}>{listing && listing.status !== 'cozuldu' ? '⚠ ' : ''}{title}</div>
+          <div style={{ fontSize: 64, fontWeight: 800 }}>{headline}</div>
           <div style={{ fontSize: 40 }}>{subtitle}</div>
           <div style={{ fontSize: 32, opacity: 0.7 }}>patify.net</div>
         </div>
