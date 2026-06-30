@@ -58,7 +58,7 @@ export default async function OgImage({
             gap: 16,
           }}
         >
-          <div style={{ fontSize: 64, fontWeight: 800 }}>{listing?.status !== 'cozuldu' ? '⚠ ' : ''}{title}</div>
+          <div style={{ fontSize: 64, fontWeight: 800 }}>{listing && listing.status !== 'cozuldu' ? '⚠ ' : ''}{title}</div>
           <div style={{ fontSize: 40 }}>{subtitle}</div>
           <div style={{ fontSize: 32, opacity: 0.7 }}>patify.net</div>
         </div>

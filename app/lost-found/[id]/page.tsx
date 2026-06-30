@@ -67,7 +67,7 @@ export default async function LostFoundListingPage({
   // Reunited → celebration screen.
   if (listing.status === 'cozuldu') {
     return (
-      <main className="flex-1 flex flex-col items-center justify-center gap-6 px-4 py-16 text-center">
+      <section className="flex-1 flex flex-col items-center justify-center gap-6 px-4 py-16 text-center">
         <PartyPopper className="h-12 w-12 text-emerald-500" aria-hidden />
         <h1 className="text-2xl font-bold">Bu dostumuz ailesine kavuştu 🎉</h1>
         {photo && (
@@ -85,13 +85,13 @@ export default async function LostFoundListingPage({
         <Button asChild>
           <a href={APP_URL}>Patify&apos;ı İndir</a>
         </Button>
-      </main>
+      </section>
     )
   }
 
   // Active listing (kayip / bulundu).
   return (
-    <main className="flex-1 flex flex-col items-center gap-6 px-4 py-8">
+    <section className="flex-1 flex flex-col items-center gap-6 px-4 py-8">
       <div className="w-full max-w-md flex flex-col gap-4">
         <div className="rounded-md bg-zinc-900 py-3 text-center text-xl font-extrabold tracking-wide text-white">
           ⚠ {headline(listing.status)}
@@ -137,6 +137,6 @@ export default async function LostFoundListingPage({
           </Button>
         </div>
       </div>
-    </main>
+    </section>
   )
 }
