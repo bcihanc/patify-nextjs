@@ -1,4 +1,5 @@
 // app/lost-found/[id]/page.tsx
+import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { MapPin, Calendar, PartyPopper } from 'lucide-react'
 import { Button } from '@/components/ui/button'
@@ -24,6 +25,32 @@ function formatDate(iso: string | null): string | null {
   // iso is a date-only 'YYYY-MM-DD'
   const d = new Date(iso + 'T00:00:00')
   return d.toLocaleDateString('tr-TR', { day: 'numeric', month: 'long', year: 'numeric' })
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string }>
+}): Promise<Metadata> {
+  const { id } = await params
+  const listing = await getLostFoundById(id)
+  if (!listing) return { title: 'İlan bulunamadı · Patify' }
+
+  const title =
+    listing.status === 'cozuldu'
+      ? 'Ailesine kavuştu 🎉 · Patify'
+      : `${headline(listing.status)} · ${petLine(listing)} · Patify`
+  const description = [locationLine(listing), listing.description]
+    .filter(Boolean)
+    .join(' — ')
+    .slice(0, 160)
+
+  return {
+    title,
+    description,
+    openGraph: { title, description, type: 'article' },
+    twitter: { card: 'summary_large_image', title, description },
+  }
 }
 
 export default async function LostFoundListingPage({
