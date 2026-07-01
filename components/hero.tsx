@@ -1,7 +1,6 @@
 import Image from "next/image";
 
 export default function Hero() {
-    const pageTitle = "Patify";
     const heading = "Patify";
     const subheading = "Evcil hayvanlarınızın sağlığını, aşılarını ve bakımını kolayca takip edin. Patify ile her şey kontrol altında!";
     const appScreenshot = "/images/app-screenshot.png";
@@ -18,7 +17,7 @@ export default function Hero() {
         },
         {
             image: "/images/google-play-badge.png",
-            link: "https://play.google.com/store/apps/details?id=com.patify.app"
+            link: "https://play.google.com/store/apps/details?id=com.bcc.buschat"
         }
     ];
 
