@@ -2,10 +2,11 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { MapPin, Calendar, PartyPopper } from 'lucide-react'
-import { Button } from '@/components/ui/button'
 import { getLostFoundById, petTypeLabel, type LostFoundListing } from '@/lib/lost-found'
+import { OpenInAppButton } from '@/components/open-in-app-button'
 
-const APP_URL = 'https://patify.net/app'
+// Numeric App Store id (from the live listing) used by the iOS Smart App Banner.
+const IOS_APP_ID = '6478046323'
 
 function headline(status: LostFoundListing['status']): string {
   if (status === 'bulundu') return 'BULUNDU · SAHİBİ ARANIYOR'
@@ -50,6 +51,13 @@ export async function generateMetadata({
     description,
     openGraph: { title, description, type: 'article' },
     twitter: { card: 'summary_large_image', title, description },
+    // iOS Smart App Banner: shows a native "Patify · AÇ" bar that opens the
+    // installed app straight to this listing (app-argument). This is the only
+    // reliable way to open the app from a same-domain Safari page.
+    itunes: {
+      appId: IOS_APP_ID,
+      appArgument: `https://patify.net/lost-found/item/${id}`,
+    },
   }
 }
 
@@ -82,9 +90,10 @@ export default async function LostFoundListingPage({
         <p className="max-w-sm text-muted-foreground">
           Patify, kaybolan dostların ailelerine kavuşmasına yardımcı olur.
         </p>
-        <Button asChild>
-          <a href={APP_URL}>Patify&apos;ı İndir</a>
-        </Button>
+        <OpenInAppButton
+          path={`/lost-found/item/${id}`}
+          label="Patify'ı İndir"
+        />
       </section>
     )
   }
@@ -132,9 +141,11 @@ export default async function LostFoundListingPage({
           <p className="text-sm text-muted-foreground">
             İlan sahibiyle iletişime geçmek için Patify uygulamasını aç.
           </p>
-          <Button asChild className="mt-1">
-            <a href={APP_URL}>Uygulamada Aç / Patify&apos;ı İndir</a>
-          </Button>
+          <OpenInAppButton
+            path={`/lost-found/item/${id}`}
+            label="Uygulamada Aç"
+            className="mt-1"
+          />
         </div>
       </div>
     </section>
