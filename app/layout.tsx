@@ -6,9 +6,20 @@ import { ThemeProvider } from "next-themes";
 import Link from "next/link";
 import "./globals.css";
 
-const defaultUrl = process.env.PUBLIC_URL
-  ? `https://${process.env.PUBLIC_URL}`
-  : "http://localhost:3000";
+// Base URL for absolute OG/Twitter image URLs (metadataBase). Two failure modes
+// this guards against, both of which broke WhatsApp link previews:
+//   1. Unset in production → must NOT fall back to localhost (WhatsApp can't
+//      fetch localhost, so the pet photo never rendered). Default to the real
+//      production domain when NODE_ENV is production.
+//   2. PUBLIC_URL already carrying a protocol (e.g. "https://patify.net") →
+//      the old `https://${PUBLIC_URL}` produced "https://https://patify.net".
+//      Normalize by only prefixing the protocol when it's missing.
+const rawUrl =
+  process.env.PUBLIC_URL ||
+  (process.env.NODE_ENV === "development"
+    ? "http://localhost:3000"
+    : "https://patify.net");
+const defaultUrl = /^https?:\/\//.test(rawUrl) ? rawUrl : `https://${rawUrl}`;
 
 export const metadata = {
   metadataBase: new URL(defaultUrl),
@@ -29,11 +40,9 @@ export default function RootLayout({
   return (
     <html lang="en" className={geistSans.className} suppressHydrationWarning>
     <head>
-      {/* Mevcut meta etiketleri */}
       <meta name="appleid-signin-client-id" content="com.bcc.buschat.web" />
       <meta name="appleid-signin-scope" content="name email" />
-      <meta name="appleid-signin-redirect-uri" content="https://api.patify.net/auth/v1/callback" />
-      {/*<meta name="appleid-signin-state" content="[STATE]" />*/}
+      <meta name="appleid-signin-redirect-uri" content="https://uynwrqccvfcwunrzoxva.supabase.co/auth/v1/callback" />
       <meta name="appleid-signin-use-popup" content="false" />
     </head>
       <body className="bg-background text-foreground">
@@ -60,20 +69,6 @@ export default function RootLayout({
                 {children}
               </div>
 
-              {/*<footer className="w-full flex items-center justify-center border-t mx-auto text-center text-xs gap-8 py-16">*/}
-              {/*  <p>*/}
-              {/*    Powered by{" "}*/}
-              {/*    <a*/}
-              {/*      href="https://supabase.com/?utm_source=create-next-app&utm_medium=template&utm_term=nextjs"*/}
-              {/*      target="_blank"*/}
-              {/*      className="font-bold hover:underline"*/}
-              {/*      rel="noreferrer"*/}
-              {/*    >*/}
-              {/*      Supabase*/}
-              {/*    </a>*/}
-              {/*  </p>*/}
-              {/*  <ThemeSwitcher />*/}
-              {/*</footer>*/}
             </div>
           </main>
         </ThemeProvider>
