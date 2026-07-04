@@ -1,7 +1,7 @@
 'use client'
 
-import { useState } from 'react'
-import { Turnstile } from '@marsidev/react-turnstile'
+import { useRef, useState } from 'react'
+import { Turnstile, type TurnstileInstance } from '@marsidev/react-turnstile'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -18,6 +18,7 @@ type Status = 'idle' | 'submitting' | 'success' | 'error'
 const LOCATION_MAX = 500
 const CONTACT_MAX = 200
 const NOTE_MAX = 500
+const ALLOWED_PHOTO_TYPES = ['image/jpeg', 'image/png', 'image/webp']
 
 function errorMessageFor(result: SightingResult): string {
   switch (result) {
@@ -47,6 +48,7 @@ export function SightingForm({
   const [token, setToken] = useState<string | null>(null)
   const [status, setStatus] = useState<Status>('idle')
   const [errorMsg, setErrorMsg] = useState<string | null>(null)
+  const turnstileRef = useRef<TurnstileInstance>(null)
 
   if (status === 'success') {
     return (
@@ -64,6 +66,12 @@ export function SightingForm({
   function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
     const selected = e.target.files?.[0] ?? null
     setPhotoError(null)
+    if (selected && !ALLOWED_PHOTO_TYPES.includes(selected.type)) {
+      setPhotoError('Sadece JPG, PNG veya WEBP fotoğraf yükleyebilirsin.')
+      setFile(null)
+      e.target.value = ''
+      return
+    }
     if (selected && selected.size > MAX_PHOTO_BYTES) {
       setPhotoError('Fotoğraf 5 MB\'tan küçük olmalı.')
       setFile(null)
@@ -104,10 +112,14 @@ export function SightingForm({
       } else {
         setStatus('error')
         setErrorMsg(errorMessageFor(result))
+        turnstileRef.current?.reset()
+        setToken(null)
       }
     } catch {
       setStatus('error')
       setErrorMsg('Bir şeyler ters gitti, tekrar dene.')
+      turnstileRef.current?.reset()
+      setToken(null)
     }
   }
 
@@ -156,14 +168,20 @@ export function SightingForm({
         <input
           id="photo"
           type="file"
-          accept="image/*"
+          accept="image/jpeg,image/png,image/webp"
           onChange={handleFileChange}
           className="text-sm"
         />
         {photoError && <p className="text-sm text-destructive">{photoError}</p>}
       </div>
 
-      <Turnstile siteKey={siteKey} onSuccess={setToken} />
+      <Turnstile
+        ref={turnstileRef}
+        siteKey={siteKey}
+        onSuccess={setToken}
+        onError={() => setToken(null)}
+        onExpire={() => setToken(null)}
+      />
 
       {status === 'error' && errorMsg && (
         <p className="text-sm text-destructive">{errorMsg}</p>
