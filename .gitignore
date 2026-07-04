@@ -33,6 +33,10 @@ yarn-error.log*
 .env*.local
 .env
 
+# well-known files (contain app-specific configuration)
+/public/.well-known/assetlinks.json
+/public/.well-known/apple-app-site-association
+
 # vercel
 .vercel
 
@@ -42,3 +46,6 @@ next-env.d.ts
 
 # supabase
 /supabase/.temp/
+
+# Local Netlify folder
+.netlify
