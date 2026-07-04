@@ -4,7 +4,6 @@ import {createClient} from "@/lib/supabase/server";
 import {encodedRedirect} from "@/utils/utils";
 import {headers} from "next/headers";
 import {redirect} from "next/navigation";
-import appleSignin from 'apple-signin-auth';
 
 
 export const signUpAction = async (formData: FormData) => {
@@ -99,7 +98,7 @@ export const resetPasswordAction = async (formData: FormData) => {
     const confirmPassword = formData.get("confirmPassword") as string;
 
     if (!password || !confirmPassword) {
-        encodedRedirect(
+        return encodedRedirect(
             "error",
             "/home/reset-password",
             "Password and confirm password are required"
@@ -107,7 +106,7 @@ export const resetPasswordAction = async (formData: FormData) => {
     }
 
     if (password !== confirmPassword) {
-        encodedRedirect("error", "/home/reset-password", "Passwords do not match");
+        return encodedRedirect("error", "/home/reset-password", "Passwords do not match");
     }
 
     const {error} = await supabase.auth.updateUser({
@@ -115,10 +114,10 @@ export const resetPasswordAction = async (formData: FormData) => {
     });
 
     if (error) {
-        encodedRedirect("error", "/home/reset-password", "Password update failed");
+        return encodedRedirect("error", "/home/reset-password", "Password update failed");
     }
 
-    encodedRedirect("success", "/home/reset-password", "Password updated");
+    return encodedRedirect("success", "/home/reset-password", "Password updated");
 };
 
 export const signOutAction = async () => {
@@ -146,8 +145,7 @@ export const appleSignInAction = async () => {
             provider: 'apple',
             options: {
                 redirectTo: `${process.env.PUBLIC_URL}/auth/oauth?next=/home`,
-                // scopes: 'name email',
-                // skipBrowserRedirect: true,
+                scopes: 'name email',
             },
         });
 
