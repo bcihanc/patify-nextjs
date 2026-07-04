@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation'
 import { MapPin, Calendar, PartyPopper } from 'lucide-react'
 import { getLostFoundById, petTypeLabel, type LostFoundListing } from '@/lib/lost-found'
 import { OpenInAppButton } from '@/components/open-in-app-button'
+import { Button } from '@/components/ui/button'
 
 // Numeric App Store id (from the live listing) used by the iOS Smart App Banner.
 const IOS_APP_ID = '6478046323'
@@ -141,6 +142,11 @@ export default async function LostFoundListingPage({
           <p className="text-sm text-muted-foreground">
             İlan sahibiyle iletişime geçmek için Patify uygulamasını aç.
           </p>
+          {process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY && (
+            <Button asChild className="mt-1">
+              <a href={`/lost-found/item/${id}/gordum`}>Gördüm, bilgi ver</a>
+            </Button>
+          )}
           <OpenInAppButton
             path={`/lost-found/item/${id}`}
             label="Uygulamada Aç"
