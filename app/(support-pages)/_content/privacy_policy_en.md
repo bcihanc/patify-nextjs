@@ -1,7 +1,7 @@
 # Patify Privacy Policy
 
-**Effective Date:** 23 May 2026
-**Last Updated:** 23 May 2026
+**Effective Date:** 19 July 2026
+**Last Updated:** 19 July 2026
 
 ---
 
@@ -73,7 +73,7 @@ We process your personal data for the following purposes and on the following le
 | Location-based search for adoption listings | Location data | Explicit consent — user chooses to share on each occasion (GDPR Art. 6(1)(a); KVKK Art. 5(1)) |
 | Sending push notifications | OneSignal player_id | Performance of a contract + explicit consent (GDPR Art. 6(1)(b)/(a)) |
 | Crash and error monitoring | Device/technical data | Legitimate interests (GDPR Art. 6(1)(f); KVKK Art. 5(2)(f)) — ensuring the App operates safely and stably |
-| Analytics and usage statistics (Firebase Analytics) | Device identifiers, session data | Explicit consent — to be collected in the registration flow (GDPR Art. 6(1)(a); KVKK Art. 5(1)) |
+| Usage statistics (Patify infrastructure) | In-app behavioural events | Explicit consent (GDPR Art. 6(1)(a); KVKK Art. 5(1)) |
 
 ---
 
@@ -86,6 +86,8 @@ We process your personal data for the following purposes and on the following le
 | Posts, adoption listings, and media files | Permanently deleted within 30 days of account deletion |
 | Messages and comments | Content preserved; username replaced with an anonymised placeholder |
 | Crash and error reports (Sentry) | 90 days (Sentry default retention policy) |
+| Usage statistics (raw) | 90 days; compacted into anonymised aggregate statistics and then deleted |
+| Usage statistics (aggregate/anonymised) | Retained indefinitely in anonymised form — cannot be linked back to a person |
 | Push notification tokens (OneSignal player_id) | Cleared via OneSignal logout on account deletion |
 | Audit records | May be retained as required by applicable law |
 
@@ -101,7 +103,7 @@ Patify works with the following third-party data processors to deliver its servi
 - **DPA:** Supabase standard DPA (https://supabase.com/legal/dpa)
 
 ### 5.2 Google LLC (Firebase)
-- **Purpose:** Analytics, Remote Config, push notification routing
+- **Purpose:** Remote Config, push notification routing
 - **Location:** US and EU regions
 - **DPA:** Google standard DPA (https://cloud.google.com/terms/data-processing-addendum)
 
@@ -162,7 +164,8 @@ Patify is a mobile application and does not use browser cookies.
 
 However, the App uses the following identifiers:
 
-- **Firebase Analytics:** Usage statistics are collected using an anonymous device identifier and session ID. This feature is activated only after the user's explicit consent has been obtained (to be implemented in the Sub-project E registration flow).
+- **Usage statistics (Patify infrastructure):** A limited set of in-app usage events (e.g. screen views, searches performed, listing-creation steps) is recorded on **Patify's own Supabase infrastructure** to understand which screens are used and where users get stuck. This is recorded only after the user's explicit consent has been obtained, and is linked to their account — it is therefore personal data and rests on explicit consent under KVKK Art. 5(1). Free text, search queries, location coordinates, or device identifiers are never recorded — only fields with a predefined, limited set of values are collected, and these are deleted after 90 days (see Section 4). You may withdraw this consent at any time via **Settings > Usage statistics**; withdrawal immediately deletes the raw records linked to your account.
+- **Anonymous visitor counter:** For users who are not signed in (guests), only a daily, aggregate counter is kept of how the App is used (e.g. how many times a given screen was viewed). This counter **contains no user ID, device identifier, session ID, or IP address**, and cannot be linked to any individual.
 - **OneSignal:** A device-level `player_id` is assigned for push notification delivery. This is active only when the user is subscribed to notifications and is cleared when notifications are disabled or the account is deleted.
 
 No third-party advertising trackers or retargeting identifiers are used.
@@ -196,7 +199,7 @@ Continued use of the App after a change takes effect constitutes acceptance of t
 
 ## 11. Effective Date
 
-This Privacy Policy entered into force on **23 May 2026** and constitutes Patify's first formal Privacy Policy.
+This Privacy Policy first entered into force on **23 May 2026** and was updated on **19 July 2026** to reflect the removal of Firebase Analytics and its replacement with a first-party, consent-based usage-statistics system operated on Patify's own infrastructure.
 
 ---
 

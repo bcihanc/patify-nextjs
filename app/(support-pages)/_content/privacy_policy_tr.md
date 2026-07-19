@@ -1,7 +1,7 @@
 # Patify Gizlilik Politikası
 
-**Yürürlük Tarihi:** 23 Mayıs 2026
-**Son Güncelleme:** 23 Mayıs 2026
+**Yürürlük Tarihi:** 19 Temmuz 2026
+**Son Güncelleme:** 19 Temmuz 2026
 
 ---
 
@@ -73,7 +73,7 @@ Kişisel verilerinizi aşağıdaki amaçlarla ve hukuki dayanaklara göre işliy
 | Sahiplendirme ilanları için konum tabanlı arama | Konum verisi | Açık rıza — kullanıcı her seferinde konum paylaşmayı seçer (GDPR Madde 6(1)(a); KVKK m.5/1) |
 | Push bildirim gönderimi | OneSignal player_id | Sözleşmenin ifası + açık rıza (GDPR Madde 6(1)(b)/(a)) |
 | Uygulama hatalarını izleme ve kararlılık sağlama | Cihaz/teknik veriler | Meşru menfaat (GDPR Madde 6(1)(f); KVKK m.5/2-f) — uygulamanın güvenli ve kararlı çalışması |
-| Analitik ve kullanım istatistikleri (Firebase Analytics) | Cihaz tanımlayıcılar, oturum verileri | Açık rıza — kayıt akışında toplanacak (GDPR Madde 6(1)(a); KVKK m.5/1) |
+| Kullanım istatistikleri (Patify altyapısı) | Uygulama içi davranış olayları | Açık rıza (GDPR Madde 6(1)(a); KVKK m.5/1) |
 
 ---
 
@@ -86,6 +86,8 @@ Kişisel verilerinizi aşağıdaki amaçlarla ve hukuki dayanaklara göre işliy
 | Gönderiler, sahiplendirme ilanları, medya dosyaları | Hesap silinmesinden itibaren 30 gün içinde tamamen silinir |
 | Mesajlar ve yorumlar | İçerik korunur; kullanıcı adı anonimleştirilmiş yer tutucu ile değiştirilir |
 | Kilitlenme ve hata raporları (Sentry) | 90 gün (Sentry varsayılan saklama politikası) |
+| Kullanım istatistikleri (ham) | 90 gün; süre sonunda anonimleştirilmiş toplu istatistiklere sıkıştırılır ve ham kayıt silinir |
+| Kullanım istatistikleri (toplu/anonim) | Anonimleştirilmiş biçimde süresiz saklanır — kişiye bağlanamaz |
 | Push bildirim tokenleri (OneSignal player_id) | Hesap silinince OneSignal çıkış (logout) işlemiyle temizlenir |
 | Audit kayıtları | Yasal yükümlülükler doğrultusunda tutulabilir |
 
@@ -101,7 +103,7 @@ Patify, hizmetlerin yürütülmesi için aşağıdaki üçüncü taraf veri işl
 - **DPA:** Supabase standart DPA (https://supabase.com/legal/dpa)
 
 ### 5.2 Google LLC (Firebase)
-- **Konu:** Analytics, Remote Config, push bildirim yönlendirme
+- **Konu:** Remote Config, push bildirim yönlendirme
 - **Konum:** ABD ve AB bölgeleri
 - **DPA:** Google standart DPA (https://cloud.google.com/terms/data-processing-addendum)
 
@@ -162,7 +164,8 @@ Patify, bir mobil uygulamadır ve tarayıcı çerezi kullanmamaktadır.
 
 Bununla birlikte uygulama, aşağıdaki tanımlayıcıları kullanmaktadır:
 
-- **Firebase Analytics:** Anonim cihaz tanımlayıcısı ve oturum kimliği kullanılarak kullanım istatistikleri toplanır. Bu özellik yalnızca kullanıcının açık rızası alındıktan sonra aktif edilir (Sub-project E kayıt akışında hayata geçirilecektir).
+- **Kullanım istatistikleri (Patify altyapısı):** Hangi ekranların kullanıldığını ve kullanıcıların nerede takıldığını anlayabilmek için sınırlı sayıda uygulama içi kullanım olayı (ör. ekran görüntüleme, arama yapılması, ilan oluşturma adımları), **Patify'nin kendi Supabase altyapısında** kaydedilir. Bu kayıt yalnızca kullanıcının açık rızası alındıktan sonra ve hesabıyla ilişkilendirilerek yapılır; bu nedenle kişisel veri niteliğindedir ve KVKK m.5/1 uyarınca açık rızaya dayanır. Serbest metin, arama sorgusu, konum koordinatı veya cihaz tanımlayıcısı hiçbir zaman kaydedilmez — yalnızca önceden tanımlanmış, sınırlı bir değer kümesine sahip alanlar toplanır ve 90 gün sonunda silinir (bkz. Bölüm 4). Bu izni istediğiniz zaman **Ayarlar > Kullanım istatistikleri** üzerinden geri çekebilirsiniz; geri çekme işlemi hesabınıza bağlı ham kayıtları derhal siler.
+- **Anonim ziyaretçi sayacı:** Oturum açmamış (misafir) kullanıcıların uygulamayı nasıl kullandığına dair yalnızca günlük, toplu bir sayaç tutulur (ör. belirli bir ekranın kaç kez görüntülendiği). Bu sayaçta **kullanıcı kimliği, cihaz tanımlayıcısı, oturum kimliği veya IP adresi bulunmaz** ve herhangi bir kişiyle ilişkilendirilemez.
 - **OneSignal:** Push bildirimleri için cihaz düzeyinde `player_id` atanır. Bildirime abone olunması durumunda aktif olur; bildirimler devre dışı bırakıldığında temizlenir.
 
 Üçüncü taraf reklamcılık veya yeniden hedefleme (retargeting) amacıyla herhangi bir izleyici kullanılmamaktadır.
@@ -196,7 +199,7 @@ Değişikliğin yürürlüğe girmesinden sonra uygulamayı kullanmaya devam etm
 
 ## 11. Yürürlük Tarihi
 
-Bu Gizlilik Politikası **23 Mayıs 2026** tarihinde yürürlüğe girmiştir ve Patify uygulamasının ilk resmi gizlilik politikasını oluşturmaktadır.
+Bu Gizlilik Politikası ilk olarak **23 Mayıs 2026** tarihinde yürürlüğe girmiş; **19 Temmuz 2026** tarihinde, Firebase Analytics'in kaldırılıp Patify'nin kendi altyapısında yürütülen, açık rızaya dayalı kullanım istatistikleri sistemiyle değiştirilmesini yansıtacak şekilde güncellenmiştir.
 
 ---
 
