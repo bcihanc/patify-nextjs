@@ -73,7 +73,7 @@ We process your personal data for the following purposes and on the following le
 | Location-based search for adoption listings | Location data | Explicit consent — user chooses to share on each occasion (GDPR Art. 6(1)(a); KVKK Art. 5(1)) |
 | Sending push notifications | OneSignal player_id | Performance of a contract + explicit consent (GDPR Art. 6(1)(b)/(a)) |
 | Crash and error monitoring | Device/technical data | Legitimate interests (GDPR Art. 6(1)(f); KVKK Art. 5(2)(f)) — ensuring the App operates safely and stably |
-| Usage statistics (Patify infrastructure) | In-app behavioural events | Explicit consent (GDPR Art. 6(1)(a); KVKK Art. 5(1)) |
+| Usage statistics (Patify infrastructure) | In-app behavioural events (including platform and app version) | Explicit consent (GDPR Art. 6(1)(a); KVKK Art. 5(1)) |
 
 ---
 
@@ -86,7 +86,7 @@ We process your personal data for the following purposes and on the following le
 | Posts, adoption listings, and media files | Permanently deleted within 30 days of account deletion |
 | Messages and comments | Content preserved; username replaced with an anonymised placeholder |
 | Crash and error reports (Sentry) | 90 days (Sentry default retention policy) |
-| Usage statistics (raw) | 90 days; compacted into anonymised aggregate statistics and then deleted |
+| Usage statistics (raw) | 90 days; permanently deleted at the end of this period. During this window, a subset is converted into aggregate statistics that cannot be linked back to a person |
 | Usage statistics (aggregate/anonymised) | Retained indefinitely in anonymised form — cannot be linked back to a person |
 | Push notification tokens (OneSignal player_id) | Cleared via OneSignal logout on account deletion |
 | Audit records | May be retained as required by applicable law |
@@ -136,12 +136,12 @@ Several sub-processors listed above are based in the United States. Under KVKK A
 Under KVKK Article 11 and GDPR Articles 15–22, you have the following rights:
 
 1. **Right to information:** Learn whether your personal data is being processed and in which categories.
-2. **Right of access:** Request a copy of the personal data we hold about you. (In-app data export feature: coming in Sub-project F.)
+2. **Right of access:** Request a copy of the personal data we hold about you. Within the App, **Settings > My data > Download My Data** lets you download a copy of the data linked to your account in JSON format immediately.
 3. **Right to rectification:** Request correction of inaccurate or incomplete data. You can edit your profile information directly within the App.
 4. **Right to erasure (right to be forgotten):** Request deletion of your account and associated personal data. The in-app "Delete Account" function enables you to exercise this right.
 5. **Right to object:** Object to processing based on legitimate interests.
 6. **Right to restriction of processing:** Request that processing be restricted in certain circumstances.
-7. **Right to data portability:** Request that your data be provided in a structured, machine-readable format. (Coming in Sub-project F.)
+7. **Right to data portability:** Request that your data be provided in a structured, machine-readable format. This right is also fulfilled by the same **Settings > My data > Download My Data** feature — the downloaded file is in structured JSON format.
 8. **Right to withdraw consent:** For any processing based on your consent, you may withdraw that consent at any time.
 
 **How to Submit a Request:** Send an email to **b.cihancengiz@gmail.com**. Requests will be processed within a maximum of **30 days** after identity verification. Responses are provided free of charge under KVKK; a reasonable fee may apply for manifestly unfounded or excessive requests.

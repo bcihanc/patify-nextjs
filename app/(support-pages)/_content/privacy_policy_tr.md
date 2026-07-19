@@ -73,7 +73,7 @@ Kişisel verilerinizi aşağıdaki amaçlarla ve hukuki dayanaklara göre işliy
 | Sahiplendirme ilanları için konum tabanlı arama | Konum verisi | Açık rıza — kullanıcı her seferinde konum paylaşmayı seçer (GDPR Madde 6(1)(a); KVKK m.5/1) |
 | Push bildirim gönderimi | OneSignal player_id | Sözleşmenin ifası + açık rıza (GDPR Madde 6(1)(b)/(a)) |
 | Uygulama hatalarını izleme ve kararlılık sağlama | Cihaz/teknik veriler | Meşru menfaat (GDPR Madde 6(1)(f); KVKK m.5/2-f) — uygulamanın güvenli ve kararlı çalışması |
-| Kullanım istatistikleri (Patify altyapısı) | Uygulama içi davranış olayları | Açık rıza (GDPR Madde 6(1)(a); KVKK m.5/1) |
+| Kullanım istatistikleri (Patify altyapısı) | Uygulama içi davranış olayları (platform ve uygulama sürümü dahil) | Açık rıza (GDPR Madde 6(1)(a); KVKK m.5/1) |
 
 ---
 
@@ -86,7 +86,7 @@ Kişisel verilerinizi aşağıdaki amaçlarla ve hukuki dayanaklara göre işliy
 | Gönderiler, sahiplendirme ilanları, medya dosyaları | Hesap silinmesinden itibaren 30 gün içinde tamamen silinir |
 | Mesajlar ve yorumlar | İçerik korunur; kullanıcı adı anonimleştirilmiş yer tutucu ile değiştirilir |
 | Kilitlenme ve hata raporları (Sentry) | 90 gün (Sentry varsayılan saklama politikası) |
-| Kullanım istatistikleri (ham) | 90 gün; süre sonunda anonimleştirilmiş toplu istatistiklere sıkıştırılır ve ham kayıt silinir |
+| Kullanım istatistikleri (ham) | 90 gün; süre sonunda kalıcı olarak silinir. Bu süre boyunca bir kısmı, kişiye bağlanamayan toplu istatistiklere dönüştürülür |
 | Kullanım istatistikleri (toplu/anonim) | Anonimleştirilmiş biçimde süresiz saklanır — kişiye bağlanamaz |
 | Push bildirim tokenleri (OneSignal player_id) | Hesap silinince OneSignal çıkış (logout) işlemiyle temizlenir |
 | Audit kayıtları | Yasal yükümlülükler doğrultusunda tutulabilir |
@@ -136,12 +136,12 @@ Yukarıda listelenen işleyenler ağırlıklı olarak ABD'de faaliyet göstermek
 KVKK'nın 11. maddesi ve GDPR'nin 15-22. maddeleri kapsamında aşağıdaki haklara sahipsiniz:
 
 1. **Bilgi edinme hakkı:** Kişisel verilerinizin işlenip işlenmediğini ve hangi kategorilerde işlendiğini öğrenebilirsiniz.
-2. **Erişim hakkı:** İşlenen kişisel verilerinizin bir kopyasını talep edebilirsiniz. (Uygulama içi veri dışa aktarma özelliği: Sub-project F ile eklenecektir.)
+2. **Erişim hakkı:** İşlenen kişisel verilerinizin bir kopyasını talep edebilirsiniz. Uygulama içinde **Ayarlar > Verilerim > Verilerimi İndir** yoluyla, hesabınıza bağlı verilerin bir kopyasını JSON formatında anında indirebilirsiniz.
 3. **Düzeltme hakkı:** Yanlış veya eksik verilerinizin düzeltilmesini talep edebilirsiniz. Profil bilgilerinizi uygulama içinden doğrudan düzenleyebilirsiniz.
 4. **Silme hakkı (unutulma hakkı):** Hesabınızı ve ilgili verilerinizi silmesini talep edebilirsiniz. Uygulama içindeki "Hesabı Sil" işlevi bu hakkı kullanmanızı sağlar.
 5. **İşlemeye itiraz hakkı:** Meşru menfaate dayanan işleme faaliyetlerine itiraz edebilirsiniz.
 6. **İşlemenin kısıtlanması hakkı:** Belirli koşullarda veri işlemenin kısıtlanmasını talep edebilirsiniz.
-7. **Veri taşınabilirliği hakkı:** Verilerinizin yapılandırılmış, makine tarafından okunabilir biçimde tarafınıza teslim edilmesini talep edebilirsiniz. (Sub-project F ile hayata geçirilecektir.)
+7. **Veri taşınabilirliği hakkı:** Verilerinizin yapılandırılmış, makine tarafından okunabilir biçimde tarafınıza teslim edilmesini talep edebilirsiniz. Bu hak da aynı **Ayarlar > Verilerim > Verilerimi İndir** özelliğiyle karşılanır — indirilen dosya yapılandırılmış JSON formatındadır.
 8. **Rızayı geri çekme hakkı:** Rızanıza dayanan tüm işleme faaliyetleri için rızanızı her zaman geri çekebilirsiniz.
 
 **Başvuru Kanalı:** Tüm talepler için **b.cihancengiz@gmail.com** adresine e-posta gönderiniz. Başvurular kimlik doğrulamasının ardından azami **30 gün** içinde yanıtlanır. KVKK uyarınca yanıt ücretsizdir; aşırı veya tekrarlayan talepler için makul bir ücret alınabilir.
@@ -166,7 +166,7 @@ Bununla birlikte uygulama, aşağıdaki tanımlayıcıları kullanmaktadır:
 
 - **Kullanım istatistikleri (Patify altyapısı):** Hangi ekranların kullanıldığını ve kullanıcıların nerede takıldığını anlayabilmek için sınırlı sayıda uygulama içi kullanım olayı (ör. ekran görüntüleme, arama yapılması, ilan oluşturma adımları), **Patify'nin kendi Supabase altyapısında** kaydedilir. Bu kayıt yalnızca kullanıcının açık rızası alındıktan sonra ve hesabıyla ilişkilendirilerek yapılır; bu nedenle kişisel veri niteliğindedir ve KVKK m.5/1 uyarınca açık rızaya dayanır. Serbest metin, arama sorgusu, konum koordinatı veya cihaz tanımlayıcısı hiçbir zaman kaydedilmez — yalnızca önceden tanımlanmış, sınırlı bir değer kümesine sahip alanlar toplanır ve 90 gün sonunda silinir (bkz. Bölüm 4). Bu izni istediğiniz zaman **Ayarlar > Kullanım istatistikleri** üzerinden geri çekebilirsiniz; geri çekme işlemi hesabınıza bağlı ham kayıtları derhal siler.
 - **Anonim ziyaretçi sayacı:** Oturum açmamış (misafir) kullanıcıların uygulamayı nasıl kullandığına dair yalnızca günlük, toplu bir sayaç tutulur (ör. belirli bir ekranın kaç kez görüntülendiği). Bu sayaçta **kullanıcı kimliği, cihaz tanımlayıcısı, oturum kimliği veya IP adresi bulunmaz** ve herhangi bir kişiyle ilişkilendirilemez.
-- **OneSignal:** Push bildirimleri için cihaz düzeyinde `player_id` atanır. Bildirime abone olunması durumunda aktif olur; bildirimler devre dışı bırakıldığında temizlenir.
+- **OneSignal:** Push bildirimleri için cihaz düzeyinde `player_id` atanır. Bildirime abone olunması durumunda aktif olur; bildirimler devre dışı bırakıldığında veya hesap silindiğinde temizlenir.
 
 Üçüncü taraf reklamcılık veya yeniden hedefleme (retargeting) amacıyla herhangi bir izleyici kullanılmamaktadır.
 
