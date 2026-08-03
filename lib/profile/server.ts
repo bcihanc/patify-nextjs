@@ -23,5 +23,6 @@ export async function getCurrentUserProfile(): Promise<CurrentUserProfile | null
     birthDate: priv?.birth_date ?? null,
     homeCity: priv?.home_city ?? null,
     homeDistrict: priv?.home_district ?? null,
+    analyticsConsentAt: priv?.analytics_consent_at ?? null,
   } as CurrentUserProfile;
 }

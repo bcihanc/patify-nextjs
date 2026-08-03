@@ -230,6 +230,93 @@ export const deleteAccountAction = async () => {
     return redirect("/auth/login");
 };
 
+// /profile/edit save. Called directly from the client form (not a plain
+// <form action>, since avatar upload — client-side canvas compression —
+// must happen before this runs and its result feeds `profilePhoto` below;
+// see components/login-form.tsx for the same "call a server action
+// directly, await its result" pattern already used in this repo).
+//
+// Writes are split exactly like mobile's user_profile_repo: `phone` +
+// home-location go to `user_private` (owner-only), everything else to
+// `user_profiles`. `user.id` comes from the session, never from the
+// argument — same RLS-defense-in-depth as acceptConsentAction.
+export type UpdateProfileInput = {
+  bio: string;
+  xUrl: string;
+  instagramUrl: string;
+  telegramUrl: string;
+  tiktokUrl: string;
+  facebookUrl: string;
+  phone: string;
+  profilePhoto: string | null; // newly uploaded avatar path; null = unchanged
+  homeCity: string | null;
+  homeDistrict: string | null;
+};
+
+function emptyToNull(value: string): string | null {
+  const trimmed = value.trim();
+  return trimmed === "" ? null : trimmed;
+}
+
+export const updateProfileAction = async (
+    input: UpdateProfileInput
+): Promise<{ error: string } | { success: true }> => {
+    const supabase = await createClient();
+    const {
+        data: {user},
+    } = await supabase.auth.getUser();
+    if (!user) {
+        return {error: "Oturum bulunamadı, tekrar giriş yap."};
+    }
+
+    // Only {user_id, phone, home_city, home_district} are sent, so this
+    // upsert's ON CONFLICT DO UPDATE never touches consent_accepted_at /
+    // tos_version / pp_version / birth_date (same guarantee as
+    // acceptConsentAction's upsert, which is the mirror-image split).
+    const {error: privateError} = await supabase.from("user_private").upsert(
+        {
+            user_id: user.id,
+            phone: emptyToNull(input.phone),
+            home_city: input.homeCity,
+            home_district: input.homeDistrict,
+        },
+        {onConflict: "user_id"}
+    );
+    if (privateError) {
+        console.error("updateProfileAction (user_private):", privateError.message);
+        return {error: "Kaydedilemedi, tekrar dene."};
+    }
+
+    const profileUpdate: Record<string, string | null> = {
+        bio: emptyToNull(input.bio),
+        x_url: emptyToNull(input.xUrl),
+        instagram_url: emptyToNull(input.instagramUrl),
+        telegram_url: emptyToNull(input.telegramUrl),
+        tiktok_url: emptyToNull(input.tiktokUrl),
+        facebook_url: emptyToNull(input.facebookUrl),
+    };
+    // profile_photo is only included (and thus only ever overwritten) when a
+    // new avatar was actually uploaded this submit — omitting the key keeps
+    // the existing photo untouched otherwise.
+    if (input.profilePhoto) {
+        profileUpdate.profile_photo = input.profilePhoto;
+    }
+
+    // user_profiles row is guaranteed to exist here: every (app) route is
+    // gated behind /complete-profile (Task 10), which requires a username
+    // and therefore already creates this row.
+    const {error: profileError} = await supabase
+        .from("user_profiles")
+        .update(profileUpdate)
+        .eq("id", user.id);
+    if (profileError) {
+        console.error("updateProfileAction (user_profiles):", profileError.message);
+        return {error: "Kaydedilemedi, tekrar dene."};
+    }
+
+    return {success: true};
+};
+
 export const appleSignInAction = async () => {
     const supabase = await createClient();
 

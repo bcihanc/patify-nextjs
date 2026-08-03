@@ -12,4 +12,5 @@ export type CurrentUserProfile = ProfileRow & {
   birthDate: PrivateRow['birth_date'];
   homeCity: PrivateRow['home_city'];
   homeDistrict: PrivateRow['home_district'];
+  analyticsConsentAt: PrivateRow['analytics_consent_at'];
 };

@@ -44,3 +44,11 @@ export async function uploadAvatar(file: File): Promise<string> {
 
   return path;
 }
+
+// Turns a bare avatar path (as stored in user_profiles.profile_photo) into a
+// full public URL against the `assets` bucket — same construction as
+// lib/lost-found.ts's image URL helper, duplicated here since that one is
+// module-private and lost-found listings are a separate concern.
+export function avatarUrl(path: string): string {
+  return `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/assets/${path}`;
+}
