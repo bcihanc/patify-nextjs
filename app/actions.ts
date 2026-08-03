@@ -329,15 +329,85 @@ export const signOutAction = async () => {
     return redirect("/auth/login");
 };
 
-export const deleteAccountAction = async () => {
-    const supabase = await createClient();
-    await supabase.functions.invoke("delete-authenticated-user", {
-        method: "DELETE",
-    });
-
-    await supabase.auth.signOut();
-
+// /profile/delete "Hesabımı kalıcı olarak sil". The confirm-phrase gate
+// lives client-side (delete-account-form.tsx) — it's a "did you mean it" UX
+// gate, not a security boundary, since an authenticated user is always
+// allowed to delete their own account. The actual security-relevant gate is
+// reauth: email/password accounts must re-prove the current password here
+// (mirrors changePasswordAction) before anything is destroyed, since a
+// merely-active session shouldn't be enough to irreversibly delete. Google/
+// Apple accounts have no Supabase-managed password to re-check — full
+// mid-flow OAuth reauth is impractical on the web (would mean bouncing the
+// user off-site mid-deletion), so for SSO the confirm-phrase + active
+// session is the gate. This is a deliberate deviation from mobile, which
+// forces a fresh native Google/Apple sign-in before deleting.
+export const deleteAccountAction = async (formData: FormData) => {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) {
     return redirect("/auth/login");
+  }
+
+  if (user.app_metadata?.provider === "email") {
+    if (!user.email) {
+      return encodedRedirect("error", "/profile/delete", "Hesap silinemedi, tekrar dene.");
+    }
+
+    const password = formData.get("password") as string;
+    if (!password) {
+      return encodedRedirect("error", "/profile/delete", "Şifrenizi girin.");
+    }
+
+    const { error: reauthError } = await supabase.auth.signInWithPassword({
+      email: user.email,
+      password,
+    });
+    if (reauthError) {
+      return encodedRedirect("error", "/profile/delete", "Mevcut şifre yanlış.");
+    }
+  }
+
+  const { error } = await supabase.functions.invoke("delete-authenticated-user", {
+    method: "DELETE",
+  });
+  if (error) {
+    console.error("deleteAccountAction:", error.message);
+    return encodedRedirect("error", "/profile/delete", "Hesap silinemedi, tekrar dene.");
+  }
+
+  await supabase.auth.signOut();
+
+  return redirect("/auth/login");
+};
+
+// /profile/delete "Verilerimi indir" (KVKK m.11 / GDPR Art.20 data
+// portability). Returns the edge function's JSON payload as a
+// pretty-printed string for the client to turn into a downloaded file —
+// mirrors mobile's AuthRepo.exportUserData re-encoding step. user_id is
+// resolved from the session inside the edge function itself (never passed
+// from here), same defense-in-depth as the rest of this file.
+export const exportDataAction = async (): Promise<
+  { error: string } | { success: true; json: string }
+> => {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) {
+    return { error: "Oturum bulunamadı, tekrar giriş yap." };
+  }
+
+  const { data, error } = await supabase.functions.invoke("export-user-data", {
+    method: "POST",
+  });
+  if (error) {
+    console.error("exportDataAction:", error.message);
+    return { error: "Veriler indirilemedi, tekrar dene." };
+  }
+
+  return { success: true, json: JSON.stringify(data, null, 2) };
 };
 
 // /profile/edit save. Called directly from the client form (not a plain

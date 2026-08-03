@@ -6,7 +6,17 @@ export type GateInput = {
   pathname: string;
 };
 
-const GATE_EXEMPT = ['/complete-profile', '/accept-consent', '/reset-password', '/home/reset-password'];
+// '/profile/delete' must stay reachable regardless of gate state — it's the
+// "Hesabı sil" exit linked from the /accept-consent wall itself (Task 14),
+// so leaving it gated would loop a consent-reprompted user straight back to
+// /accept-consent.
+const GATE_EXEMPT = [
+  '/complete-profile',
+  '/accept-consent',
+  '/reset-password',
+  '/home/reset-password',
+  '/profile/delete',
+];
 
 export function resolveGateRedirect(input: GateInput): string | null {
   const { username, consent, pathname } = input;
