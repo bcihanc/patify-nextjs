@@ -23,5 +23,5 @@ export default async function AppLayout({ children }: { children: React.ReactNod
   });
   if (target && target !== pathname) redirect(target);
 
-  return <AppShell profile={profile}>{children}</AppShell>;
+  return <AppShell username={profile.username}>{children}</AppShell>;
 }

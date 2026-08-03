@@ -2,7 +2,6 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import type { CurrentUserProfile } from '@/lib/profile/types';
 import { cn } from '@/lib/utils';
 import { NAV_ITEMS } from './nav-items';
 
@@ -11,14 +10,14 @@ function isActive(pathname: string, href: string) {
 }
 
 export function AppShell({
-  profile,
+  username,
   children,
 }: {
-  profile: CurrentUserProfile;
+  username: string | null;
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
-  const initial = (profile.username ?? '?').charAt(0).toUpperCase();
+  const initial = (username ?? '?').charAt(0).toUpperCase();
 
   return (
     <div className="min-h-screen bg-background">
@@ -57,7 +56,7 @@ export function AppShell({
           <span className="flex h-8 w-8 items-center justify-center rounded-full bg-secondary text-sm font-semibold text-secondary-foreground">
             {initial}
           </span>
-          <span className="hidden lg:inline">{profile.username ?? 'Profil'}</span>
+          <span className="hidden lg:inline">{username ?? 'Profil'}</span>
         </Link>
       </header>
 
