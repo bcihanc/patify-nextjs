@@ -4,7 +4,7 @@ import {createClient} from "@/lib/supabase/server";
 import {encodedRedirect} from "@/utils/utils";
 import {headers} from "next/headers";
 import {redirect} from "next/navigation";
-import {isAtLeastAge, MIN_SIGNUP_AGE} from "@/lib/consent";
+import {isAtLeastAge, MIN_SIGNUP_AGE, PP_VERSION, TOS_VERSION} from "@/lib/consent";
 
 
 export const signUpAction = async (formData: FormData) => {
@@ -142,6 +142,73 @@ export const resetPasswordAction = async (formData: FormData) => {
     }
 
     return encodedRedirect("success", "/home/reset-password", "Password updated");
+};
+
+// /accept-consent wall: (re)writes the current user's consent record.
+// Birth date + ToS/PP acceptance are re-validated here server-side — the
+// client-side `required`/date-input constraints are UX only, not trust.
+export const acceptConsentAction = async (formData: FormData) => {
+    const supabase = await createClient();
+    const {
+        data: {user},
+    } = await supabase.auth.getUser();
+    if (!user) {
+        return redirect("/auth/login");
+    }
+
+    const birthDate = formData.get("birthDate")?.toString();
+    const consent = formData.get("consent")?.toString();
+    const analyticsConsent = formData.get("analyticsConsent")?.toString();
+
+    if (!birthDate) {
+        return encodedRedirect("error", "/accept-consent", "Doğum tarihinizi girin.");
+    }
+    if (!isAtLeastAge(birthDate, MIN_SIGNUP_AGE)) {
+        return encodedRedirect(
+            "error",
+            "/accept-consent",
+            `Hesabına devam edebilmek için en az ${MIN_SIGNUP_AGE} yaşında olmalısınız.`
+        );
+    }
+    if (consent !== "on") {
+        return encodedRedirect(
+            "error",
+            "/accept-consent",
+            "Kullanım koşullarını ve gizlilik politikasını kabul etmelisiniz."
+        );
+    }
+
+    // user_id comes from the session, never from client input — RLS also
+    // restricts user_private writes to user_id = auth.uid(), but we don't
+    // rely on that alone.
+    const {error} = await supabase.from("user_private").upsert(
+        {
+            user_id: user.id,
+            consent_accepted_at: new Date().toISOString(),
+            tos_version: TOS_VERSION,
+            pp_version: PP_VERSION,
+            birth_date: birthDate,
+        },
+        {onConflict: "user_id"}
+    );
+
+    if (error) {
+        console.error(error.message);
+        return encodedRedirect("error", "/accept-consent", "Kaydedilemedi, tekrar dene.");
+    }
+
+    if (analyticsConsent === "on") {
+        // Best-effort: analytics consent is optional metadata, so a failure
+        // here must not block the (already-persisted) ToS/PP acceptance.
+        // Awaited (not truly detached) so it actually runs before the
+        // function returns/redirects in a serverless runtime.
+        const {error: analyticsError} = await supabase.rpc("set_analytics_consent", {enabled: true});
+        if (analyticsError) {
+            console.error("set_analytics_consent failed:", analyticsError.message);
+        }
+    }
+
+    return redirect("/lost-found");
 };
 
 export const signOutAction = async () => {
