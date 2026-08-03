@@ -52,11 +52,20 @@ const config = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        success: "hsl(var(--success))",
+        warning: "hsl(var(--warning))",
+        "gender-female": "hsl(var(--gender-female))",
+        "gender-male": "hsl(var(--gender-male))",
+        "adopt-success": "hsl(var(--adopt-success))",
       },
       borderRadius: {
-        lg: "var(--radius)",
-        md: "calc(var(--radius) - 2px)",
-        sm: "calc(var(--radius) - 4px)",
+        sm: "4px",
+        md: "8px",
+        lg: "12px",
+        xl: "16px",
+      },
+      fontFamily: {
+        sans: ["Nunito", "sans-serif"],
       },
       keyframes: {
         "accordion-down": {
