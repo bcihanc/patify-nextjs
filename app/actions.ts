@@ -4,11 +4,14 @@ import {createClient} from "@/lib/supabase/server";
 import {encodedRedirect} from "@/utils/utils";
 import {headers} from "next/headers";
 import {redirect} from "next/navigation";
+import {isAtLeastAge, MIN_SIGNUP_AGE} from "@/lib/consent";
 
 
 export const signUpAction = async (formData: FormData) => {
     const email = formData.get("email")?.toString();
     const password = formData.get("password")?.toString();
+    const birthDate = formData.get("birthDate")?.toString();
+    const consent = formData.get("consent")?.toString();
     const supabase = await createClient();
     const origin = (await headers()).get("origin");
 
@@ -17,6 +20,27 @@ export const signUpAction = async (formData: FormData) => {
             "error",
             "/sign-up",
             "Email and password are required"
+        );
+    }
+
+    // Age gate + ToS/PP consent gate (mirrors mobile's email-signup gate).
+    // Consent itself is NOT written to the DB here — no session exists yet
+    // pre-verification; it's re-collected and persisted at /accept-consent.
+    if (!birthDate) {
+        return encodedRedirect("error", "/sign-up", "Doğum tarihinizi girin.");
+    }
+    if (!isAtLeastAge(birthDate, MIN_SIGNUP_AGE)) {
+        return encodedRedirect(
+            "error",
+            "/sign-up",
+            `Hesap açmak için en az ${MIN_SIGNUP_AGE} yaşında olmalısınız.`
+        );
+    }
+    if (consent !== "on") {
+        return encodedRedirect(
+            "error",
+            "/sign-up",
+            "Kullanım koşullarını ve gizlilik politikasını kabul etmelisiniz."
         );
     }
 
