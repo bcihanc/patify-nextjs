@@ -844,7 +844,6 @@ export type Database = {
           id: string
           instagram_url: string | null
           last_seen: string | null
-          phone: string | null
           profile_photo: string | null
           telegram_url: string | null
           tiktok_url: string | null
@@ -858,7 +857,6 @@ export type Database = {
           id: string
           instagram_url?: string | null
           last_seen?: string | null
-          phone?: string | null
           profile_photo?: string | null
           telegram_url?: string | null
           tiktok_url?: string | null
@@ -872,7 +870,6 @@ export type Database = {
           id?: string
           instagram_url?: string | null
           last_seen?: string | null
-          phone?: string | null
           profile_photo?: string | null
           telegram_url?: string | null
           tiktok_url?: string | null
