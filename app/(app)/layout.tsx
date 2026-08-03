@@ -23,5 +23,11 @@ export default async function AppLayout({ children }: { children: React.ReactNod
   });
   if (target && target !== pathname) redirect(target);
 
+  // Gate pages are focused, back-blocked flows (spec §4.2/§4.3) — they
+  // render without the AppShell nav.
+  if (pathname === '/complete-profile' || pathname === '/accept-consent') {
+    return <>{children}</>;
+  }
+
   return <AppShell username={profile.username}>{children}</AppShell>;
 }
