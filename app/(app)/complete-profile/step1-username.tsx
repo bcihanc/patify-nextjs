@@ -54,10 +54,13 @@ export function Step1Username({ userId, onDone }: { userId: string; onDone: () =
     setSubmitting(true);
     setSubmitError(null);
     const supabase = createClient();
+    // upsert, not update: email/password signups have no user_profiles row yet
+    // (only the SSO oauth callback creates one) — update() on a missing row
+    // silently no-ops (PostgREST returns { error: null } for zero matched
+    // rows), which would otherwise soft-lock the onboarding wizard.
     const { error } = await supabase
       .from('user_profiles')
-      .update({ username: username.trim() })
-      .eq('id', userId);
+      .upsert({ id: userId, username: username.trim() }, { onConflict: 'id' });
     setSubmitting(false);
 
     if (error) {
