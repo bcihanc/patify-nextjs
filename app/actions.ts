@@ -144,6 +144,116 @@ export const resetPasswordAction = async (formData: FormData) => {
     return encodedRedirect("success", "/home/reset-password", "Password updated");
 };
 
+// /profile/change-password. Only applies to email/password accounts — the
+// page itself hides the form for Google/Apple sign-in (no Supabase-managed
+// password to change), but the action re-checks the provider too, since a
+// raw POST to a server action bypasses whatever the page rendered.
+export const changePasswordAction = async (formData: FormData) => {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user || !user.email) {
+    return redirect("/auth/login");
+  }
+
+  if (user.app_metadata?.provider !== "email") {
+    return encodedRedirect(
+      "error",
+      "/profile/change-password",
+      "Şifre değiştirme yalnızca e-posta ile giriş yapan hesaplar içindir."
+    );
+  }
+
+  const currentPassword = formData.get("currentPassword") as string;
+  const newPassword = formData.get("newPassword") as string;
+  const confirmPassword = formData.get("confirmPassword") as string;
+
+  if (!currentPassword || !newPassword || !confirmPassword) {
+    return encodedRedirect(
+      "error",
+      "/profile/change-password",
+      "Tüm alanları doldurun."
+    );
+  }
+
+  if (newPassword.length < 6) {
+    return encodedRedirect(
+      "error",
+      "/profile/change-password",
+      "Yeni şifre en az 6 karakter olmalı."
+    );
+  }
+
+  if (newPassword !== confirmPassword) {
+    return encodedRedirect(
+      "error",
+      "/profile/change-password",
+      "Yeni şifreler eşleşmiyor."
+    );
+  }
+
+  // Re-authenticate with the current password before allowing a change —
+  // supabase.auth.updateUser() alone never asks the caller to prove they
+  // know the current password.
+  const { error: reauthError } = await supabase.auth.signInWithPassword({
+    email: user.email,
+    password: currentPassword,
+  });
+  if (reauthError) {
+    return encodedRedirect(
+      "error",
+      "/profile/change-password",
+      "Mevcut şifre yanlış."
+    );
+  }
+
+  const { error: updateError } = await supabase.auth.updateUser({
+    password: newPassword,
+  });
+  if (updateError) {
+    console.error("changePasswordAction:", updateError.message);
+    return encodedRedirect(
+      "error",
+      "/profile/change-password",
+      "Şifre güncellenemedi, tekrar dene."
+    );
+  }
+
+  return encodedRedirect("success", "/profile/change-password", "Şifre güncellendi.");
+};
+
+// /profile/blocked "Engeli kaldır" — deletes one row scoped to the session
+// user_id (never client-supplied), matching acceptConsentAction's
+// defense-in-depth even though RLS should also enforce this.
+export const unblockUserAction = async (formData: FormData) => {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) {
+    return redirect("/auth/login");
+  }
+
+  const blockedUserId = formData.get("blockedUserId") as string;
+  if (!blockedUserId) {
+    return encodedRedirect("error", "/profile/blocked", "Geçersiz istek.");
+  }
+
+  const { error } = await supabase
+    .from("user_blockings")
+    .delete()
+    .eq("user_id", user.id)
+    .eq("blocked_user_id", blockedUserId);
+
+  if (error) {
+    console.error("unblockUserAction:", error.message);
+    return encodedRedirect("error", "/profile/blocked", "Engel kaldırılamadı, tekrar dene.");
+  }
+
+  return encodedRedirect("success", "/profile/blocked", "Engel kaldırıldı.");
+};
+
 // /accept-consent wall: (re)writes the current user's consent record.
 // Birth date + ToS/PP acceptance are re-validated here server-side — the
 // client-side `required`/date-input constraints are UX only, not trust.
