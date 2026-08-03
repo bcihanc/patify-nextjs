@@ -2,6 +2,7 @@ import { redirect } from 'next/navigation';
 import { headers } from 'next/headers';
 import { getCurrentUserProfile } from '@/lib/profile/server';
 import { resolveGateRedirect } from '@/lib/auth/gate';
+import { AppShell } from '@/components/app-shell/app-nav';
 
 export default async function AppLayout({ children }: { children: React.ReactNode }) {
   const profile = await getCurrentUserProfile();
@@ -22,6 +23,5 @@ export default async function AppLayout({ children }: { children: React.ReactNod
   });
   if (target && target !== pathname) redirect(target);
 
-  // Temporary shim: AppShell (responsive nav chrome) lands in Task 7.
-  return <>{children}</>;
+  return <AppShell profile={profile}>{children}</AppShell>;
 }
