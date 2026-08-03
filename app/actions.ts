@@ -157,3 +157,24 @@ export const appleSignInAction = async () => {
         throw error;
     }
 };
+
+export const googleSignInAction = async () => {
+    const supabase = await createClient();
+
+    try {
+        const { data, error } = await supabase.auth.signInWithOAuth({
+            provider: 'google',
+            options: {
+                redirectTo: `${process.env.PUBLIC_URL}/auth/oauth?next=/lost-found`,
+                scopes: 'email profile',
+            },
+        });
+
+        if (error) throw error;
+
+        return data.url;
+    } catch (error) {
+        console.error('Google Sign In error:', error);
+        throw error;
+    }
+};

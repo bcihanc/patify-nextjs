@@ -10,27 +10,19 @@ import {
     CardTitle,
 } from '@/components/ui/card'
 import {useState} from 'react'
-import {createClient} from "@/lib/supabase/client";
-import {appleSignInAction} from "@/app/actions";
+import {appleSignInAction, googleSignInAction} from "@/app/actions";
 
 export function LoginForm({className, ...props}: React.ComponentPropsWithoutRef<'div'>) {
     const [error, setError] = useState<string | null>(null)
     const [isLoading, setIsLoading] = useState(false)
 
     const handleGoogleSocialLogin = async () => {
-        const supabase = createClient()
         setIsLoading(true)
         setError(null)
 
         try {
-            const {error} = await supabase.auth.signInWithOAuth({
-                provider: 'google',
-                options: {
-                    redirectTo: `${window.location.origin}/auth/oauth?next=/home`,
-                },
-            })
-
-            if (error) throw error
+            const url = await googleSignInAction();
+            window.location.href = url;
         } catch (error: unknown) {
             setError(error instanceof Error ? error.message : 'An error occurred')
             setIsLoading(false)
@@ -65,7 +57,7 @@ export function LoginForm({className, ...props}: React.ComponentPropsWithoutRef<
                             className="w-full"
                             disabled={isLoading}
                         >
-                            {isLoading ? 'Logging in...' : 'Continue with Google'}
+                            {isLoading ? 'Logging in...' : 'Google ile devam et'}
                         </Button>
                         <Button
                             onClick={() => handleAppleSocialLogin()}
