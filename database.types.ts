@@ -789,6 +789,53 @@ export type Database = {
           },
         ]
       }
+      user_private: {
+        Row: {
+          analytics_consent_at: string | null
+          analytics_consent_version: string | null
+          birth_date: string | null
+          consent_accepted_at: string | null
+          home_city: string | null
+          home_district: string | null
+          phone: string | null
+          pp_version: string | null
+          tos_version: string | null
+          user_id: string
+        }
+        Insert: {
+          analytics_consent_at?: string | null
+          analytics_consent_version?: string | null
+          birth_date?: string | null
+          consent_accepted_at?: string | null
+          home_city?: string | null
+          home_district?: string | null
+          phone?: string | null
+          pp_version?: string | null
+          tos_version?: string | null
+          user_id: string
+        }
+        Update: {
+          analytics_consent_at?: string | null
+          analytics_consent_version?: string | null
+          birth_date?: string | null
+          consent_accepted_at?: string | null
+          home_city?: string | null
+          home_district?: string | null
+          phone?: string | null
+          pp_version?: string | null
+          tos_version?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_private_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: true
+            referencedRelation: "user_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       user_profiles: {
         Row: {
           bio: string | null
@@ -1026,9 +1073,17 @@ export type Database = {
           dist_meters: number
         }[]
       }
+      set_analytics_consent: {
+        Args: { enabled: boolean }
+        Returns: undefined
+      }
       update_discussions_table_views_count: {
         Args: { discussion_id: string }
         Returns: undefined
+      }
+      username_exists: {
+        Args: { p_username: string }
+        Returns: boolean
       }
     }
     Enums: {
