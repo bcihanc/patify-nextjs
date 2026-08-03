@@ -202,7 +202,9 @@ export const acceptConsentAction = async (formData: FormData) => {
         // here must not block the (already-persisted) ToS/PP acceptance.
         // Awaited (not truly detached) so it actually runs before the
         // function returns/redirects in a serverless runtime.
-        const {error: analyticsError} = await supabase.rpc("set_analytics_consent", {enabled: true});
+        const {error: analyticsError} = await supabase
+            .rpc("set_analytics_consent", {enabled: true})
+            .abortSignal(AbortSignal.timeout(3000));
         if (analyticsError) {
             console.error("set_analytics_consent failed:", analyticsError.message);
         }
