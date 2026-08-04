@@ -5,7 +5,7 @@ export type PetType =
   | 'dog' | 'cat' | 'bird' | 'rabbit' | 'hamster'
   | 'fish' | 'turtle' | 'reptile' | 'other'
 
-export type LfStatus = 'kayip' | 'bulundu' | 'cozuldu'
+export type LfStatus = 'kayip' | 'bulundu' | 'cozuldu' | 'pasif'
 
 export type LostFoundListing = {
   id: string
