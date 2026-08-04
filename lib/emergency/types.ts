@@ -22,7 +22,8 @@ export const EMERGENCY_STATUS_LABELS: Record<EmergencyStatus, string> = {
 // Browse/nearby sayfalama boyutu — read.ts (server-only) VE client bileşenlerinden ortak kullanım için burada.
 export const PER_PAGE = 10;
 
-// Non-owner reads carry MASKED lat/long (grid ~100-150m); owner reads carry raw.
+// lat/long UNMASKED — sokak hayvanının korunacak konutu yok, LF/Adoptions'ın
+// owner-aware maskesi burada yok (spec §8). Gerçek konum haritada gösterilir.
 export type EmergencyListing = {
   id: string;
   createdAt: string;
