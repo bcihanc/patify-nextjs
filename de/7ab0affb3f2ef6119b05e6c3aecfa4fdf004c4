@@ -1,0 +1,22 @@
+components/adoptions/sales-ban-banner.tsx
+  s_57740c8eaac4e1::t_74f1d667f7ed67 1-69
+app/(app)/adoptions/browse-list.tsx
+  s_57740c8eaac4e1::t_89c26f9cdc675b 5
+  s_57740c8eaac4e1::t_8b20d5a98a64f1 141-148
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.21",
+  "base_commit_sha": "de7ab0affb3f2ef6119b05e6c3aecfa4fdf004c4",
+  "prompts": {},
+  "sessions": {
+    "s_57740c8eaac4e1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "0ef8d28f-b978-4693-bff4-0c15e4b2b378",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "cihan <b.cihancengiz@gmail.com>"
+    }
+  }
+}
