@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { LocationPicker } from './location-picker';
 import { TURKEY_CITIES, TURKEY_DISTRICTS, matchTurkeyCity, matchTurkeyDistrict } from '@/lib/geo/turkey';
 import type { ListingInput } from '@/lib/lost-found/actions';
 import {
@@ -84,8 +85,8 @@ export function ListingForm({ mode, initial, onSubmit }: ListingFormProps) {
 
   const [city, setCity] = useState<string | null>(initial?.listing.city ?? null);
   const [district, setDistrict] = useState<string | null>(initial?.listing.district ?? null);
-  // Source of truth for the map seam below — Task 12's <LocationPicker>
-  // will read/write this same state via onChange(wkt).
+  // Source of truth for <LocationPicker> below — it writes here via onChange(wkt);
+  // handleFindLocation/handleCityChange/handleDistrictChange also read/write it.
   const [locationWkt, setLocationWkt] = useState<string | null>(
     initial?.listing.lat != null && initial?.listing.long != null
       ? `POINT(${initial.listing.long} ${initial.listing.lat})`
@@ -149,6 +150,16 @@ export function ListingForm({ mode, initial, onSubmit }: ListingFormProps) {
       if (!next || !prev) return null;
       return TURKEY_DISTRICTS[next]?.includes(prev) ? prev : null;
     });
+    // Manuel il değişimi eski pin'i geçersiz kılar — yoksa city=X, location=Y
+    // koordinatlarıyla kaydedilebilir (Task 8 review carry-over). Submit,
+    // hadInitialLocation true ise bunu clearLocation:true'ya çevirir.
+    setLocationWkt(null);
+  }
+
+  function handleDistrictChange(e: ChangeEvent<HTMLSelectElement>) {
+    setDistrict(e.target.value || null);
+    // Aynı gerekçe: manuel ilçe değişimi de eski pin'i geçersiz kılar.
+    setLocationWkt(null);
   }
 
   function handleStatusChange(next: CreateStatus) {
@@ -407,7 +418,7 @@ export function ListingForm({ mode, initial, onSubmit }: ListingFormProps) {
             <select
               id="district"
               value={district ?? ''}
-              onChange={(e) => setDistrict(e.target.value || null)}
+              onChange={handleDistrictChange}
               disabled={!city}
               className={selectClass}
             >
@@ -418,7 +429,14 @@ export function ListingForm({ mode, initial, onSubmit }: ListingFormProps) {
             </select>
           </div>
         </div>
-        {/* Task 12: <LocationPicker> map pin-picker slots in here */}
+        <LocationPicker
+          initial={
+            initial?.listing.lat != null && initial?.listing.long != null
+              ? { lat: initial.listing.lat, lng: initial.listing.long }
+              : null
+          }
+          onChange={setLocationWkt}
+        />
       </div>
 
       <div className="flex flex-col gap-4">
