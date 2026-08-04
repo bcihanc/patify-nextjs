@@ -538,3 +538,101 @@ export const googleSignInAction = async () => {
         throw error;
     }
 };
+
+// ── F2 sosyal katman: follow/block mutasyonları ──────────────────────────────
+// Hepsi session-authoritative: user_id daima getUser()'dan, client'tan yalnızca
+// targetUserId. RLS ikinci savunma. insert'ler idempotent (unique violation →
+// sessiz başarı) — çift tık hata üretmez. Buton client'ı dönüşü yorumlar.
+
+type SocialActionResult = { ok: true } | { error: string };
+
+// Postgres unique-violation kodu — zaten-takip / zaten-engelli çift insert'te.
+const PG_UNIQUE_VIOLATION = '23505';
+
+export const followUserAction = async (
+  targetUserId: string,
+): Promise<SocialActionResult> => {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return { error: 'Oturum bulunamadı.' };
+  if (!targetUserId || targetUserId === user.id) {
+    return { error: 'Geçersiz istek.' };
+  }
+
+  const { error } = await supabase
+    .from('user_followings')
+    .insert({ user_id: user.id, followed_user_id: targetUserId });
+  if (error && error.code !== PG_UNIQUE_VIOLATION) {
+    console.error('followUserAction:', error.message);
+    return { error: 'Takip edilemedi, tekrar dene.' };
+  }
+  return { ok: true };
+};
+
+export const unfollowUserAction = async (
+  targetUserId: string,
+): Promise<SocialActionResult> => {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return { error: 'Oturum bulunamadı.' };
+  if (!targetUserId) return { error: 'Geçersiz istek.' };
+
+  const { error } = await supabase
+    .from('user_followings')
+    .delete()
+    .eq('user_id', user.id)
+    .eq('followed_user_id', targetUserId);
+  if (error) {
+    console.error('unfollowUserAction:', error.message);
+    return { error: 'Takip bırakılamadı, tekrar dene.' };
+  }
+  return { ok: true };
+};
+
+export const blockUserAction = async (
+  targetUserId: string,
+): Promise<SocialActionResult> => {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return { error: 'Oturum bulunamadı.' };
+  if (!targetUserId || targetUserId === user.id) {
+    return { error: 'Geçersiz istek.' };
+  }
+
+  const { error } = await supabase
+    .from('user_blockings')
+    .insert({ user_id: user.id, blocked_user_id: targetUserId });
+  if (error && error.code !== PG_UNIQUE_VIOLATION) {
+    console.error('blockUserAction:', error.message);
+    return { error: 'Engellenemedi, tekrar dene.' };
+  }
+  return { ok: true };
+};
+
+export const unblockUserActionById = async (
+  targetUserId: string,
+): Promise<SocialActionResult> => {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return { error: 'Oturum bulunamadı.' };
+  if (!targetUserId) return { error: 'Geçersiz istek.' };
+
+  const { error } = await supabase
+    .from('user_blockings')
+    .delete()
+    .eq('user_id', user.id)
+    .eq('blocked_user_id', targetUserId);
+  if (error) {
+    console.error('unblockUserActionById:', error.message);
+    return { error: 'Engel kaldırılamadı, tekrar dene.' };
+  }
+  return { ok: true };
+};
