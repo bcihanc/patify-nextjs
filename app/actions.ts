@@ -541,8 +541,11 @@ export const googleSignInAction = async () => {
 
 // ── F2 sosyal katman: follow/block mutasyonları ──────────────────────────────
 // Hepsi session-authoritative: user_id daima getUser()'dan, client'tan yalnızca
-// targetUserId. RLS ikinci savunma. insert'ler idempotent (unique violation →
-// sessiz başarı) — çift tık hata üretmez. Buton client'ı dönüşü yorumlar.
+// targetUserId. TEK GERÇEK KORUMA budur — user_followings/user_blockings/
+// user_profiles için RLS insert policy'leri `with check (true)` (izin verici),
+// yani bu action'lar user_id'yi session'dan set etmezse RLS backstop OLMAZ. Bu
+// deseni zayıflatma. insert'ler idempotent (unique violation → sessiz başarı) —
+// çift tık hata üretmez. Buton client'ı dönüşü yorumlar.
 
 type SocialActionResult = { ok: true } | { error: string };
 
