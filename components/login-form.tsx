@@ -9,10 +9,19 @@ import {
     CardHeader,
     CardTitle,
 } from '@/components/ui/card'
+import {Input} from '@/components/ui/input'
+import {Label} from '@/components/ui/label'
+import {SubmitButton} from '@/components/submit-button'
+import {FormMessage, Message} from '@/components/form-message'
 import {useState} from 'react'
-import {appleSignInAction, googleSignInAction} from "@/app/actions";
+import Link from 'next/link'
+import {appleSignInAction, googleSignInAction, signInAction} from "@/app/actions";
 
-export function LoginForm({className, ...props}: React.ComponentPropsWithoutRef<'div'>) {
+export function LoginForm({
+    className,
+    searchParams,
+    ...props
+}: React.ComponentPropsWithoutRef<'div'> & {searchParams: Message}) {
     const [error, setError] = useState<string | null>(null)
     const [isLoading, setIsLoading] = useState(false)
 
@@ -51,6 +60,39 @@ export function LoginForm({className, ...props}: React.ComponentPropsWithoutRef<
                 </CardHeader>
                 <CardContent>
                     <div className="flex flex-col gap-6">
+                        <form className="flex flex-col gap-3">
+                            <div className="flex flex-col gap-2">
+                                <Label htmlFor="email">E-posta</Label>
+                                <Input id="email" name="email" type="email" placeholder="john@patify.net" required/>
+                            </div>
+                            <div className="flex flex-col gap-2">
+                                <Label htmlFor="password">Şifre</Label>
+                                <Input id="password" name="password" type="password" placeholder="Şifreniz" required/>
+                            </div>
+                            <SubmitButton formAction={signInAction} className="w-full" pendingText="Giriş yapılıyor...">
+                                Giriş yap
+                            </SubmitButton>
+                            <FormMessage message={searchParams}/>
+                        </form>
+
+                        <div className="flex flex-col gap-1 text-sm text-center">
+                            <Link href="/forgot-password" className="text-primary underline">
+                                Şifreni mi unuttun?
+                            </Link>
+                            <span className="text-muted-foreground">
+                                Hesabın yok mu?{' '}
+                                <Link href="/sign-up" className="text-primary font-medium underline">
+                                    Kayıt ol
+                                </Link>
+                            </span>
+                        </div>
+
+                        <div className="flex items-center gap-3">
+                            <div className="h-px flex-1 bg-border"/>
+                            <span className="text-xs text-muted-foreground">veya</span>
+                            <div className="h-px flex-1 bg-border"/>
+                        </div>
+
                         {error && <p className="text-sm text-destructive-500">{error}</p>}
                         <Button
                             onClick={() => handleGoogleSocialLogin()}
