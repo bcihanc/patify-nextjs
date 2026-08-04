@@ -2,10 +2,11 @@ import { notFound } from 'next/navigation';
 import { MapPin } from 'lucide-react';
 import { getEmergencyById } from '@/lib/emergency/read';
 import { createClient } from '@/lib/supabase/server';
-import { petTypeLabel } from '@/lib/emergency/types';
+import { EMERGENCY_KIND_LABELS, petTypeLabel } from '@/lib/emergency/types';
 import { EmergencyActions } from '@/components/emergency/emergency-actions';
 import { EmergencyKindBadge } from '@/components/emergency/emergency-kind-badge';
 import { EmergencyStatusBadge } from '@/components/emergency/emergency-status-badge';
+import { EntityActionMenu } from '@/components/shared/entity-action-menu';
 import { Button } from '@/components/ui/button';
 
 export default async function EmergencyDetailPage({
@@ -40,9 +41,19 @@ export default async function EmergencyDetailPage({
         className="aspect-square w-full rounded-2xl object-cover"
       />
 
-      <div className="flex items-center gap-2">
-        <EmergencyKindBadge kind={item.kind} />
-        <EmergencyStatusBadge status={item.status} />
+      <div className="flex items-center justify-between gap-2">
+        <div className="flex items-center gap-2">
+          <EmergencyKindBadge kind={item.kind} />
+          <EmergencyStatusBadge status={item.status} />
+        </div>
+        <EntityActionMenu
+          entity="emergency"
+          entityId={item.id}
+          isOwner={item.reporterUserId === currentUserId}
+          currentUserId={currentUserId}
+          shareUrl={`https://patify.net/emergency/${item.id}`}
+          shareText={`${EMERGENCY_KIND_LABELS[item.kind]} · ${petTypeLabel(item.petType)}`}
+        />
       </div>
 
       <h1 className="text-2xl font-bold">{petTypeLabel(item.petType)}</h1>
