@@ -33,7 +33,7 @@ export function safeSocialUrl(
     return null;
   }
   if (uri.protocol !== 'https:') return null;
-  const host = uri.host.toLowerCase();
+  const host = uri.hostname.toLowerCase();
   if (!host || !allowedHosts.has(host)) return null;
   return uri.toString();
 }
