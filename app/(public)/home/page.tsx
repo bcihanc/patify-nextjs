@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogFooter, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { redirect } from "next/navigation";
-import { deleteAccountAction } from "../actions";
+import { deleteAccountAction } from "@/app/actions";
 import {createClient} from "@/lib/supabase/server";
 
 export default async function ProtectedPage() {

@@ -14,6 +14,7 @@ async function loadContent(filename: string): Promise<string> {
   const filePath = path.join(
     process.cwd(),
     "app",
+    "(public)",
     "(support-pages)",
     "_content",
     filename,
