@@ -29,6 +29,13 @@ export function mapRowToEmergency(r: EmergencyRow): EmergencyListing {
 // Filtre → RPC param'ları (boş dizi/null = filtre yok).
 function arrParam<T>(a: T[]): T[] | null { return a.length ? a : null; }
 
+// Mobil parite: feed/harita varsayılanı yalnızca AKTİF vakalar. Mobil
+// controller kEmergencyActiveStatuses'u (acik + ustlenildi) browse/nearby/
+// in_bounds'a zorlar; çözülmüş/pasif vakalar "şimdi yardım lazım" akışını
+// kirletmemeli. `emergency_cases_in_bounds` server-side yalnızca `pasif`'i
+// eler, `cozuldu`'yu değil — bu yüzden taban client'ta uygulanır.
+const ACTIVE_STATUSES: EmergencyStatus[] = ['acik', 'ustlenildi'];
+
 type FilterParams = {
   kind_param: EmergencyKind[] | null;
   status_param: EmergencyStatus[] | null;
@@ -37,7 +44,9 @@ type FilterParams = {
 function filterParams(filters: EmergencyFilters): FilterParams {
   return {
     kind_param: arrParam(filters.kinds),
-    status_param: arrParam(filters.statuses),
+    // Kullanıcı statü seçmediyse aktif tabana düş; seçtiyse (süperset — mobilde
+    // olmayan web filtresi) çözülmüş/pasif dahil o seçim geçer.
+    status_param: filters.statuses.length ? filters.statuses : ACTIVE_STATUSES,
   };
 }
 
