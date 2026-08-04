@@ -12,6 +12,7 @@ import { TURKEY_CITIES, TURKEY_DISTRICTS, matchTurkeyCity, matchTurkeyDistrict }
 import type { AdoptionInput } from '@/lib/adoptions/actions';
 import {
   ADOPTION_SOURCE_LABELS,
+  ADOPTION_STATUS_LABELS,
   PERSONALITY_TAGS,
   PERSONALITY_TAG_LABELS,
   PET_AGE_LABELS,
@@ -20,7 +21,7 @@ import {
   PET_TYPE_LABELS,
 } from '@/lib/adoptions/types';
 import type {
-  AdoptionExtraInfo, AdoptionListing, AdoptionSource, PersonalityTag,
+  AdoptionExtraInfo, AdoptionListing, AdoptionSource, AdoptionStatus, PersonalityTag,
   PetAge, PetGender, PetSize, PetType,
 } from '@/lib/adoptions/types';
 import { ALLOWED_LISTING_IMAGE_TYPES, LISTING_IMAGE_MAX, uploadListingImages } from '@/lib/storage/listing-images';
@@ -69,6 +70,13 @@ export function AdoptionForm({ mode, initial, onSubmit }: AdoptionFormProps) {
 
   const [title, setTitle] = useState(initial?.listing.title ?? '');
   const [petType, setPetType] = useState<PetType | ''>(initial?.listing.type ?? '');
+
+  // closed/pasif are owner-action-only states (markAdopted/reactivate, Task 10) — the
+  // edit form has no status control of its own (unlike F3's kayip/bulundu), so locking
+  // here just disables the pet-detail fields for those two statuses. Mirrors F3
+  // listing-form.tsx's statusLocked/actualStatus pattern.
+  const actualStatus: AdoptionStatus = initial?.listing.status ?? 'open';
+  const statusLocked = mode === 'edit' && (actualStatus === 'closed' || actualStatus === 'pasif');
 
   const [city, setCity] = useState<string | null>(initial?.listing.city ?? null);
   const [district, setDistrict] = useState<string | null>(initial?.listing.district ?? null);
@@ -364,6 +372,18 @@ export function AdoptionForm({ mode, initial, onSubmit }: AdoptionFormProps) {
         {photoError && <p className="text-sm text-destructive">{photoError}</p>}
       </div>
 
+      {statusLocked && (
+        <div className="rounded-md border border-input bg-muted px-3 py-2 text-sm">
+          {ADOPTION_STATUS_LABELS[actualStatus]}
+          <p className="mt-1 text-xs text-muted-foreground">
+            Bu ilanın durumu ilan detayındaki işlemlerle değişir, buradan düzenlenemez.
+          </p>
+        </div>
+      )}
+
+      {/* closed/pasif: fotoğraflar hariç tüm alanlar kilitli — yalnızca detay
+          sayfasındaki owner aksiyonları (markAdopted/reactivate) durumu değiştirir. */}
+      <fieldset disabled={statusLocked} className="contents">
       <div className="flex flex-col gap-1.5">
         <Label htmlFor="title">Başlık</Label>
         <Input
@@ -605,6 +625,7 @@ export function AdoptionForm({ mode, initial, onSubmit }: AdoptionFormProps) {
         />
         <p className="text-right text-xs text-muted-foreground">{description.length}/{DESCRIPTION_MAX}</p>
       </div>
+      </fieldset>
 
       {submitError && <p className="text-sm text-destructive">{submitError}</p>}
 
