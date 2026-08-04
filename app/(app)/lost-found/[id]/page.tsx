@@ -12,6 +12,7 @@ import {
 } from '@/lib/lost-found/types';
 import { LfStatusBadge } from '@/components/lost-found/lf-status-badge';
 import { OwnerActions } from '@/components/lost-found/owner-actions';
+import { EntityActionMenu } from '@/components/shared/entity-action-menu';
 import { UserAvatar } from '@/components/user/user-avatar';
 import { Badge } from '@/components/ui/badge';
 
@@ -102,8 +103,16 @@ export default async function LostFoundDetailPage({
         )}
       </div>
 
-      <div className="flex items-center gap-2">
+      <div className="flex items-center justify-between gap-2">
         <LfStatusBadge status={listing.status} />
+        <EntityActionMenu
+          entity="lost_found"
+          entityId={id}
+          isOwner={isOwner}
+          currentUserId={me.id}
+          shareUrl={`https://patify.net/lost-found/item/${id}`}
+          shareText={petLine(listing)}
+        />
       </div>
 
       <h1 className="text-2xl font-bold">{petLine(listing)}</h1>

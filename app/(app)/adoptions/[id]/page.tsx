@@ -14,6 +14,7 @@ import {
 import { AdoptionDomainInfoCards } from '@/components/adoptions/adoption-domain-info-cards';
 import { AdoptionOwnerActions } from '@/components/adoptions/adoption-owner-actions';
 import { AdoptionStatusBadge } from '@/components/adoptions/adoption-status-badge';
+import { EntityActionMenu } from '@/components/shared/entity-action-menu';
 import { UserAvatar } from '@/components/user/user-avatar';
 
 const THIRTY_DAYS_MS = 30 * 24 * 60 * 60 * 1000;
@@ -90,11 +91,21 @@ export default async function AdoptionDetailPage({
         )}
       </div>
 
-      <div className="flex items-center gap-2">
-        <AdoptionStatusBadge status={listing.status} />
-        {isStale(listing.lifecycleLastActivityAt) && (
-          <span className="text-xs text-muted-foreground">· eski</span>
-        )}
+      <div className="flex items-center justify-between gap-2">
+        <div className="flex items-center gap-2">
+          <AdoptionStatusBadge status={listing.status} />
+          {isStale(listing.lifecycleLastActivityAt) && (
+            <span className="text-xs text-muted-foreground">· eski</span>
+          )}
+        </div>
+        <EntityActionMenu
+          entity="adoptions"
+          entityId={listing.id}
+          isOwner={isOwner}
+          currentUserId={me.id}
+          shareUrl={`https://patify.net/adoptions/${listing.id}`}
+          shareText={listing.title}
+        />
       </div>
 
       {traits && <p className="text-sm text-muted-foreground">{traits}</p>}
