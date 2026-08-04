@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState, useTransition } from 'react';
 import Link from 'next/link';
+import { SalesBanBanner } from '@/components/adoptions/sales-ban-banner';
 import { AdoptionFilterBar } from '@/components/adoptions/adoption-filter-bar';
 import { AdoptionCard } from '@/components/adoptions/adoption-card';
 import { Button } from '@/components/ui/button';
@@ -137,11 +138,14 @@ export function BrowseList({
           )}
         </div>
       ) : (
-        <div className="grid grid-cols-2 gap-4">
-          {items.map((listing) => (
-            <AdoptionCard key={listing.id} listing={listing} />
-          ))}
-        </div>
+        <>
+          <SalesBanBanner />
+          <div className="grid grid-cols-2 gap-4">
+            {items.map((listing) => (
+              <AdoptionCard key={listing.id} listing={listing} />
+            ))}
+          </div>
+        </>
       )}
 
       {hasMore && items.length > 0 && (
