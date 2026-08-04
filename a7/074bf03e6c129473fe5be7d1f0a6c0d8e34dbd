@@ -1,0 +1,21 @@
+app/(app)/emergency/create/page.tsx
+  s_57740c8eaac4e1::t_78b85c3598b740 1-15
+components/emergency/emergency-form.tsx
+  s_57740c8eaac4e1::t_41b15b7cb6b4c3 1-331
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.21",
+  "base_commit_sha": "a7074bf03e6c129473fe5be7d1f0a6c0d8e34dbd",
+  "prompts": {},
+  "sessions": {
+    "s_57740c8eaac4e1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "0ef8d28f-b978-4693-bff4-0c15e4b2b378",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "cihan <b.cihancengiz@gmail.com>"
+    }
+  }
+}
