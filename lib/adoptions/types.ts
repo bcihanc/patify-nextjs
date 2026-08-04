@@ -1,4 +1,6 @@
-import { PetType, PetGender, LfUserSummary, PET_TYPE_LABELS, petTypeLabel } from '@/lib/lost-found/types';
+import {
+  PetType, PetGender, LfUserSummary, PET_TYPE_LABELS, petTypeLabel, PET_GENDER_LABELS,
+} from '@/lib/lost-found/types';
 
 export type AdoptionStatus = 'open' | 'closed' | 'pasif';
 export type AdoptionSource = 'street' | 'shelter' | 'home' | 'temporary_home' | 'veterinary_clinic';
@@ -155,4 +157,4 @@ export type AdoptionRow = {
 
 // Re-export from lost-found for convenience
 export type { PetType, PetGender, LfUserSummary };
-export { PET_TYPE_LABELS, petTypeLabel };
+export { PET_TYPE_LABELS, petTypeLabel, PET_GENDER_LABELS };
