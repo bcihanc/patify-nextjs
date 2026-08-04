@@ -3,11 +3,16 @@ import { Map, Plus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { browseLostFound } from '@/lib/lost-found/read';
 import { EMPTY_LF_FILTERS } from '@/lib/lost-found/types';
+import { getCurrentUserProfile } from '@/lib/profile/server';
 import { BrowseList } from './browse-list';
 
-// Filtre entegrasyonu Task 6'da bağlanır — bu sayfa şimdilik filtresiz ilk sayfa getirir.
+// Server can't read localStorage, so SSR always renders the unfiltered first
+// page; the client hydrates any persisted filter snapshot on mount (Task 6).
 export default async function LostFoundPage() {
-  const firstPage = await browseLostFound(EMPTY_LF_FILTERS, 0);
+  const [firstPage, me] = await Promise.all([
+    browseLostFound(EMPTY_LF_FILTERS, 0),
+    getCurrentUserProfile(),
+  ]);
 
   return (
     <div className="mx-auto flex w-full max-w-2xl flex-col gap-4 p-6">
@@ -28,7 +33,7 @@ export default async function LostFoundPage() {
           </Button>
         </div>
       </div>
-      <BrowseList initial={firstPage} />
+      <BrowseList initial={firstPage} ownerId={me?.id ?? null} />
     </div>
   );
 }

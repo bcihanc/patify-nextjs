@@ -1,9 +1,8 @@
 'use server';
 
 import { createClient } from '@/lib/supabase/server';
-import { browseLostFound } from './read';
-import { EMPTY_LF_FILTERS } from './types';
-import type { LfStatus, PetType, PetGender, PetColorKey, LostFoundListing } from './types';
+import { browseLostFound, nearbyLostFound } from './read';
+import type { LfFilters, LfStatus, PetType, PetGender, PetColorKey, LostFoundListing } from './types';
 
 export type ListingInput = {
   type: PetType;
@@ -157,8 +156,15 @@ export async function bumpActivityAction(id: string): Promise<Result> {
   return { ok: true };
 }
 
-// Client'ın browse-list.tsx'inden çağrılır — filtre entegrasyonu Task 6'da bağlanır,
-// şimdilik filtresiz sayfalama.
-export async function loadMoreBrowseAction(page: number): Promise<LostFoundListing[]> {
-  return browseLostFound(EMPTY_LF_FILTERS, page);
+// Client'ın browse-list.tsx'inden çağrılır — filtre değişince ilk sayfadan,
+// "Daha fazla yükle" ile sonraki sayfalardan.
+export async function loadBrowseAction(filters: LfFilters, page: number): Promise<LostFoundListing[]> {
+  return browseLostFound(filters, page);
+}
+
+// Radius filtresi aktifken (geolocation alınabildiğinde) browse yerine bu kullanılır.
+export async function loadNearbyAction(
+  lat: number, long: number, filters: LfFilters, page: number,
+): Promise<LostFoundListing[]> {
+  return nearbyLostFound(lat, long, filters, page);
 }
