@@ -1,0 +1,23 @@
+components/adoptions/adoption-filter-bar.tsx
+  s_57740c8eaac4e1::t_58f35a7d92f099 1-254
+app/(app)/adoptions/browse-list.tsx
+  s_57740c8eaac4e1::t_a8d2be3c455858 3,5,8-14,16,18-35,38,43,47-48,50-107,111-114,123-125,129-137
+lib/adoptions/filters.ts
+  s_57740c8eaac4e1::t_1f39e158325364 1-179
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.21",
+  "base_commit_sha": "c9f3076aaf823899b1cb28dea9cfc79982a9ee69",
+  "prompts": {},
+  "sessions": {
+    "s_57740c8eaac4e1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "0ef8d28f-b978-4693-bff4-0c15e4b2b378",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "cihan <b.cihancengiz@gmail.com>"
+    }
+  }
+}
