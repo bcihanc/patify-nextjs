@@ -1,7 +1,8 @@
 import { createClient } from '@/lib/supabase/server';
+import { PER_PAGE } from './types';
 import type { LfFilters, LfListRow, LostFoundListing } from './types';
 
-export const PER_PAGE = 10;
+export { PER_PAGE };
 
 const STORAGE_PUBLIC_BASE = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/assets`;
 const toImageUrl = (f: string) => `${STORAGE_PUBLIC_BASE}/${f}`;

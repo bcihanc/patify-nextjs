@@ -1,7 +1,9 @@
 'use server';
 
 import { createClient } from '@/lib/supabase/server';
-import type { LfStatus, PetType, PetGender, PetColorKey } from './types';
+import { browseLostFound } from './read';
+import { EMPTY_LF_FILTERS } from './types';
+import type { LfStatus, PetType, PetGender, PetColorKey, LostFoundListing } from './types';
 
 export type ListingInput = {
   type: PetType;
@@ -153,4 +155,10 @@ export async function bumpActivityAction(id: string): Promise<Result> {
   const { error } = await supabase.rpc('bump_lost_found_activity', { p_listing_id: id });
   if (error) { console.error('bumpActivityAction:', error.message); return { error: 'İşlem başarısız, tekrar dene.' }; }
   return { ok: true };
+}
+
+// Client'ın browse-list.tsx'inden çağrılır — filtre entegrasyonu Task 6'da bağlanır,
+// şimdilik filtresiz sayfalama.
+export async function loadMoreBrowseAction(page: number): Promise<LostFoundListing[]> {
+  return browseLostFound(EMPTY_LF_FILTERS, page);
 }

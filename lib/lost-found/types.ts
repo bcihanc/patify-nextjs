@@ -23,6 +23,10 @@ export const LF_STATUS_LABELS: Record<LfStatus, string> = {
 
 export function petTypeLabel(t: PetType): string { return PET_TYPE_LABELS[t] ?? 'Diğer'; }
 
+// Browse/nearby sayfalama boyutu — read.ts (server-only) VE client bileşenlerinden (browse-list.tsx)
+// ortak kullanım için burada (types.ts server-only import taşımaz, client'a güvenle import edilir).
+export const PER_PAGE = 10;
+
 export type LfUserSummary = { id: string; username: string | null; profilePhoto: string | null };
 
 // Non-owner reads carry MASKED lat/long (grid ~100-150m); owner reads carry raw.
