@@ -6,7 +6,10 @@ import type { LfFilters, LfStatus, PetType, PetGender, PetColorKey, LostFoundLis
 
 export type ListingInput = {
   type: PetType;
-  status: Extract<LfStatus, 'kayip' | 'bulundu'>;
+  // Create only ever offers kayip/bulundu (ListingForm's segmented control).
+  // Widened to full LfStatus so a locked edit (cozuldu/pasif) can resubmit its
+  // own unchanged status — updateListingAction writes it as-is either way.
+  status: LfStatus;
   city: string;
   district?: string | null;
   breed?: string | null;

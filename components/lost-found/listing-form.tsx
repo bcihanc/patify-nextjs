@@ -16,7 +16,7 @@ import {
   PET_GENDER_LABELS,
   PET_TYPE_LABELS,
 } from '@/lib/lost-found/types';
-import type { LostFoundListing, PetColorKey, PetGender, PetType } from '@/lib/lost-found/types';
+import type { LfStatus, LostFoundListing, PetColorKey, PetGender, PetType } from '@/lib/lost-found/types';
 import { ALLOWED_LISTING_IMAGE_TYPES, LISTING_IMAGE_MAX, uploadListingImages } from '@/lib/storage/listing-images';
 import { createClient } from '@/lib/supabase/client';
 import { cn } from '@/lib/utils';
@@ -33,7 +33,7 @@ const selectClass =
 
 function chipClass(selected: boolean): string {
   return cn(
-    'inline-flex items-center rounded-full border px-3 py-1 text-xs font-medium transition-colors',
+    'inline-flex items-center rounded-full border px-3 py-1 text-xs font-medium transition-colors disabled:cursor-not-allowed disabled:opacity-50',
     selected
       ? 'border-transparent bg-primary text-primary-foreground'
       : 'border-input bg-background text-foreground hover:bg-accent',
@@ -74,6 +74,13 @@ export function ListingForm({ mode, initial, onSubmit }: ListingFormProps) {
       : 'kayip',
   );
   const [petType, setPetType] = useState<PetType | ''>(initial?.listing.type ?? '');
+
+  // cozuldu/pasif are lifecycle-only states (mark_reunited/reactivate RPCs, Task 10) —
+  // the edit form locks the whole record except photos so a resubmit can't silently
+  // revert status or resend a stale reward toggle.
+  const actualStatus: LfStatus = initial?.listing.status ?? 'kayip';
+  const statusLocked = mode === 'edit' && (actualStatus === 'cozuldu' || actualStatus === 'pasif');
+  const effectiveStatus: LfStatus = statusLocked ? actualStatus : status;
 
   const [city, setCity] = useState<string | null>(initial?.listing.city ?? null);
   const [district, setDistrict] = useState<string | null>(initial?.listing.district ?? null);
@@ -236,7 +243,7 @@ export function ListingForm({ mode, initial, onSubmit }: ListingFormProps) {
 
       const result = await onSubmit({
         type: petType,
-        status,
+        status: statusLocked ? actualStatus : status,
         city,
         district,
         breed: breed.trim() || null,
@@ -323,48 +330,67 @@ export function ListingForm({ mode, initial, onSubmit }: ListingFormProps) {
 
       <div className="flex flex-col gap-1.5">
         <Label>Durum</Label>
-        <div className="flex gap-2">
-          {CREATE_STATUSES.map((s) => (
-            <button
-              key={s}
-              type="button"
-              onClick={() => handleStatusChange(s)}
-              className={cn(
-                'flex-1 rounded-md border px-3 py-2 text-sm font-medium transition-colors',
-                status === s
-                  ? 'border-transparent bg-primary text-primary-foreground'
-                  : 'border-input bg-background text-foreground hover:bg-accent',
+        {statusLocked ? (
+          <div className="rounded-md border border-input bg-muted px-3 py-2 text-sm">
+            {LF_STATUS_LABELS[actualStatus]}
+            <p className="mt-1 text-xs text-muted-foreground">
+              Bu ilanın durumu ilan detayındaki işlemlerle değişir, buradan düzenlenemez.
+            </p>
+          </div>
+        ) : (
+          <div className="flex gap-2">
+            {CREATE_STATUSES.map((s) => (
+              <button
+                key={s}
+                type="button"
+                onClick={() => handleStatusChange(s)}
+                className={cn(
+                  'flex-1 rounded-md border px-3 py-2 text-sm font-medium transition-colors',
+                  status === s
+                    ? 'border-transparent bg-primary text-primary-foreground'
+                    : 'border-input bg-background text-foreground hover:bg-accent',
+                )}
+              >
+                {LF_STATUS_LABELS[s]}
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* cozuldu/pasif: pet-detail alanları (tür, konum, cins/renk/cinsiyet, ödül, çip, açıklama)
+          fotoğraflar hariç kilitli — yalnızca detay sayfasındaki lifecycle aksiyonları durumu değiştirir. */}
+      <fieldset disabled={statusLocked} className="contents">
+        <div className="flex flex-col gap-1.5">
+          <Label htmlFor="petType">Tür</Label>
+          <select
+            id="petType"
+            value={petType}
+            onChange={(e) => setPetType(e.target.value as PetType | '')}
+            className={selectClass}
+          >
+            <option value="">Seçiniz</option>
+            {(Object.entries(PET_TYPE_LABELS) as [PetType, string][]).map(([value, label]) => (
+              <option key={value} value={value}>{label}</option>
+            ))}
+          </select>
+        </div>
+
+        <div className="flex flex-col gap-3 rounded-md border border-border p-4">
+          <div className="flex items-center justify-between gap-2">
+            <Label className="text-sm">Konum</Label>
+            <div className="flex gap-2">
+              {locationWkt && (
+                <Button type="button" variant="ghost" size="sm" onClick={() => setLocationWkt(null)}>
+                  Konumu temizle
+                </Button>
               )}
-            >
-              {LF_STATUS_LABELS[s]}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      <div className="flex flex-col gap-1.5">
-        <Label htmlFor="petType">Tür</Label>
-        <select
-          id="petType"
-          value={petType}
-          onChange={(e) => setPetType(e.target.value as PetType | '')}
-          className={selectClass}
-        >
-          <option value="">Seçiniz</option>
-          {(Object.entries(PET_TYPE_LABELS) as [PetType, string][]).map(([value, label]) => (
-            <option key={value} value={value}>{label}</option>
-          ))}
-        </select>
-      </div>
-
-      <div className="flex flex-col gap-3 rounded-md border border-border p-4">
-        <div className="flex items-center justify-between gap-2">
-          <Label className="text-sm">Konum</Label>
-          <Button type="button" variant="outline" size="sm" disabled={geoLoading} onClick={handleFindLocation}>
-            {geoLoading ? 'Bulunuyor…' : 'Konumumu bul'}
-          </Button>
-        </div>
-        {geoError && <p className="text-sm text-destructive">{geoError}</p>}
+              <Button type="button" variant="outline" size="sm" disabled={geoLoading} onClick={handleFindLocation}>
+                {geoLoading ? 'Bulunuyor…' : 'Konumumu bul'}
+              </Button>
+            </div>
+          </div>
+          {geoError && <p className="text-sm text-destructive">{geoError}</p>}
 
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
           <div className="flex flex-col gap-1.5">
@@ -438,7 +464,7 @@ export function ListingForm({ mode, initial, onSubmit }: ListingFormProps) {
           <Input id="lostDate" type="date" value={lostDate} onChange={(e) => setLostDate(e.target.value)} />
         </div>
 
-        {status === 'kayip' && (
+        {effectiveStatus === 'kayip' && (
           <div className="flex flex-col gap-2 rounded-md border border-border p-4">
             <div className="flex items-center gap-2">
               <Checkbox
@@ -489,6 +515,7 @@ export function ListingForm({ mode, initial, onSubmit }: ListingFormProps) {
           <p className="text-right text-xs text-muted-foreground">{description.length}/{DESCRIPTION_MAX}</p>
         </div>
       </div>
+      </fieldset>
 
       {submitError && <p className="text-sm text-destructive">{submitError}</p>}
 
