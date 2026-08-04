@@ -1,0 +1,23 @@
+components/lost-found/listing-form.tsx
+  s_57740c8eaac4e1::t_a843ff2661dbc5 225
+app/(app)/profile/page.tsx
+  s_57740c8eaac4e1::t_29cc1bd8be058f 42
+components/lost-found/lf-listing-card.tsx
+  s_57740c8eaac4e1::t_1239171ca86660 40
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.21",
+  "base_commit_sha": "ee7c2f097d9f63e66ffa7ad8f831efcd29f8fd00",
+  "prompts": {},
+  "sessions": {
+    "s_57740c8eaac4e1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "0ef8d28f-b978-4693-bff4-0c15e4b2b378",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "cihan <b.cihancengiz@gmail.com>"
+    }
+  }
+}
