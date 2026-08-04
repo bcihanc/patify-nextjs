@@ -1,0 +1,28 @@
+components/adoptions/adoption-card.tsx
+  s_57740c8eaac4e1::t_7bc70cb8ddc381 1-53
+lib/adoptions/types.ts
+  s_57740c8eaac4e1::t_76274bee6fda5a 160
+  s_57740c8eaac4e1::t_f79f8c0b16004d 1-3
+app/(app)/adoptions/browse-list.tsx
+  s_57740c8eaac4e1::t_25db1ddd4cc321 1-64
+app/(app)/adoptions/page.tsx
+  s_57740c8eaac4e1::t_e49591938b6ad3 1-16,18-36
+components/adoptions/adoption-status-badge.tsx
+  s_57740c8eaac4e1::t_044740ba5d13b6 1-19
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.21",
+  "base_commit_sha": "02be95ba5a5047ece9a19f919f2075922557747c",
+  "prompts": {},
+  "sessions": {
+    "s_57740c8eaac4e1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "0ef8d28f-b978-4693-bff4-0c15e4b2b378",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "cihan <b.cihancengiz@gmail.com>"
+    }
+  }
+}
