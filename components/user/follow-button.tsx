@@ -23,15 +23,20 @@ export function FollowButton({
     onChange?.(next); // optimistic; parent state'i günceller
     setError(null);
     startTransition(async () => {
-      const result = next
-        ? await followUserAction(targetUserId)
-        : await unfollowUserAction(targetUserId);
-      if ('error' in result) {
+      try {
+        const result = next
+          ? await followUserAction(targetUserId)
+          : await unfollowUserAction(targetUserId);
+        if ('error' in result) {
+          onChange?.(!next); // geri al
+          setError(result.error);
+          return;
+        }
+        router.refresh(); // sayaçları tazele
+      } catch {
         onChange?.(!next); // geri al
-        setError(result.error);
-        return;
+        setError('Bir şeyler ters gitti, tekrar dene.');
       }
-      router.refresh(); // sayaçları tazele
     });
   }
 

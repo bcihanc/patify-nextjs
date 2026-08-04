@@ -23,15 +23,20 @@ export function BlockButton({
     onChange?.(next);
     setError(null);
     startTransition(async () => {
-      const result = next
-        ? await blockUserAction(targetUserId)
-        : await unblockUserActionById(targetUserId);
-      if ('error' in result) {
+      try {
+        const result = next
+          ? await blockUserAction(targetUserId)
+          : await unblockUserActionById(targetUserId);
+        if ('error' in result) {
+          onChange?.(!next);
+          setError(result.error);
+          return;
+        }
+        router.refresh();
+      } catch {
         onChange?.(!next);
-        setError(result.error);
-        return;
+        setError('Bir şeyler ters gitti, tekrar dene.');
       }
-      router.refresh();
     });
   }
 
