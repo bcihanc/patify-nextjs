@@ -37,7 +37,7 @@ export function LfListingCard({ listing }: { listing: LostFoundListing }) {
         </div>
         {showReward && (
           <div className="absolute right-2 top-2">
-            <Badge className="gap-1 border-transparent bg-warning text-white">
+            <Badge className="gap-1 border-transparent bg-warning text-white" variant="outline">
               <Gift className="h-3 w-3" aria-hidden />
               Ödül
             </Badge>

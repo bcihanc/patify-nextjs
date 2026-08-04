@@ -39,7 +39,7 @@ export default async function ProfilePage() {
           domain fazlarında (Faz 3/6) eklenecek — bkz. F2 spec §2 deferral. */}
       <div className="space-y-4 pb-6">
         <div className="flex justify-center">
-          <Button asChild>
+          <Button asChild variant="outline">
             <Link href="/lost-found/mine">
               <PawPrint className="mr-1.5 h-4 w-4" />
               İlanlarım

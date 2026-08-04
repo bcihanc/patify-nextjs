@@ -222,7 +222,7 @@ export function ListingForm({ mode, initial, onSubmit }: ListingFormProps) {
     if (submitting) return;
     setSubmitError(null);
 
-    if (mode === 'create' && existingImages.length + photos.length === 0) {
+    if (existingImages.length + photos.length === 0) {
       setSubmitError('En az bir fotoğraf ekle.');
       return;
     }
