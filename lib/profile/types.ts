@@ -14,3 +14,22 @@ export type CurrentUserProfile = ProfileRow & {
   homeDistrict: PrivateRow['home_district'];
   analyticsConsentAt: PrivateRow['analytics_consent_at'];
 };
+
+// Başka bir kullanıcının GÖRÜNÜR profili — asla owner-only PII (user_private) içermez.
+export type PublicUserProfile = Pick<
+  ProfileRow,
+  | 'id'
+  | 'username'
+  | 'bio'
+  | 'profile_photo'
+  | 'x_url'
+  | 'instagram_url'
+  | 'telegram_url'
+  | 'tiktok_url'
+  | 'facebook_url'
+>;
+
+// Takipçi/takip listelerinde satır için hafif özet.
+export type PublicUserSummary = Pick<ProfileRow, 'id' | 'username' | 'profile_photo'>;
+
+export type FollowCounts = { followers: number; following: number };
