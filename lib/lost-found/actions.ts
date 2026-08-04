@@ -60,7 +60,7 @@ export async function createListingAction(input: ListingInput): Promise<Result> 
   const { data, error } = await supabase
     .from('lost_found').insert(row).select('id').single();
   if (error) {
-    if (error.message.includes(RATE_LIMIT_SENTINEL) || error.code === '23514') {
+    if (error.message.includes(RATE_LIMIT_SENTINEL)) {
       return { error: 'Saatte en fazla 10 ilan verebilirsin, biraz sonra tekrar dene.' };
     }
     console.error('createListingAction:', error.message);
@@ -84,6 +84,7 @@ export async function updateListingAction(
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return { error: 'Oturum bulunamadı.' };
+  if (!input.type || !input.city || !input.status) return { error: 'Zorunlu alanlar eksik.' };
 
   const row: Record<string, unknown> = {
     type: input.type, status: input.status,
@@ -98,9 +99,12 @@ export async function updateListingAction(
   if (input.locationWkt) row.location = input.locationWkt;
   else if (input.clearLocation) row.location = null; // yalnızca açık temizlemede null'la
 
-  const { error } = await supabase
-    .from('lost_found').update(row).eq('id', id).eq('user_id', user.id);
+  // .select('id') ile eşleşen satırı doğrula — 0 satır PostgREST'te hata fırlatmaz,
+  // doğrulanmadan cip_no yazmak başkasının ilanına yazma açığı olur.
+  const { data: updated, error } = await supabase
+    .from('lost_found').update(row).eq('id', id).eq('user_id', user.id).select('id');
   if (error) { console.error('updateListingAction:', error.message); return { error: 'Güncellenemedi, tekrar dene.' }; }
+  if (!updated || updated.length === 0) { return { error: 'Bu ilanı düzenleme yetkin yok.' }; }
 
   const cip = clean(input.cipNo);
   if (cip) await supabase.from('lost_found_private').upsert({ lost_found_id: id, cip_no: cip });
