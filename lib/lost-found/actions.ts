@@ -1,7 +1,9 @@
 'use server';
 
 import { createClient } from '@/lib/supabase/server';
-import { browseLostFound, nearbyLostFound } from './read';
+import { browseLostFound, nearbyLostFound, lostFoundInBounds } from './read';
+import type { MapBounds } from './read';
+import { EMPTY_LF_FILTERS } from './types';
 import type { LfFilters, LfStatus, PetType, PetGender, PetColorKey, LostFoundListing } from './types';
 
 export type ListingInput = {
@@ -170,4 +172,13 @@ export async function loadNearbyAction(
   lat: number, long: number, filters: LfFilters, page: number,
 ): Promise<LostFoundListing[]> {
   return nearbyLostFound(lat, long, filters, page);
+}
+
+// Client'ın map-view.tsx'inden çağrılır — ilk yüklemede ve "Bu alanı ara"
+// tıklamasında geçerli viewport bbox'ı sorgular (client'tan RPC'ye erişim
+// için 'use server' action gerekli — lostFoundInBounds server-only).
+export async function mapInBoundsAction(
+  bounds: MapBounds, filters: LfFilters = EMPTY_LF_FILTERS,
+): Promise<LostFoundListing[]> {
+  return lostFoundInBounds(bounds, filters);
 }
