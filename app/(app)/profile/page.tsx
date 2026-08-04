@@ -1,23 +1,45 @@
 import Link from 'next/link';
-import { Settings } from 'lucide-react';
+import { redirect } from 'next/navigation';
+import { Settings, Pencil } from 'lucide-react';
+import { getCurrentUserProfile } from '@/lib/profile/server';
+import { getFollowCounts } from '@/lib/follow/server';
+import { ProfileHeader } from '@/components/user/profile-header';
+import { Button } from '@/components/ui/button';
 
-// Full profile hub is out of F0 scope (still a placeholder per the master
-// plan) — this link is the only way to reach /profile/settings from the UI
-// until that view is built.
-export default function ProfilePage() {
+export default async function ProfilePage() {
+  const profile = await getCurrentUserProfile();
+  if (!profile) redirect('/auth/login');
+
+  const counts = await getFollowCounts(profile.id);
+
   return (
-    <div className="flex flex-col gap-4 p-6">
-      <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">Profil</h1>
-        <Link
-          href="/profile/settings"
-          className="flex items-center gap-1.5 text-sm font-medium text-muted-foreground hover:text-foreground"
-        >
-          <Settings className="h-4 w-4" />
-          Ayarlar
-        </Link>
-      </div>
-      <p className="text-muted-foreground">Bu alan yakında.</p>
+    <div className="mx-auto w-full max-w-2xl">
+      <ProfileHeader
+        profile={profile}
+        counts={counts}
+        countsHref={{ followers: '/profile/followers', following: '/profile/followings' }}
+        actions={
+          <div className="flex items-center gap-3">
+            <Button asChild variant="outline">
+              <Link href="/profile/edit">
+                <Pencil className="mr-1.5 h-4 w-4" />
+                Düzenle
+              </Link>
+            </Button>
+            <Button asChild variant="outline">
+              <Link href="/profile/settings">
+                <Settings className="mr-1.5 h-4 w-4" />
+                Ayarlar
+              </Link>
+            </Button>
+          </div>
+        }
+      />
+      {/* İçerik sekmeleri (ilanlar, sahiplendirmeler) ve kaydettiklerin ilgili
+          domain fazlarında (Faz 3/6) eklenecek — bkz. F2 spec §2 deferral. */}
+      <p className="pb-6 text-center text-sm text-muted-foreground">
+        İlanların ve kaydettiklerin yakında.
+      </p>
     </div>
   );
 }
