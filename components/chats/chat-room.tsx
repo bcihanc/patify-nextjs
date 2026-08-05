@@ -25,6 +25,7 @@ export function ChatRoom({ roomId, currentUserId }: { roomId: string; currentUse
   // re-renders.
   const markedSeenRef = useRef<Set<string>>(new Set());
   const bottomRef = useRef<HTMLDivElement | null>(null);
+  const prevCountRef = useRef(0);
 
   // Resolves the other participant's header via the room row rather than
   // scanning messages for an authorId !== currentUserId — that would leave
@@ -102,10 +103,16 @@ export function ChatRoom({ roomId, currentUserId }: { roomId: string; currentUse
     };
   }, [roomId, repo, loadOtherUser]);
 
-  // Auto-scroll to the newest message whenever the list changes (initial
-  // load, realtime insert, or optimistic send).
+  // Auto-scroll to the newest message ONLY when the count grows (initial
+  // load, realtime insert, optimistic send) — NOT on in-place status updates
+  // (a markSeen echo replaces a row by id without changing the count), which
+  // would otherwise yank the view to the bottom while the user scrolls up
+  // reading history.
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ block: 'end' });
+    if (messages.length > prevCountRef.current) {
+      bottomRef.current?.scrollIntoView({ block: 'end' });
+    }
+    prevCountRef.current = messages.length;
   }, [messages]);
 
   // markSeen for every visible OTHER-author message not yet 'seen' — "on
