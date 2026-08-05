@@ -20,8 +20,9 @@ import {appleSignInAction, googleSignInAction, signInAction} from "@/app/actions
 export function LoginForm({
     className,
     searchParams,
+    next,
     ...props
-}: React.ComponentPropsWithoutRef<'div'> & {searchParams: Message}) {
+}: React.ComponentPropsWithoutRef<'div'> & {searchParams: Message; next?: string}) {
     const [error, setError] = useState<string | null>(null)
     const [isLoading, setIsLoading] = useState(false)
 
@@ -30,7 +31,7 @@ export function LoginForm({
         setError(null)
 
         try {
-            const url = await googleSignInAction();
+            const url = await googleSignInAction(next);
             window.location.href = url;
         } catch (error: unknown) {
             setError(error instanceof Error ? error.message : 'An error occurred')
@@ -43,7 +44,7 @@ export function LoginForm({
         setError(null)
 
         try {
-            const url = await appleSignInAction();
+            const url = await appleSignInAction(next);
             window.location.href = url;
         } catch (error: unknown) {
             setError(error instanceof Error ? error.message : 'An error occurred')
@@ -61,6 +62,7 @@ export function LoginForm({
                 <CardContent>
                     <div className="flex flex-col gap-6">
                         <form className="flex flex-col gap-3">
+                            <input type="hidden" name="next" value={next ?? ''} />
                             <div className="flex flex-col gap-2">
                                 <Label htmlFor="email">E-posta</Label>
                                 <Input id="email" name="email" type="email" placeholder="john@patify.net" required/>
