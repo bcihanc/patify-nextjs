@@ -1,0 +1,28 @@
+components/app-shell/app-nav.tsx
+  s_57740c8eaac4e1::t_6cf61660d2dd43 9
+  s_57740c8eaac4e1::t_9f11158503bf6a 84-87
+app/(app)/profile/(self)/about/page.tsx
+  s_57740c8eaac4e1::t_03d716154b7ccb 3
+  s_57740c8eaac4e1::t_cd12a87f525fec 58-59
+components/app-shell/site-footer.tsx
+  s_57740c8eaac4e1::t_b00c6819041196 1-27
+components/app-shell/guest-shell.tsx
+  s_57740c8eaac4e1::t_e7605ad0541ff4 60-63
+  s_57740c8eaac4e1::t_bd8675602eaf38 8
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.21",
+  "base_commit_sha": "5e381be8242aaec62b1993190ea7f9c73bc46d91",
+  "prompts": {},
+  "sessions": {
+    "s_57740c8eaac4e1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "0ef8d28f-b978-4693-bff4-0c15e4b2b378",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "cihan <b.cihancengiz@gmail.com>"
+    }
+  }
+}
