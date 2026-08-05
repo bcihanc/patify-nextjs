@@ -104,6 +104,9 @@ export default async function LostFoundListingPage({
   // Public page — viewer may be logged out. isOwner is always false here:
   // the public RPC (lib/lost-found.ts) doesn't return the listing's userId,
   // so ownership can't be determined; logged-in users just get Report enabled.
+  // Same reason there's no "Message owner" CTA here (unlike the app-side
+  // detail pages): MessageUserButton needs the owner's userId and this RPC
+  // doesn't expose one. Skipped rather than guessed — see Task 7 report.
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   const currentUserId = user?.id ?? null
