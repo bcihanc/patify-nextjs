@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
-import { ChevronRight, FileText, Mail, Shield, type LucideIcon } from 'lucide-react';
+import { ChevronRight, Copyright, FileText, Mail, Shield, ShieldAlert, type LucideIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { getCurrentUserProfile } from '@/lib/profile/server';
@@ -55,6 +55,8 @@ export default async function AboutPage() {
           <CardContent className="flex flex-col divide-y divide-border p-0">
             <LegalRow href="/pp" icon={Shield} label="Gizlilik Politikası" />
             <LegalRow href="/tos" icon={FileText} label="Kullanım Koşulları" />
+            <LegalRow href="/cr" icon={Copyright} label="Telif Hakkı" />
+            <LegalRow href="/csae" icon={ShieldAlert} label="Çocuk Güvenliği" />
             <LegalRow href="mailto:b.cihancengiz@gmail.com" icon={Mail} label="İletişim" />
           </CardContent>
         </Card>

@@ -6,6 +6,7 @@ import { cn } from '@/lib/utils';
 import { NAV_ITEMS } from './nav-items';
 import { NotificationsProvider } from '@/components/notifications/notifications-provider';
 import { NotificationBell } from '@/components/notifications/notification-bell';
+import { SiteFooter } from './site-footer';
 import type { AppNotification } from '@/lib/notifications/types';
 
 function isActive(pathname: string, href: string) {
@@ -80,7 +81,10 @@ export function AppShell({
         </header>
 
         {/* Content */}
-        <main className="mx-auto w-full max-w-5xl px-4 pb-20 pt-4 md:pb-6">{children}</main>
+        <main className="mx-auto w-full max-w-5xl px-4 pb-20 pt-4 md:pb-6">
+          {children}
+          <SiteFooter />
+        </main>
 
         {/* Mobile bottom tab bar */}
         <nav className="fixed inset-x-0 bottom-0 z-40 flex h-16 items-center justify-around border-t border-border bg-background md:hidden">
