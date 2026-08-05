@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { UserAvatar } from './user-avatar';
 import { SocialLinks } from './social-links';
+import { TrustBadge } from '@/components/trust/trust-badge';
 import type { PublicUserProfile, FollowCounts } from '@/lib/profile/types';
 
 function StatCell({ value, label, href }: { value: number; label: string; href?: string }) {
@@ -24,16 +25,21 @@ export function ProfileHeader({
   counts,
   countsHref,
   actions,
+  trusted,
 }: {
   profile: PublicUserProfile;
   counts: FollowCounts;
   countsHref?: { followers: string; following: string } | null;
   actions?: React.ReactNode;
+  trusted?: boolean;
 }) {
   return (
     <div className="flex flex-col items-center gap-4 py-6">
       <UserAvatar username={profile.username} profilePhoto={profile.profile_photo} size={112} />
-      <h1 className="text-xl font-bold">{profile.username ?? '-'}</h1>
+      <div className="flex items-center gap-2">
+        <h1 className="text-xl font-bold">{profile.username ?? '-'}</h1>
+        <TrustBadge trusted={trusted ?? false} />
+      </div>
 
       <div className="flex items-center gap-4">
         <StatCell value={counts.following} label="Takip" href={countsHref?.following} />

@@ -1,18 +1,33 @@
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
-import { ChevronRight, Download, Lock, Palette, Trash2, User, UserX, type LucideIcon } from 'lucide-react';
+import {
+  ChevronRight,
+  Download,
+  Info,
+  Lock,
+  Palette,
+  Trash2,
+  User,
+  UserX,
+  type LucideIcon,
+} from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { ThemeSwitcher } from '@/components/theme-switcher';
+import { AcceptDmsToggle } from '@/components/settings/accept-dms-toggle';
 import { getCurrentUserProfile } from '@/lib/profile/server';
+import { fetchAcceptsDms } from '@/lib/profile/dm-prefs';
 import { cn } from '@/lib/utils';
 import { AnalyticsConsentToggle } from './analytics-consent-toggle';
 
-// Settings hub (spec §4.5) — ONLY the self-contained items. Bookmarks, my
-// applications, accept-DMs and notification settings are deferred to later
-// domains and deliberately omitted, not stubbed (brief: don't render dead
-// entries).
+// Settings hub (spec §4.5) — ONLY the self-contained items. Bookmarks and my
+// applications are deferred to later domains and deliberately omitted, not
+// stubbed (brief: don't render dead entries). Accept-DMs preference lands
+// here ahead of Chats itself (spec §7).
 export default async function SettingsPage() {
-  const profile = await getCurrentUserProfile();
+  const [profile, acceptsDms] = await Promise.all([
+    getCurrentUserProfile(),
+    fetchAcceptsDms(),
+  ]);
   if (!profile) redirect('/auth/login');
 
   return (
@@ -35,6 +50,9 @@ export default async function SettingsPage() {
         <Card>
           <CardContent className="flex flex-col gap-4 p-4">
             <AnalyticsConsentToggle initialEnabled={profile.analyticsConsentAt !== null} />
+            <div className="border-t border-border pt-4">
+              <AcceptDmsToggle initial={acceptsDms} />
+            </div>
             <div className="flex items-center justify-between border-t border-border pt-4">
               <div className="flex items-center gap-2 text-sm">
                 <Palette className="h-4 w-4 text-muted-foreground" />
@@ -42,6 +60,15 @@ export default async function SettingsPage() {
               </div>
               <ThemeSwitcher />
             </div>
+          </CardContent>
+        </Card>
+      </section>
+
+      <section className="flex flex-col gap-2">
+        <h2 className="text-sm font-medium text-muted-foreground">Uygulama</h2>
+        <Card>
+          <CardContent className="flex flex-col divide-y divide-border p-0">
+            <SettingsRow href="/profile/about" icon={Info} label="Hakkında" />
           </CardContent>
         </Card>
       </section>

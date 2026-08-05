@@ -3,7 +3,9 @@ import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { MapPin, Calendar, PartyPopper } from 'lucide-react'
 import { getLostFoundById, petTypeLabel, type LostFoundListing } from '@/lib/lost-found'
+import { createClient } from '@/lib/supabase/server'
 import { OpenInAppButton } from '@/components/open-in-app-button'
+import { EntityActionMenu } from '@/components/shared/entity-action-menu'
 import { Button } from '@/components/ui/button'
 
 // Numeric App Store id (from the live listing) used by the iOS Smart App Banner.
@@ -99,6 +101,13 @@ export default async function LostFoundListingPage({
     )
   }
 
+  // Public page — viewer may be logged out. isOwner is always false here:
+  // the public RPC (lib/lost-found.ts) doesn't return the listing's userId,
+  // so ownership can't be determined; logged-in users just get Report enabled.
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  const currentUserId = user?.id ?? null
+
   // Active listing (kayip / bulundu).
   return (
     <section className="flex-1 flex flex-col items-center gap-6 px-4 py-8">
@@ -120,7 +129,17 @@ export default async function LostFoundListingPage({
           </div>
         )}
 
-        <h1 className="text-2xl font-bold">{petLine(listing)}</h1>
+        <div className="flex items-center justify-between gap-2">
+          <h1 className="text-2xl font-bold">{petLine(listing)}</h1>
+          <EntityActionMenu
+            entity="lost_found"
+            entityId={id}
+            isOwner={false}
+            currentUserId={currentUserId}
+            shareUrl={`https://patify.net/lost-found/item/${id}`}
+            shareText={petLine(listing)}
+          />
+        </div>
 
         <div className="flex flex-col gap-1 text-base">
           <span className="flex items-center gap-2">

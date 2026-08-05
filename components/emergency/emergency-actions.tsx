@@ -20,7 +20,6 @@ type EmergencyActionsProps = {
 // reporter; canResolve = viewer is the reporter or current claimer and the
 // case isn't already resolved.
 // DEFERRED: DM "Mesaj" CTA → Chats phase (needs findOrCreateDirectRoom + can_dm; not yet on web)
-// DEFERRED: Report "..." menu → Moderation phase (needs reports table/UI; not yet on web)
 export function EmergencyActions({
   caseId,
   status,
