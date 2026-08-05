@@ -2,7 +2,7 @@ import { notFound, redirect } from 'next/navigation';
 import { AdoptionForm } from '@/components/adoptions/adoption-form';
 import { updateAdoptionAction } from '@/lib/adoptions/actions';
 import { getAdoptionById } from '@/lib/adoptions/read';
-import { getCurrentUserProfile } from '@/lib/profile/server';
+import { requireAuth } from '@/lib/auth/require-auth';
 
 export default async function EditAdoptionPage({
   params,
@@ -11,8 +11,7 @@ export default async function EditAdoptionPage({
 }) {
   const { id } = await params;
 
-  const me = await getCurrentUserProfile();
-  if (!me) redirect('/auth/login');
+  const me = await requireAuth();
 
   const listing = await getAdoptionById(id);
   if (!listing) notFound();

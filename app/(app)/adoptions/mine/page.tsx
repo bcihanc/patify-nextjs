@@ -1,13 +1,11 @@
 import Link from 'next/link';
-import { redirect } from 'next/navigation';
-import { getCurrentUserProfile } from '@/lib/profile/server';
+import { requireAuth } from '@/lib/auth/require-auth';
 import { browseAdoptions } from '@/lib/adoptions/read';
 import { EMPTY_ADOPTION_FILTERS } from '@/lib/adoptions/types';
 import { AdoptionCard } from '@/components/adoptions/adoption-card';
 
 export default async function MyAdoptionsPage() {
-  const me = await getCurrentUserProfile();
-  if (!me) redirect('/auth/login');
+  const me = await requireAuth();
 
   const listings = await browseAdoptions(EMPTY_ADOPTION_FILTERS, 0, me.id);
 
