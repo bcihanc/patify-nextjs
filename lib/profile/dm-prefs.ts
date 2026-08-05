@@ -41,7 +41,7 @@ export async function setAcceptsDmsAction(
   // this is the user's first write to user_private.
   const { error } = await supabase
     .from('user_private')
-    .upsert({ user_id: user.id, accepts_dms: value });
+    .upsert({ user_id: user.id, accepts_dms: value }, { onConflict: 'user_id' });
 
   if (error) {
     console.error('setAcceptsDmsAction:', error.message);
