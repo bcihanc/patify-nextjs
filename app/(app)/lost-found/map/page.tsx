@@ -1,16 +1,11 @@
 import Link from 'next/link';
-import { redirect } from 'next/navigation';
 import { List } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { hasMapsKey } from '@/lib/maps/google-maps';
-import { getCurrentUserProfile } from '@/lib/profile/server';
 import { MapView } from '../map-view';
 
 export default async function LostFoundMapPage() {
-  const me = await getCurrentUserProfile();
-  if (!me) redirect('/auth/login');
-
   // Key yoksa harita hiç yüklenmez — graceful-degrade kartı + listeye dönüş.
   if (!hasMapsKey()) {
     return (

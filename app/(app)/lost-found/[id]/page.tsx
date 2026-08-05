@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { notFound, redirect } from 'next/navigation';
+import { notFound } from 'next/navigation';
 import { Calendar, Gift, MapPin, PawPrint } from 'lucide-react';
 import { getLostFoundDetail } from '@/lib/lost-found/read';
 import { getCurrentUserProfile } from '@/lib/profile/server';
@@ -48,12 +48,11 @@ export default async function LostFoundDetailPage({
   const { id } = await params;
 
   const me = await getCurrentUserProfile();
-  if (!me) redirect('/auth/login');
 
   const listing = await getLostFoundDetail(id);
   if (!listing) notFound();
 
-  const isOwner = listing.userId === me.id;
+  const isOwner = me != null && listing.userId === me.id;
 
   // Owner-only, çip numarası ana listing okumasında yok — ayrı hydrate.
   let cipNo: string | null = null;
@@ -110,7 +109,7 @@ export default async function LostFoundDetailPage({
           entity="lost_found"
           entityId={id}
           isOwner={isOwner}
-          currentUserId={me.id}
+          currentUserId={me?.id ?? null}
           shareUrl={`https://patify.net/lost-found/item/${id}`}
           shareText={petLine(listing)}
         />
@@ -158,7 +157,7 @@ export default async function LostFoundDetailPage({
       {!isOwner && (
         <MessageUserButton
           targetUserId={listing.userId}
-          currentUserId={me.id}
+          currentUserId={me?.id ?? null}
           label="İlan sahibine mesaj"
         />
       )}
