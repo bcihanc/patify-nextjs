@@ -38,15 +38,15 @@ function boundsFromEvent(ev: MapCameraChangedEvent): MapBounds | null {
   return { minLat: b.south, minLong: b.west, maxLat: b.north, maxLong: b.east };
 }
 
-export function MapView() {
+export function MapView({ isGuest = false }: { isGuest?: boolean }) {
   return (
     <GoogleMapsProvider>
-      <MapCanvas />
+      <MapCanvas isGuest={isGuest} />
     </GoogleMapsProvider>
   );
 }
 
-function MapCanvas() {
+function MapCanvas({ isGuest }: { isGuest: boolean }) {
   const router = useRouter();
   const map = useMap();
   const [listings, setListings] = useState<LostFoundListing[]>([]);
@@ -145,7 +145,9 @@ function MapCanvas() {
               <AdvancedMarker
                 key={listing.id}
                 position={{ lat: listing.lat, lng: listing.long }}
-                onClick={() => router.push(`/lost-found/${listing.id}`)}
+                onClick={() =>
+                  router.push(isGuest ? `/lost-found/item/${listing.id}` : `/lost-found/${listing.id}`)
+                }
               >
                 <Pin background={color.background} borderColor={color.border} glyphColor={color.border} />
               </AdvancedMarker>

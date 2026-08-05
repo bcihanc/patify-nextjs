@@ -139,7 +139,7 @@ export function BrowseList({
       ) : (
         <div className="grid grid-cols-2 gap-4">
           {items.map((listing) => (
-            <LfListingCard key={listing.id} listing={listing} />
+            <LfListingCard key={listing.id} listing={listing} isGuest={ownerId === null} />
           ))}
         </div>
       )}

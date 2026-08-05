@@ -3,9 +3,13 @@ import { List } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { hasMapsKey } from '@/lib/maps/google-maps';
+import { getCurrentUserProfile } from '@/lib/profile/server';
 import { MapView } from '../map-view';
 
 export default async function LostFoundMapPage() {
+  // Misafir pin'e tıklayınca herkese açık item sayfasına gitsin (in-app LF detay
+  // anon'a kapalı — kart linkiyle aynı mantık).
+  const me = await getCurrentUserProfile();
   // Key yoksa harita hiç yüklenmez — graceful-degrade kartı + listeye dönüş.
   if (!hasMapsKey()) {
     return (
@@ -38,7 +42,7 @@ export default async function LostFoundMapPage() {
           </Link>
         </Button>
       </div>
-      <MapView />
+      <MapView isGuest={me === null} />
     </div>
   );
 }

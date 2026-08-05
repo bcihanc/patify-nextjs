@@ -66,8 +66,7 @@ export default async function Signup(props: {
                 className="text-primary underline"
               >
                 Kullanım Koşulları
-              </Link>{" "}
-              ve{" "}
+              </Link>{" ve "}
               <Link
                 href="/pp"
                 target="_blank"

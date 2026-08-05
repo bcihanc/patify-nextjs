@@ -6,6 +6,7 @@ import {headers} from "next/headers";
 import {redirect} from "next/navigation";
 import {isAtLeastAge, MIN_SIGNUP_AGE, PP_VERSION, TOS_VERSION} from "@/lib/consent";
 import {safeNextPath} from "@/lib/auth/next-path";
+import {authErrorToTurkish} from "@/lib/auth/error-messages";
 
 
 export const signUpAction = async (formData: FormData) => {
@@ -55,7 +56,7 @@ export const signUpAction = async (formData: FormData) => {
 
     if (error) {
         console.error(error.code + " " + error.message);
-        return encodedRedirect("error", "/sign-up", error.message);
+        return encodedRedirect("error", "/sign-up", authErrorToTurkish(error.message));
     } else {
         return encodedRedirect(
             "success",
@@ -82,7 +83,7 @@ export const signInAction = async (formData: FormData) => {
         // encodedRedirect() can't carry a second query param, so this
         // builds the same `error=` shape by hand.
         const suffix = next ? `&next=${encodeURIComponent(next)}` : '';
-        return redirect(`/auth/login?error=${encodeURIComponent(error.message)}${suffix}`);
+        return redirect(`/auth/login?error=${encodeURIComponent(authErrorToTurkish(error.message))}${suffix}`);
     }
 
     return redirect(next ?? "/lost-found");
@@ -95,7 +96,7 @@ export const forgotPasswordAction = async (formData: FormData) => {
     const callbackUrl = formData.get("callbackUrl")?.toString();
 
     if (!email) {
-        return encodedRedirect("error", "/forgot-password", "Email is required");
+        return encodedRedirect("error", "/forgot-password", "E-posta adresi gerekli.");
     }
 
     const {error} = await supabase.auth.resetPasswordForEmail(email, {
@@ -107,7 +108,7 @@ export const forgotPasswordAction = async (formData: FormData) => {
         return encodedRedirect(
             "error",
             "/forgot-password",
-            "Could not reset password"
+            authErrorToTurkish(error.message)
         );
     }
 
@@ -118,7 +119,7 @@ export const forgotPasswordAction = async (formData: FormData) => {
     return encodedRedirect(
         "success",
         "/forgot-password",
-        "Check your email for a link to reset your password."
+        "Şifre sıfırlama bağlantısı için e-postanı kontrol et."
     );
 };
 
@@ -132,12 +133,12 @@ export const resetPasswordAction = async (formData: FormData) => {
         return encodedRedirect(
             "error",
             "/home/reset-password",
-            "Password and confirm password are required"
+            "Şifre ve şifre tekrarı gerekli."
         );
     }
 
     if (password !== confirmPassword) {
-        return encodedRedirect("error", "/home/reset-password", "Passwords do not match");
+        return encodedRedirect("error", "/home/reset-password", "Şifreler eşleşmiyor.");
     }
 
     const {error} = await supabase.auth.updateUser({
@@ -145,10 +146,10 @@ export const resetPasswordAction = async (formData: FormData) => {
     });
 
     if (error) {
-        return encodedRedirect("error", "/home/reset-password", "Password update failed");
+        return encodedRedirect("error", "/home/reset-password", authErrorToTurkish(error.message));
     }
 
-    return encodedRedirect("success", "/home/reset-password", "Password updated");
+    return encodedRedirect("success", "/home/reset-password", "Şifren güncellendi.");
 };
 
 // /profile/change-password. Only applies to email/password accounts — the
