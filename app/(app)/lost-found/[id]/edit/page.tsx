@@ -2,7 +2,7 @@ import { notFound, redirect } from 'next/navigation';
 import { ListingForm } from '@/components/lost-found/listing-form';
 import { updateListingAction } from '@/lib/lost-found/actions';
 import { getLostFoundDetail } from '@/lib/lost-found/read';
-import { getCurrentUserProfile } from '@/lib/profile/server';
+import { requireAuth } from '@/lib/auth/require-auth';
 import { createClient } from '@/lib/supabase/server';
 
 export default async function EditListingPage({
@@ -12,8 +12,7 @@ export default async function EditListingPage({
 }) {
   const { id } = await params;
 
-  const me = await getCurrentUserProfile();
-  if (!me) redirect('/auth/login');
+  const me = await requireAuth();
 
   const listing = await getLostFoundDetail(id);
   if (!listing) notFound();

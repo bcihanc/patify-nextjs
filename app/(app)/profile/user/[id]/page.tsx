@@ -1,5 +1,5 @@
 import { redirect, notFound } from 'next/navigation';
-import { getCurrentUserProfile } from '@/lib/profile/server';
+import { requireAuth } from '@/lib/auth/require-auth';
 import { getPublicProfile } from '@/lib/profile/public';
 import { getFollowCounts, isFollowing, isBlocked } from '@/lib/follow/server';
 import { fetchTrustFlags } from '@/lib/trust/read';
@@ -13,8 +13,9 @@ export default async function UserProfilePage({
 }) {
   const { id } = await params;
 
-  const me = await getCurrentUserProfile();
-  if (!me) redirect('/auth/login');
+  // Mobil parite: public profil için `anon`-açık RPC yok (user_profiles anon'a
+  // kapalı), mobilde de misafir profil göremez → login ister.
+  const me = await requireAuth();
   // Tek doğru kendi-profil yüzeyi /profile; self URL oraya yönlenir.
   if (id === me.id) redirect('/profile');
 

@@ -1,13 +1,11 @@
 import Link from 'next/link';
-import { redirect } from 'next/navigation';
-import { getCurrentUserProfile } from '@/lib/profile/server';
+import { requireAuth } from '@/lib/auth/require-auth';
 import { browseLostFound } from '@/lib/lost-found/read';
 import { EMPTY_LF_FILTERS } from '@/lib/lost-found/types';
 import { LfListingCard } from '@/components/lost-found/lf-listing-card';
 
 export default async function MyListingsPage() {
-  const me = await getCurrentUserProfile();
-  if (!me) redirect('/auth/login');
+  const me = await requireAuth();
 
   const listings = await browseLostFound(EMPTY_LF_FILTERS, 0, me.id);
 

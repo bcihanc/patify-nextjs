@@ -1,8 +1,8 @@
 import Link from 'next/link';
-import { notFound, redirect } from 'next/navigation';
+import { notFound } from 'next/navigation';
 import { Calendar, Gift, MapPin, PawPrint } from 'lucide-react';
 import { getLostFoundDetail } from '@/lib/lost-found/read';
-import { getCurrentUserProfile } from '@/lib/profile/server';
+import { requireAuth } from '@/lib/auth/require-auth';
 import { createClient } from '@/lib/supabase/server';
 import {
   PET_COLOR_LABELS,
@@ -47,8 +47,10 @@ export default async function LostFoundDetailPage({
 }) {
   const { id } = await params;
 
-  const me = await getCurrentUserProfile();
-  if (!me) redirect('/auth/login');
+  // Mobil parite: get_lost_found_detail RPC `anon`'a KAPALI (revoke migration'ı
+  // var; adoptions/emergency detayının aksine). Bu yüzden in-app LF detay login
+  // ister — misafir paylaşılabilir /lost-found/item/[id] sayfasını kullanır.
+  const me = await requireAuth();
 
   const listing = await getLostFoundDetail(id);
   if (!listing) notFound();

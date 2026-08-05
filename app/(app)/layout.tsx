@@ -4,10 +4,13 @@ import { getCurrentUserProfile } from '@/lib/profile/server';
 import { resolveGateRedirect } from '@/lib/auth/gate';
 import { fetchNotifications } from '@/lib/notifications/read';
 import { AppShell } from '@/components/app-shell/app-nav';
+import { GuestShell } from '@/components/app-shell/guest-shell';
 
 export default async function AppLayout({ children }: { children: React.ReactNode }) {
   const profile = await getCurrentUserProfile();
-  if (!profile) redirect('/auth/login');
+  if (!profile) {
+    return <GuestShell>{children}</GuestShell>;
+  }
 
   // Set by middleware (lib/supabase/middleware.ts) as a REQUEST header, since
   // Next.js 15 server components cannot read the pathname natively.

@@ -5,6 +5,7 @@ import {encodedRedirect} from "@/utils/utils";
 import {headers} from "next/headers";
 import {redirect} from "next/navigation";
 import {isAtLeastAge, MIN_SIGNUP_AGE, PP_VERSION, TOS_VERSION} from "@/lib/consent";
+import {safeNextPath} from "@/lib/auth/next-path";
 
 
 export const signUpAction = async (formData: FormData) => {
@@ -67,6 +68,7 @@ export const signUpAction = async (formData: FormData) => {
 export const signInAction = async (formData: FormData) => {
     const email = formData.get("email") as string;
     const password = formData.get("password") as string;
+    const next = safeNextPath(formData.get("next") as string | null);
     const supabase = await createClient();
 
     const {error} = await supabase.auth.signInWithPassword({
@@ -75,10 +77,15 @@ export const signInAction = async (formData: FormData) => {
     });
 
     if (error) {
-        return encodedRedirect("error", "/auth/login", error.message);
+        // Preserve `next` on a failed attempt (e.g. wrong password) so a
+        // retry that succeeds still lands where the guest was headed —
+        // encodedRedirect() can't carry a second query param, so this
+        // builds the same `error=` shape by hand.
+        const suffix = next ? `&next=${encodeURIComponent(next)}` : '';
+        return redirect(`/auth/login?error=${encodeURIComponent(error.message)}${suffix}`);
     }
 
-    return redirect("/lost-found");
+    return redirect(next ?? "/lost-found");
 };
 
 export const forgotPasswordAction = async (formData: FormData) => {
@@ -497,14 +504,15 @@ export const updateProfileAction = async (
     return {success: true};
 };
 
-export const appleSignInAction = async () => {
+export const appleSignInAction = async (next?: string) => {
     const supabase = await createClient();
+    const target = safeNextPath(next) ?? '/lost-found';
 
     try {
         const { data, error } = await supabase.auth.signInWithOAuth({
             provider: 'apple',
             options: {
-                redirectTo: `${process.env.PUBLIC_URL}/auth/oauth?next=/home`,
+                redirectTo: `${process.env.PUBLIC_URL}/auth/oauth?next=${encodeURIComponent(target)}`,
                 scopes: 'name email',
             },
         });
@@ -518,14 +526,15 @@ export const appleSignInAction = async () => {
     }
 };
 
-export const googleSignInAction = async () => {
+export const googleSignInAction = async (next?: string) => {
     const supabase = await createClient();
+    const target = safeNextPath(next) ?? '/lost-found';
 
     try {
         const { data, error } = await supabase.auth.signInWithOAuth({
             provider: 'google',
             options: {
-                redirectTo: `${process.env.PUBLIC_URL}/auth/oauth?next=/lost-found`,
+                redirectTo: `${process.env.PUBLIC_URL}/auth/oauth?next=${encodeURIComponent(target)}`,
                 scopes: 'email profile',
             },
         });

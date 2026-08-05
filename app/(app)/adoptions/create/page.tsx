@@ -1,11 +1,9 @@
-import { redirect } from 'next/navigation';
 import { AdoptionForm } from '@/components/adoptions/adoption-form';
 import { createAdoptionAction } from '@/lib/adoptions/actions';
-import { getCurrentUserProfile } from '@/lib/profile/server';
+import { requireAuth } from '@/lib/auth/require-auth';
 
 export default async function CreateAdoptionPage() {
-  const me = await getCurrentUserProfile();
-  if (!me) redirect('/auth/login');
+  await requireAuth();
 
   return (
     <div className="mx-auto flex w-full max-w-lg flex-col gap-6 p-6">

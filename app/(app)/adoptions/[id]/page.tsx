@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { notFound, redirect } from 'next/navigation';
+import { notFound } from 'next/navigation';
 import { MapPin, PawPrint } from 'lucide-react';
 import { getAdoptionById } from '@/lib/adoptions/read';
 import { getCurrentUserProfile } from '@/lib/profile/server';
@@ -48,12 +48,11 @@ export default async function AdoptionDetailPage({
   const { id } = await params;
 
   const me = await getCurrentUserProfile();
-  if (!me) redirect('/auth/login');
 
   const listing = await getAdoptionById(id);
   if (!listing) notFound();
 
-  const isOwner = listing.userId === me.id;
+  const isOwner = me != null && listing.userId === me.id;
 
   const images = listing.images ?? [];
   const hero = images[0];
@@ -103,7 +102,7 @@ export default async function AdoptionDetailPage({
           entity="adoptions"
           entityId={listing.id}
           isOwner={isOwner}
-          currentUserId={me.id}
+          currentUserId={me?.id ?? null}
           shareUrl={`https://patify.net/adoptions/${listing.id}`}
           shareText={listing.title}
         />
@@ -142,7 +141,7 @@ export default async function AdoptionDetailPage({
       {!isOwner && (
         <MessageUserButton
           targetUserId={listing.userId}
-          currentUserId={me.id}
+          currentUserId={me?.id ?? null}
           label="İlan sahibine mesaj"
         />
       )}
