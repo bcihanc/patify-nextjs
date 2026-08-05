@@ -10,16 +10,27 @@ function isOld(createdAt: string): boolean {
   return Date.now() - new Date(createdAt).getTime() > THIRTY_DAYS_MS;
 }
 
-export function LfListingCard({ listing }: { listing: LostFoundListing }) {
+export function LfListingCard({
+  listing,
+  isGuest = false,
+}: {
+  listing: LostFoundListing;
+  isGuest?: boolean;
+}) {
   const photo = listing.images?.[0] ?? null;
   const title = listing.breed ?? petTypeLabel(listing.type);
   const location = [listing.city, listing.district].filter(Boolean).join(', ');
   const distanceKm = listing.distMeters != null ? `${Math.round(listing.distMeters / 1000)} km` : null;
   const showReward = listing.status === 'kayip' && listing.rewardOffered;
 
+  // get_lost_found_detail RPC `anon`'a kapalı (mobil parite), bu yüzden misafir
+  // in-app detayı göremez → herkese açık paylaşım sayfasına (get_lost_found_by_id)
+  // yönlendiriyoruz; girişli kullanıcı zengin in-app detaya gider.
+  const href = isGuest ? `/lost-found/item/${listing.id}` : `/lost-found/${listing.id}`;
+
   return (
     <Link
-      href={`/lost-found/${listing.id}`}
+      href={href}
       className="flex flex-col overflow-hidden rounded-2xl border bg-card transition-colors hover:bg-accent"
     >
       <div className="relative aspect-square w-full">
