@@ -1,0 +1,31 @@
+app/(public)/auth/login/page.tsx
+  s_57740c8eaac4e1::t_01aac2841b24eb 7,14
+lib/auth/next-path.ts
+  s_57740c8eaac4e1::t_ce235f3048af3f 1-15
+lib/auth/require-auth.ts
+  s_57740c8eaac4e1::t_c586d30b3f697f 1-16
+components/login-form.tsx
+  s_57740c8eaac4e1::t_bdb526c1b3eae4 23,25,34,47
+  s_57740c8eaac4e1::t_ebd4e71ef0e310 65
+app/actions.ts
+  s_57740c8eaac4e1::t_7326d97cbfa30d 71,83
+  s_57740c8eaac4e1::t_531813d817cf01 510,532
+  s_57740c8eaac4e1::t_de78e06200180e 8
+  s_57740c8eaac4e1::t_3327abb0a7e62a 502,504,524,526
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.21",
+  "base_commit_sha": "cbd7ef9495154570152177c8f3247caf25557c36",
+  "prompts": {},
+  "sessions": {
+    "s_57740c8eaac4e1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "0ef8d28f-b978-4693-bff4-0c15e4b2b378",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "cihan <b.cihancengiz@gmail.com>"
+    }
+  }
+}
