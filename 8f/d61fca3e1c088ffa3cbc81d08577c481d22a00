@@ -1,0 +1,39 @@
+components/user/profile-header.tsx
+  s_57740c8eaac4e1::t_886dfd44bf88c0 4
+  s_57740c8eaac4e1::t_e2d56faffd1f1b 28,34,39-42
+components/user/user-list-row.tsx
+  s_57740c8eaac4e1::t_f7b12fc7cb71e2 3,6,13-16
+app/(app)/profile/user/[id]/page.tsx
+  s_57740c8eaac4e1::t_fb1c68eafc5ba3 24,28,37
+  s_57740c8eaac4e1::t_2fa75c3e7d646b 5
+app/(app)/profile/followers/page.tsx
+  s_57740c8eaac4e1::t_8bfe2fdbb51247 4,12,24
+app/(app)/profile/followings/page.tsx
+  s_57740c8eaac4e1::t_efc8b8c1e75344 4,12,24
+app/(app)/profile/page.tsx
+  s_57740c8eaac4e1::t_e4023642ad5ca7 47-49
+  s_57740c8eaac4e1::t_137478371993d5 6
+  s_57740c8eaac4e1::t_c8ac8318b7dda5 15-18
+  s_57740c8eaac4e1::t_c885d4ded4fbb9 8,19-21
+  s_57740c8eaac4e1::t_cc2bbca044f5d3 29
+components/trust/trust-badge.tsx
+  s_57740c8eaac4e1::t_86587d192a147f 1-15
+components/trust/trust-progress-panel.tsx
+  s_57740c8eaac4e1::t_6bbd99372ec586 1-59
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.21",
+  "base_commit_sha": "8fd61fca3e1c088ffa3cbc81d08577c481d22a00",
+  "prompts": {},
+  "sessions": {
+    "s_57740c8eaac4e1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "0ef8d28f-b978-4693-bff4-0c15e4b2b378",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "cihan <b.cihancengiz@gmail.com>"
+    }
+  }
+}
