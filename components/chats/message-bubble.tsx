@@ -55,10 +55,16 @@ export function MessageBubble({
   const [imageFailed, setImageFailed] = useState(false);
 
   useEffect(() => {
-    if (!imageUri) return;
     let cancelled = false;
     setImageUrl(null);
     setImageFailed(false);
+
+    // A malformed image row with an empty uri can never resolve — show the
+    // "unavailable" placeholder instead of a forever "loading" state.
+    if (!imageUri) {
+      setImageFailed(true);
+      return;
+    }
 
     if (!signImageUrl) {
       setImageFailed(true);
