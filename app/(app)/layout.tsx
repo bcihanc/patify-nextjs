@@ -2,6 +2,7 @@ import { redirect } from 'next/navigation';
 import { headers } from 'next/headers';
 import { getCurrentUserProfile } from '@/lib/profile/server';
 import { resolveGateRedirect } from '@/lib/auth/gate';
+import { fetchNotifications } from '@/lib/notifications/read';
 import { AppShell } from '@/components/app-shell/app-nav';
 
 export default async function AppLayout({ children }: { children: React.ReactNode }) {
@@ -29,5 +30,15 @@ export default async function AppLayout({ children }: { children: React.ReactNod
     return <>{children}</>;
   }
 
-  return <AppShell username={profile.username}>{children}</AppShell>;
+  const initialNotifications = await fetchNotifications();
+
+  return (
+    <AppShell
+      username={profile.username}
+      userId={profile.id}
+      initialNotifications={initialNotifications}
+    >
+      {children}
+    </AppShell>
+  );
 }
