@@ -1,5 +1,5 @@
 import { redirect, notFound } from 'next/navigation';
-import { getCurrentUserProfile } from '@/lib/profile/server';
+import { requireAuth } from '@/lib/auth/require-auth';
 import { getPublicProfile } from '@/lib/profile/public';
 import { getFollowCounts, isFollowing, isBlocked } from '@/lib/follow/server';
 import { fetchTrustFlags } from '@/lib/trust/read';
@@ -13,17 +13,19 @@ export default async function UserProfilePage({
 }) {
   const { id } = await params;
 
-  const me = await getCurrentUserProfile();
+  // Mobil parite: public profil için `anon`-açık RPC yok (user_profiles anon'a
+  // kapalı), mobilde de misafir profil göremez → login ister.
+  const me = await requireAuth();
   // Tek doğru kendi-profil yüzeyi /profile; self URL oraya yönlenir.
-  if (me != null && id === me.id) redirect('/profile');
+  if (id === me.id) redirect('/profile');
 
   const profile = await getPublicProfile(id);
   if (!profile) notFound();
 
   const [counts, following, blocked, trustFlags] = await Promise.all([
     getFollowCounts(id),
-    me != null ? isFollowing(me.id, id) : Promise.resolve(false),
-    me != null ? isBlocked(me.id, id) : Promise.resolve(false),
+    isFollowing(me.id, id),
+    isBlocked(me.id, id),
     fetchTrustFlags([id]),
   ]);
 
@@ -37,7 +39,7 @@ export default async function UserProfilePage({
         actions={
           <UserProfileActions
             targetUserId={id}
-            currentUserId={me?.id ?? null}
+            currentUserId={me.id}
             initialFollowing={following}
             initialBlocked={blocked}
           />
