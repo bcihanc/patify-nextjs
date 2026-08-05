@@ -77,7 +77,12 @@ export const signInAction = async (formData: FormData) => {
     });
 
     if (error) {
-        return encodedRedirect("error", "/auth/login", error.message);
+        // Preserve `next` on a failed attempt (e.g. wrong password) so a
+        // retry that succeeds still lands where the guest was headed —
+        // encodedRedirect() can't carry a second query param, so this
+        // builds the same `error=` shape by hand.
+        const suffix = next ? `&next=${encodeURIComponent(next)}` : '';
+        return redirect(`/auth/login?error=${encodeURIComponent(error.message)}${suffix}`);
     }
 
     return redirect(next ?? "/lost-found");

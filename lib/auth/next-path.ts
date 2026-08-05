@@ -2,6 +2,7 @@
 // open-redirects (absolute URLs, protocol-relative `//host`, backslash tricks).
 export function safeNextPath(raw: string | null | undefined): string | null {
   if (!raw) return null;
+  if (/[\t\r\n]/.test(raw)) return null; // browsers strip these before URL parsing — closes the //, /\ bypass
   if (!raw.startsWith('/')) return null;
   if (raw.startsWith('//') || raw.startsWith('/\\')) return null;
   return raw;
