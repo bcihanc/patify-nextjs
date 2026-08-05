@@ -10,10 +10,10 @@ export function UserListRow({ user, trusted }: { user: PublicUserSummary; truste
       className="flex items-center gap-3 rounded-md px-2 py-3 transition-colors hover:bg-accent"
     >
       <UserAvatar username={user.username} profilePhoto={user.profile_photo} size={40} />
-      <span className="flex items-center gap-2 font-medium">
+      <div className="flex items-center gap-2 font-medium">
         {user.username ?? '-'}
         <TrustBadge trusted={trusted ?? false} />
-      </span>
+      </div>
     </Link>
   );
 }
