@@ -211,18 +211,38 @@ export class ChatRepository {
   // our own trusted storage bucket — never for a foreign/untrusted host.
   async signedUrlForMessage(uri: string): Promise<string | null> {
     try {
-      const trustedHost = new URL(STORAGE_URL).host.toLowerCase()
+      const base = new URL(STORAGE_URL)
+      const trustedHost = base.host.toLowerCase()
       const target = new URL(uri)
+      // Exact scheme + host — no substring/lookalike bypass.
       if (target.protocol !== 'https:' || target.host.toLowerCase() !== trustedHost) {
         return null
       }
 
-      const marker = `/${ChatRepository.BUCKET}/`
-      const markerIndex = target.pathname.indexOf(marker)
-      if (markerIndex === -1) return null
+      // EXACT path prefix. An `indexOf(marker)` substring match would let a
+      // crafted path smuggle `/chats_assets/` mid-string; the object MUST live
+      // directly under our bucket's authenticated path, so require startsWith
+      // on the full prefix.
+      const prefix = `${base.pathname.replace(/\/$/, '')}/object/authenticated/${ChatRepository.BUCKET}/`
+      if (!target.pathname.startsWith(prefix)) return null
 
-      const path = decodeURIComponent(target.pathname.slice(markerIndex + marker.length))
-      if (!path) return null
+      const rawPath = target.pathname.slice(prefix.length)
+      if (!rawPath) return null
+
+      // Decode ONCE, then reject anything that could traverse. A double-encoded
+      // segment (`%252e%252e`) survives the URL parse above and, if left
+      // unsanitized, fetch() re-normalizes it into a real `../` that escapes the
+      // bucket — the victim's browser would then fire an authenticated request
+      // to an attacker-chosen path. Residual `%` after one decode == it was
+      // double-encoded → reject. Also reject `.`/`..`/empty segments + backslash.
+      let path: string
+      try {
+        path = decodeURIComponent(rawPath)
+      } catch {
+        return null
+      }
+      if (path.includes('%') || path.includes('\\')) return null
+      if (path.split('/').some((s) => s === '' || s === '.' || s === '..')) return null
 
       const { data, error } = await this.client.storage
         .from(ChatRepository.BUCKET)
