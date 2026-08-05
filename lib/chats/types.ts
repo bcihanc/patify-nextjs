@@ -66,10 +66,10 @@ export function mapRowToMessage(row: Record<string, unknown>): ChatMessage {
       updatedAt,
       status,
       type: 'image',
-      uri: (row.uri as string) ?? '',
+      uri: row.uri != null ? String(row.uri) : '',
       width: row.width != null ? Number(row.width) : null,
       height: row.height != null ? Number(row.height) : null,
-      name: (row.name as string) ?? null,
+      name: row.name != null ? String(row.name) : null,
       size: row.size != null ? Number(row.size) : null,
     };
   }
@@ -82,7 +82,7 @@ export function mapRowToMessage(row: Record<string, unknown>): ChatMessage {
     updatedAt,
     status,
     type: 'text',
-    text: (row.text as string) ?? '',
+    text: row.text != null ? String(row.text) : '',
   };
 }
 
@@ -92,7 +92,7 @@ export function mapRowToMessage(row: Record<string, unknown>): ChatMessage {
 export function mapRowToRoom(row: Record<string, unknown>): ChatRoom {
   const id = String(row.id);
   const userIds = Array.isArray(row.userIds) ? row.userIds.map(String) : [];
-  const type = (row.type as string) ?? 'direct';
+  const type = row.type != null ? String(row.type) : 'direct';
   const createdAt = Number(row.createdAt) || 0;
   const updatedAt = Number(row.updatedAt) || 0;
 
