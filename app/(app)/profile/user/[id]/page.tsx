@@ -2,6 +2,7 @@ import { redirect, notFound } from 'next/navigation';
 import { getCurrentUserProfile } from '@/lib/profile/server';
 import { getPublicProfile } from '@/lib/profile/public';
 import { getFollowCounts, isFollowing, isBlocked } from '@/lib/follow/server';
+import { fetchTrustFlags } from '@/lib/trust/read';
 import { ProfileHeader } from '@/components/user/profile-header';
 import { UserProfileActions } from '@/components/user/user-profile-actions';
 
@@ -20,10 +21,11 @@ export default async function UserProfilePage({
   const profile = await getPublicProfile(id);
   if (!profile) notFound();
 
-  const [counts, following, blocked] = await Promise.all([
+  const [counts, following, blocked, trustFlags] = await Promise.all([
     getFollowCounts(id),
     isFollowing(me.id, id),
     isBlocked(me.id, id),
+    fetchTrustFlags([id]),
   ]);
 
   return (
@@ -32,6 +34,7 @@ export default async function UserProfilePage({
         profile={profile}
         counts={counts}
         countsHref={null}
+        trusted={trustFlags[id] ?? false}
         actions={
           <UserProfileActions
             targetUserId={id}

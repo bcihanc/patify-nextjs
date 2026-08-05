@@ -1,6 +1,7 @@
 import { redirect } from 'next/navigation';
 import { getCurrentUserProfile } from '@/lib/profile/server';
 import { listFollowers } from '@/lib/follow/server';
+import { fetchTrustFlags } from '@/lib/trust/read';
 import { UserListRow } from '@/components/user/user-list-row';
 
 export default async function FollowersPage() {
@@ -8,6 +9,7 @@ export default async function FollowersPage() {
   if (!me) redirect('/auth/login');
 
   const followers = await listFollowers(me.id);
+  const trustFlags = await fetchTrustFlags(followers.map((u) => u.id));
 
   return (
     <div className="mx-auto w-full max-w-2xl px-2 py-4">
@@ -19,7 +21,7 @@ export default async function FollowersPage() {
       ) : (
         <div className="flex flex-col">
           {followers.map((u) => (
-            <UserListRow key={u.id} user={u} />
+            <UserListRow key={u.id} user={u} trusted={trustFlags[u.id] ?? false} />
           ))}
         </div>
       )}
