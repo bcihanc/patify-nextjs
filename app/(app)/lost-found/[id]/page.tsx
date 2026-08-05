@@ -13,6 +13,7 @@ import {
 import { LfStatusBadge } from '@/components/lost-found/lf-status-badge';
 import { OwnerActions } from '@/components/lost-found/owner-actions';
 import { EntityActionMenu } from '@/components/shared/entity-action-menu';
+import { MessageUserButton } from '@/components/chats/message-user-button';
 import { UserAvatar } from '@/components/user/user-avatar';
 import { Badge } from '@/components/ui/badge';
 
@@ -153,6 +154,14 @@ export default async function LostFoundDetailPage({
           </Link>
         </div>
       </div>
+
+      {!isOwner && (
+        <MessageUserButton
+          targetUserId={listing.userId}
+          currentUserId={me.id}
+          label="İlan sahibine mesaj"
+        />
+      )}
 
       {isOwner && (
         <div className="flex flex-col gap-3 rounded-xl border p-4">

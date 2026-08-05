@@ -38,6 +38,7 @@ export default async function UserProfilePage({
         actions={
           <UserProfileActions
             targetUserId={id}
+            currentUserId={me.id}
             initialFollowing={following}
             initialBlocked={blocked}
           />

@@ -15,6 +15,7 @@ import { AdoptionDomainInfoCards } from '@/components/adoptions/adoption-domain-
 import { AdoptionOwnerActions } from '@/components/adoptions/adoption-owner-actions';
 import { AdoptionStatusBadge } from '@/components/adoptions/adoption-status-badge';
 import { EntityActionMenu } from '@/components/shared/entity-action-menu';
+import { MessageUserButton } from '@/components/chats/message-user-button';
 import { UserAvatar } from '@/components/user/user-avatar';
 
 const THIRTY_DAYS_MS = 30 * 24 * 60 * 60 * 1000;
@@ -137,6 +138,14 @@ export default async function AdoptionDetailPage({
           </Link>
         </div>
       </div>
+
+      {!isOwner && (
+        <MessageUserButton
+          targetUserId={listing.userId}
+          currentUserId={me.id}
+          label="İlan sahibine mesaj"
+        />
+      )}
 
       {isOwner && (
         <AdoptionOwnerActions

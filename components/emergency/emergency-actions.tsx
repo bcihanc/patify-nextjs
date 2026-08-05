@@ -4,6 +4,7 @@ import { useState, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
 import { CheckCircle2, HandHelping } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { MessageUserButton } from '@/components/chats/message-user-button';
 import { claimEmergencyAction, resolveEmergencyAction } from '@/lib/emergency/actions';
 import type { EmergencyStatus } from '@/lib/emergency/types';
 
@@ -18,8 +19,8 @@ type EmergencyActionsProps = {
 // Gating mirrors mobile _EmergencyActionsWidget (emergency_detail_page.dart)
 // byte-for-byte: canClaim = case is açık + unclaimed + viewer isn't the
 // reporter; canResolve = viewer is the reporter or current claimer and the
-// case isn't already resolved.
-// DEFERRED: DM "Mesaj" CTA → Chats phase (needs findOrCreateDirectRoom + can_dm; not yet on web)
+// case isn't already resolved. DM CTA only appears once claimed, between the
+// reporter and the claimer (mirrors mobile's _onDmPressed gating).
 export function EmergencyActions({
   caseId,
   status,
@@ -36,6 +37,10 @@ export function EmergencyActions({
 
   const canClaim = status === 'acik' && claimedBy == null && reporterUserId !== currentUserId;
   const canResolve = (isReporter || isClaimer) && status !== 'cozuldu';
+
+  // reporter↔claimer only, and only once the case has been claimed.
+  const dmTargetId = isReporter ? claimedBy : isClaimer ? reporterUserId : null;
+  const showDm = currentUserId != null && claimedBy != null && dmTargetId != null;
 
   function handleClaim() {
     setMessage(null);
@@ -70,7 +75,7 @@ export function EmergencyActions({
     });
   }
 
-  if (!canClaim && !canResolve) return null;
+  if (!canClaim && !canResolve && !showDm) return null;
 
   return (
     <div className="flex flex-col gap-3">
@@ -86,6 +91,9 @@ export function EmergencyActions({
             <CheckCircle2 className="mr-1.5 h-4 w-4" aria-hidden />
             Çözüldü
           </Button>
+        )}
+        {showDm && currentUserId != null && dmTargetId != null && (
+          <MessageUserButton targetUserId={dmTargetId} currentUserId={currentUserId} />
         )}
       </div>
 
