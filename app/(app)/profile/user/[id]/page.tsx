@@ -14,17 +14,16 @@ export default async function UserProfilePage({
   const { id } = await params;
 
   const me = await getCurrentUserProfile();
-  if (!me) redirect('/auth/login');
   // Tek doğru kendi-profil yüzeyi /profile; self URL oraya yönlenir.
-  if (id === me.id) redirect('/profile');
+  if (me != null && id === me.id) redirect('/profile');
 
   const profile = await getPublicProfile(id);
   if (!profile) notFound();
 
   const [counts, following, blocked, trustFlags] = await Promise.all([
     getFollowCounts(id),
-    isFollowing(me.id, id),
-    isBlocked(me.id, id),
+    me != null ? isFollowing(me.id, id) : Promise.resolve(false),
+    me != null ? isBlocked(me.id, id) : Promise.resolve(false),
     fetchTrustFlags([id]),
   ]);
 
@@ -38,7 +37,7 @@ export default async function UserProfilePage({
         actions={
           <UserProfileActions
             targetUserId={id}
-            currentUserId={me.id}
+            currentUserId={me?.id ?? null}
             initialFollowing={following}
             initialBlocked={blocked}
           />
