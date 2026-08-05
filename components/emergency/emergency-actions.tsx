@@ -35,8 +35,12 @@ export function EmergencyActions({
   const isReporter = reporterUserId === currentUserId;
   const isClaimer = claimedBy != null && claimedBy === currentUserId;
 
-  const canClaim = status === 'acik' && claimedBy == null && reporterUserId !== currentUserId;
-  const canResolve = (isReporter || isClaimer) && status !== 'cozuldu';
+  const canClaim =
+    currentUserId != null &&
+    status === 'acik' &&
+    claimedBy == null &&
+    reporterUserId !== currentUserId;
+  const canResolve = currentUserId != null && (isReporter || isClaimer) && status !== 'cozuldu';
 
   // reporter↔claimer only, and only once the case has been claimed.
   const dmTargetId = isReporter ? claimedBy : isClaimer ? reporterUserId : null;

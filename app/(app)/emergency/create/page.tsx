@@ -1,10 +1,8 @@
-import { redirect } from 'next/navigation';
 import { EmergencyForm } from '@/components/emergency/emergency-form';
-import { getCurrentUserProfile } from '@/lib/profile/server';
+import { requireAuth } from '@/lib/auth/require-auth';
 
 export default async function CreateEmergencyPage() {
-  const me = await getCurrentUserProfile();
-  if (!me) redirect('/auth/login');
+  await requireAuth();
 
   return (
     <div className="mx-auto flex w-full max-w-lg flex-col gap-6 p-6">
