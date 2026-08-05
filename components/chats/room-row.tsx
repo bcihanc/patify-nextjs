@@ -43,45 +43,49 @@ export function RoomRow({
       : (messagePreview(room.lastMessage) ?? '📷 Fotoğraf');
   const badge = unreadCount > 99 ? '99+' : unreadCount > 0 ? String(unreadCount) : null;
 
-  function handleDelete(e: React.MouseEvent) {
-    e.preventDefault();
-    e.stopPropagation();
+  function handleDelete() {
     if (window.confirm('Bu sohbet silinsin mi?')) {
       onDelete(room.id);
     }
   }
 
+  // Delete button is a SIBLING of the Link, not a child — a <button> nested
+  // inside an <a> is invalid interactive nesting (axe "nested-interactive").
+  // The Link reserves right padding (pr-11) for the absolutely-positioned
+  // delete button.
   return (
-    <Link
-      href={`/chats/${room.id}`}
-      className="flex items-center gap-3 rounded-md px-2 py-3 transition-colors hover:bg-accent"
-    >
-      <UserAvatar username={username} profilePhoto={otherUser?.profile_photo ?? null} size={40} />
+    <div className="relative rounded-md transition-colors hover:bg-accent">
+      <Link
+        href={`/chats/${room.id}`}
+        className="flex items-center gap-3 px-2 py-3 pr-11"
+      >
+        <UserAvatar username={username} profilePhoto={otherUser?.profile_photo ?? null} size={40} />
 
-      <div className="min-w-0 flex-1">
-        <div className="flex items-center justify-between gap-2">
-          <p className="truncate font-medium">{username}</p>
-          <span className="shrink-0 text-xs text-muted-foreground">
-            {relativeTimeFromMs(room.updatedAt)}
-          </span>
+        <div className="min-w-0 flex-1">
+          <div className="flex items-center justify-between gap-2">
+            <p className="truncate font-medium">{username}</p>
+            <span className="shrink-0 text-xs text-muted-foreground">
+              {relativeTimeFromMs(room.updatedAt)}
+            </span>
+          </div>
+          <p className="truncate text-sm text-muted-foreground">{preview}</p>
         </div>
-        <p className="truncate text-sm text-muted-foreground">{preview}</p>
-      </div>
 
-      {badge && (
-        <span className="flex h-5 min-w-5 shrink-0 items-center justify-center rounded-full bg-primary px-1.5 text-[10px] font-semibold leading-none text-primary-foreground">
-          {badge}
-        </span>
-      )}
+        {badge && (
+          <span className="flex h-5 min-w-5 shrink-0 items-center justify-center rounded-full bg-primary px-1.5 text-[10px] font-semibold leading-none text-primary-foreground">
+            {badge}
+          </span>
+        )}
+      </Link>
 
       <button
         type="button"
         onClick={handleDelete}
         aria-label="Sohbeti sil"
-        className="shrink-0 rounded-md p-1.5 text-muted-foreground hover:bg-accent hover:text-foreground"
+        className="absolute right-1.5 top-1/2 -translate-y-1/2 rounded-md p-1.5 text-muted-foreground hover:bg-background hover:text-foreground"
       >
         <X className="h-4 w-4" />
       </button>
-    </Link>
+    </div>
   );
 }
