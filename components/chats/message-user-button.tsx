@@ -23,19 +23,28 @@ export function MessageUserButton({
   const router = useRouter();
   const [pending, startTransition] = useTransition();
   const [blocked, setBlocked] = useState(false);
+  const [error, setError] = useState(false);
 
   if (targetUserId === currentUserId) return null;
 
   function handleClick() {
     setBlocked(false);
+    setError(false);
     startTransition(async () => {
-      const repo = createChatRepository(currentUserId);
-      const res = await startDirectChat(repo, targetUserId);
-      if ('blocked' in res) {
-        setBlocked(true);
-        return;
+      try {
+        const repo = createChatRepository(currentUserId);
+        const res = await startDirectChat(repo, targetUserId);
+        if ('blocked' in res) {
+          setBlocked(true);
+          return;
+        }
+        router.push('/chats/' + res.roomId);
+      } catch (e) {
+        // A non-23505 failure (transient network/RLS) must not silently
+        // re-enable the button with no feedback — mirror follow/block-button.
+        console.error('MessageUserButton:', e);
+        setError(true);
       }
-      router.push('/chats/' + res.roomId);
     });
   }
 
@@ -48,6 +57,7 @@ export function MessageUserButton({
       {blocked && (
         <p className="text-xs text-muted-foreground">Bu kullanıcı yeni mesajlara kapalı.</p>
       )}
+      {error && <p className="text-xs text-destructive">Sohbet başlatılamadı, tekrar dene.</p>}
     </div>
   );
 }
