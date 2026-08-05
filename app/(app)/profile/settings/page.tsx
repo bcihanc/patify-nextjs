@@ -1,6 +1,16 @@
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
-import { ChevronRight, Download, Lock, Palette, Trash2, User, UserX, type LucideIcon } from 'lucide-react';
+import {
+  ChevronRight,
+  Download,
+  Info,
+  Lock,
+  Palette,
+  Trash2,
+  User,
+  UserX,
+  type LucideIcon,
+} from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { ThemeSwitcher } from '@/components/theme-switcher';
 import { getCurrentUserProfile } from '@/lib/profile/server';
@@ -42,6 +52,15 @@ export default async function SettingsPage() {
               </div>
               <ThemeSwitcher />
             </div>
+          </CardContent>
+        </Card>
+      </section>
+
+      <section className="flex flex-col gap-2">
+        <h2 className="text-sm font-medium text-muted-foreground">Uygulama</h2>
+        <Card>
+          <CardContent className="flex flex-col divide-y divide-border p-0">
+            <SettingsRow href="/profile/about" icon={Info} label="Hakkında" />
           </CardContent>
         </Card>
       </section>
