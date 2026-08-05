@@ -16,6 +16,8 @@ export function ChatRoom({ roomId, currentUserId }: { roomId: string; currentUse
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [otherUser, setOtherUser] = useState<PublicUserSummary | null>(null);
   const [loaded, setLoaded] = useState(false);
+  const [uploadingImage, setUploadingImage] = useState(false);
+  const [imageError, setImageError] = useState<string | null>(null);
 
   // Guards every setState below against firing after unmount (same shape
   // as chat-inbox.tsx's `cancelled` flag).
@@ -158,6 +160,46 @@ export function ChatRoom({ roomId, currentUserId }: { roomId: string; currentUse
     [repo, roomId, currentUserId]
   );
 
+  // Best-effort upload → insert. Dimensions are read in-memory via
+  // createImageBitmap when available; decode failure (unsupported format,
+  // corrupt file) must not block the send — width/height simply stay
+  // undefined, matching sendImage's optional fields. The realtime INSERT
+  // echo brings the real message row, so there's no optimistic temp bubble
+  // here — `uploadingImage` drives a lightweight pending state instead.
+  const handleSendImage = useCallback(
+    async (file: File) => {
+      setImageError(null);
+      setUploadingImage(true);
+      try {
+        const uri = await repo.uploadRoomImage(roomId, file);
+
+        let width: number | undefined;
+        let height: number | undefined;
+        try {
+          const bitmap = await createImageBitmap(file);
+          width = bitmap.width;
+          height = bitmap.height;
+          bitmap.close();
+        } catch {
+          // dimensions stay undefined — non-fatal
+        }
+
+        await repo.sendImage(roomId, { uri, name: file.name, size: file.size, width, height });
+      } catch (e) {
+        console.error('ChatRoom: görsel gönderilemedi:', e);
+        setImageError('Görsel gönderilemedi, tekrar deneyin.');
+      } finally {
+        setUploadingImage(false);
+      }
+    },
+    [repo, roomId]
+  );
+
+  // Bound method handed down to MessageBubble — bubble has no repo of its
+  // own (repo needs currentUserId, which lives here), so this is the one
+  // seam through which the trusted-host guard reaches the bubble.
+  const signImageUrl = useCallback((uri: string) => repo.signedUrlForMessage(uri), [repo]);
+
   const username = otherUser?.username ?? 'Kullanıcı';
 
   return (
@@ -174,13 +216,22 @@ export function ChatRoom({ roomId, currentUserId }: { roomId: string; currentUse
           </p>
         )}
         {messages.map((m) => (
-          <MessageBubble key={m.id} m={m} isMine={m.authorId === currentUserId} />
+          <MessageBubble
+            key={m.id}
+            m={m}
+            isMine={m.authorId === currentUserId}
+            signImageUrl={signImageUrl}
+          />
         ))}
         <div ref={bottomRef} />
       </div>
 
       <div className="border-t border-border px-2 pt-2">
-        <ChatComposer onSend={handleSend} />
+        {uploadingImage && (
+          <p className="pb-1 text-xs text-muted-foreground">Görsel yükleniyor…</p>
+        )}
+        {imageError && <p className="pb-1 text-xs text-destructive">{imageError}</p>}
+        <ChatComposer onSend={handleSend} onSendImage={handleSendImage} disabled={uploadingImage} />
       </div>
     </div>
   );

@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import { cn } from '@/lib/utils';
 import type { ChatMessage, ChatMessageStatus } from '@/lib/chats/types';
 
@@ -30,8 +31,50 @@ function statusHint(status: ChatMessageStatus): string | null {
   return null;
 }
 
-export function MessageBubble({ m, isMine }: { m: ChatMessage; isMine: boolean }) {
+export function MessageBubble({
+  m,
+  isMine,
+  signImageUrl,
+}: {
+  m: ChatMessage;
+  isMine: boolean;
+  // Bubble has no repo of its own — chat-room owns the ChatRepository (it
+  // needs currentUserId) and hands down just this one bound method, so the
+  // trusted-host guard in signedUrlForMessage stays the single place that
+  // decides whether a uri is displayable.
+  signImageUrl?: (uri: string) => Promise<string | null>;
+}) {
   const hint = isMine ? statusHint(m.status) : null;
+  const imageUri = m.type === 'image' ? m.uri : null;
+
+  const [imageUrl, setImageUrl] = useState<string | null>(null);
+  // Distinguishes "still resolving" (imageUrl === null, imageFailed === false)
+  // from "resolved to untrusted/failed" (imageUrl === null, imageFailed ===
+  // true) so the placeholder text matches reality instead of always reading
+  // "loading".
+  const [imageFailed, setImageFailed] = useState(false);
+
+  useEffect(() => {
+    if (!imageUri) return;
+    let cancelled = false;
+    setImageUrl(null);
+    setImageFailed(false);
+
+    if (!signImageUrl) {
+      setImageFailed(true);
+      return;
+    }
+
+    void signImageUrl(imageUri).then((url) => {
+      if (cancelled) return;
+      if (url) setImageUrl(url);
+      else setImageFailed(true);
+    });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [imageUri, signImageUrl]);
 
   return (
     <div className={cn('flex', isMine ? 'justify-end' : 'justify-start')}>
@@ -46,9 +89,19 @@ export function MessageBubble({ m, isMine }: { m: ChatMessage; isMine: boolean }
       >
         {m.type === 'text' ? (
           <p className="whitespace-pre-line break-words">{m.text}</p>
+        ) : imageUrl ? (
+          // Never render the raw m.uri here — it's attacker-controllable and
+          // only signedUrlForMessage's trusted-host check clears a value for
+          // display (see repository.ts).
+          <img
+            src={imageUrl}
+            alt={m.name ?? 'Fotoğraf'}
+            className="max-w-full rounded-lg"
+          />
+        ) : imageFailed ? (
+          <p className="italic text-muted-foreground">📷 Görsel gösterilemiyor</p>
         ) : (
-          // Task 6: image rendering via signedUrlForMessage — placeholder for now.
-          <p className="italic">📷 Fotoğraf</p>
+          <p className="italic">📷 Yükleniyor…</p>
         )}
 
         <div
