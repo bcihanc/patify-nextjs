@@ -4,12 +4,14 @@ import { NextResponse, type NextRequest } from 'next/server'
 // Route prefixes that live under the authenticated app shell (app/(app)/*).
 // The layout gate (app/(app)/layout.tsx) is the authority; this is only the
 // early coarse pass so an unauthenticated request never renders app UI.
-const AUTHED_PREFIXES = ['/lost-found', '/adoptions', '/chats', '/profile', '/complete-profile', '/accept-consent']
+const AUTHED_PREFIXES = ['/chats', '/profile', '/notifications', '/complete-profile', '/accept-consent']
 
-// Public exception: /lost-found/item/* is the crawlable public listing
-// (app/(public)/lost-found/item/[id]) — not gated.
+// Public exceptions: /lost-found/item/* is the crawlable public listing
+// (app/(public)/lost-found/item/[id]); /profile/user/* is the guest-viewable
+// public profile — neither is gated.
 function isAuthedPath(pathname: string): boolean {
   if (pathname.startsWith('/lost-found/item')) return false
+  if (pathname.startsWith('/profile/user/')) return false
   return AUTHED_PREFIXES.some((p) => pathname === p || pathname.startsWith(p + '/'))
 }
 
