@@ -34,7 +34,7 @@ export function LoginForm({
             const url = await googleSignInAction(next);
             window.location.href = url;
         } catch (error: unknown) {
-            setError(error instanceof Error ? error.message : 'An error occurred')
+            setError(error instanceof Error ? error.message : 'Bir hata oluştu')
             setIsLoading(false)
         }
     }
@@ -47,7 +47,7 @@ export function LoginForm({
             const url = await appleSignInAction(next);
             window.location.href = url;
         } catch (error: unknown) {
-            setError(error instanceof Error ? error.message : 'An error occurred')
+            setError(error instanceof Error ? error.message : 'Bir hata oluştu')
             setIsLoading(false)
         }
     }
@@ -56,8 +56,8 @@ export function LoginForm({
         <div className={cn('flex flex-col gap-5', className)} {...props}>
             <Card>
                 <CardHeader>
-                    <CardTitle className="text-2xl">Welcome!</CardTitle>
-                    <CardDescription>Sign in to your account to continue</CardDescription>
+                    <CardTitle className="text-2xl">Hoş geldin!</CardTitle>
+                    <CardDescription>Devam etmek için hesabına giriş yap</CardDescription>
                 </CardHeader>
                 <CardContent>
                     <div className="flex flex-col gap-6">
@@ -101,14 +101,14 @@ export function LoginForm({
                             className="w-full"
                             disabled={isLoading}
                         >
-                            {isLoading ? 'Logging in...' : 'Google ile devam et'}
+                            {isLoading ? 'Giriş yapılıyor...' : 'Google ile devam et'}
                         </Button>
                         <Button
                             onClick={() => handleAppleSocialLogin()}
                             className="w-full"
                             disabled={isLoading}
                         >
-                            {isLoading ? 'Logging in...' : 'Continue with Apple'}
+                            {isLoading ? 'Giriş yapılıyor...' : 'Apple ile devam et'}
                         </Button>
                     </div>
                 </CardContent>
