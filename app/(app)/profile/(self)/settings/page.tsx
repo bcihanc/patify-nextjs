@@ -5,6 +5,7 @@ import {
   Download,
   Info,
   Lock,
+  LogOut,
   Palette,
   Trash2,
   User,
@@ -14,6 +15,7 @@ import {
 import { Card, CardContent } from '@/components/ui/card';
 import { ThemeSwitcher } from '@/components/theme-switcher';
 import { AcceptDmsToggle } from '@/components/settings/accept-dms-toggle';
+import { signOutAction } from '@/app/actions';
 import { getCurrentUserProfile } from '@/lib/profile/server';
 import { fetchAcceptsDms } from '@/lib/profile/dm-prefs';
 import { cn } from '@/lib/utils';
@@ -41,6 +43,15 @@ export default async function SettingsPage() {
             <SettingsRow href="/profile/edit" icon={User} label="Profili düzenle" />
             <SettingsRow href="/profile/change-password" icon={Lock} label="Şifre değiştir" />
             <SettingsRow href="/profile/blocked" icon={UserX} label="Engellenen kullanıcılar" />
+            <form action={signOutAction}>
+              <button
+                type="submit"
+                className="flex w-full items-center gap-3 px-4 py-3 text-left text-sm transition-colors hover:bg-accent"
+              >
+                <LogOut className="h-4 w-4" />
+                Çıkış yap
+              </button>
+            </form>
           </CardContent>
         </Card>
       </section>
