@@ -1,0 +1,21 @@
+package.json
+  s_11d006ffa3862c::t_49664e692430be 40
+package-lock.json
+  s_11d006ffa3862c::t_1e722b5945fe24 39,4243-4245,4249-4250,4253
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.21",
+  "base_commit_sha": "ebcf96df1f3db4cba86de40d36f0edeb736e84fd",
+  "prompts": {},
+  "sessions": {
+    "s_11d006ffa3862c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "606fcb6b-753b-4cd7-bfda-04d97779ca8f",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "cihan <b.cihancengiz@gmail.com>"
+    }
+  }
+}
