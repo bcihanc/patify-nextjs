@@ -41,6 +41,18 @@ export function mapRowToNotification(r: NotificationRow): AppNotification {
   };
 }
 
+// The `notifications.url` column stores mobile-app deep-link paths, shared with
+// the native apps. Two of them carry an extra route segment the web app's routes
+// don't have, so pushing them verbatim 404s on web:
+//   /chats/chat/:id         -> web route is /chats/:id
+//   /adoptions/adoption/:id  -> web route is /adoptions/:id
+// The others (/lost-found/item/:id, /profile/user/:id) already match web routes.
+export function toWebNotificationPath(url: string): string {
+  return url
+    .replace(/^\/chats\/chat\//, '/chats/')
+    .replace(/^\/adoptions\/adoption\//, '/adoptions/');
+}
+
 export function notificationActorId(n: AppNotification): string | null {
   const actorId = n.data['actor_id'];
   return typeof actorId === 'string' ? actorId : null;
