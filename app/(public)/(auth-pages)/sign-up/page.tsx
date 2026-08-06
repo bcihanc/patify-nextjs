@@ -57,7 +57,18 @@ export default async function Signup(props: {
           />
 
           <div className="flex items-start gap-2 mb-3">
-            <Checkbox id="consent" name="consent" required className="mt-0.5" />
+            {/* Native input KULLANIYORUZ (Radix Checkbox değil): Radix'in gizli/
+                aria-hidden input'unda `required` tarayıcı validasyonunu güvenilir
+                tetiklemiyor, form onaysız gönderilebiliyordu. Native `required`
+                gönderimi tarayıcıda kesin bloklar; işaretliyken `consent=on`
+                gönderir — signUpAction'ın beklediği değer aynı. */}
+            <input
+              type="checkbox"
+              id="consent"
+              name="consent"
+              required
+              className="mt-0.5 h-4 w-4 shrink-0 rounded-sm border border-primary accent-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+            />
             <Label htmlFor="consent" className="font-normal leading-snug">
               <Link
                 href="/tos"
