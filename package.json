@@ -37,6 +37,6 @@
     "postcss": "8.5.26",
     "tailwind-merge": "^3.6.0",
     "tailwindcss": "^4.3.3",
-    "typescript": "5.7.2"
+    "typescript": "^7.0.2"
   }
 }
