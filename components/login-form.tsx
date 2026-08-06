@@ -55,7 +55,7 @@ export function LoginForm({
                 <img
                     src="/images/app_icon.png"
                     alt="Patify"
-                    className="h-20 w-20 rounded-[22px] shadow-sm ring-1 ring-border"
+                    className="h-20 w-20 rounded-[22px] shadow-xs ring-1 ring-border"
                 />
                 <div className="space-y-1">
                     <h1 className="text-2xl font-bold tracking-tight">Hoş geldin!</h1>
@@ -99,7 +99,7 @@ export function LoginForm({
                             type="button"
                             onClick={() => setShowPassword((v) => !v)}
                             aria-label={showPassword ? 'Şifreyi gizle' : 'Şifreyi göster'}
-                            className="absolute right-1 top-1/2 flex size-8 -translate-y-1/2 items-center justify-center rounded-md text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                            className="absolute right-1 top-1/2 flex size-8 -translate-y-1/2 items-center justify-center rounded-md text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring"
                         >
                             {showPassword ? <EyeOff className="size-4" /> : <Eye className="size-4" />}
                         </button>

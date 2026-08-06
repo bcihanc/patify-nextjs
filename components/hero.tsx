@@ -22,7 +22,7 @@ export default function Hero() {
     ];
 
     return (
-        <main className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b  to-white py-12 px-4">
+        <main className="min-h-screen flex flex-col items-center justify-center bg-linear-to-b  to-white py-12 px-4">
             <div className="flex flex-col md:flex-row items-center gap-12 w-full max-w-5xl">
                 <div className="flex-1 flex flex-col items-center md:items-start text-center md:text-left">
                     <Image
