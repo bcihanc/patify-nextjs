@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState, useTransition } from 'react';
-import { CheckCircle2 } from 'lucide-react';
+import { CircleCheckBig } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
@@ -72,7 +72,7 @@ export function FeedbackDialog({ open, onOpenChange }: FeedbackDialogProps) {
                 zorunlu tuttuğu başlık — report-dialog.tsx'teki eksik. */}
             <DialogTitle className="sr-only">Geri bildirim gönderildi</DialogTitle>
             <div className="flex flex-col items-center gap-2 py-4 text-center">
-              <CheckCircle2 className="h-8 w-8 text-primary" aria-hidden />
+              <CircleCheckBig className="h-8 w-8 text-primary" aria-hidden />
               <p className="text-sm font-medium">Teşekkürler, geri bildirimin alındı</p>
             </div>
           </>

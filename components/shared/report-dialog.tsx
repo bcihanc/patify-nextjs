@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState, useTransition } from 'react';
-import { CheckCircle2 } from 'lucide-react';
+import { CircleCheckBig } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
@@ -67,7 +67,7 @@ export function ReportDialog({ entity, entityId, open, onOpenChange }: ReportDia
             {/* Radix, DialogContent'in her durumda erişilebilir bir başlığı
                 olmasını bekler — başarı ekranında görsel başlık yok, sr-only ver. */}
             <DialogTitle className="sr-only">Şikayetin alındı</DialogTitle>
-            <CheckCircle2 className="h-8 w-8 text-primary" aria-hidden />
+            <CircleCheckBig className="h-8 w-8 text-primary" aria-hidden />
             <p className="text-sm font-medium">Şikayetin alındı</p>
           </div>
         ) : (
