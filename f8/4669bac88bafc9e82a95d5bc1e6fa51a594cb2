@@ -1,0 +1,22 @@
+components/notifications/notification-tile.tsx
+  s_11d006ffa3862c::t_ddc6d0093556f0 12
+  s_11d006ffa3862c::t_28b47d69cd4b55 44
+lib/notifications/types.ts
+  s_11d006ffa3862c::t_d5546ac4f2e156 44-55
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.21",
+  "base_commit_sha": "f84669bac88bafc9e82a95d5bc1e6fa51a594cb2",
+  "prompts": {},
+  "sessions": {
+    "s_11d006ffa3862c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "606fcb6b-753b-4cd7-bfda-04d97779ca8f",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "cihan <b.cihancengiz@gmail.com>"
+    }
+  }
+}
