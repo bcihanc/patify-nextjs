@@ -1,0 +1,21 @@
+package.json
+  s_11d006ffa3862c::t_87be4104b9c057 28,31,38-40
+package-lock.json
+  s_11d006ffa3862c::t_2bcd11d62b3ba0 27,30,37-39,46,617,628,639,649,656,1545,1561,1588,1605,1622,1639,1656,1673,1690,1707,1724,1749,1771,1788,1802,2519,2557,2617,2745,2798,2831,2852,2873,2894,2915,2936,2957,2978,2999,3020,3041,3120,4119,4529,4536,4576
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.21",
+  "base_commit_sha": "6a4f250f3a055db0da4ba1e3db74cba373c74aec",
+  "prompts": {},
+  "sessions": {
+    "s_11d006ffa3862c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "606fcb6b-753b-4cd7-bfda-04d97779ca8f",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "cihan <b.cihancengiz@gmail.com>"
+    }
+  }
+}
