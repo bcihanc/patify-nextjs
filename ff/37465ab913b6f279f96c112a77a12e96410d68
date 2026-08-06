@@ -1,0 +1,37 @@
+lib/notifications/copy.ts
+  s_11d006ffa3862c::t_35f0c7836dc2e7 3
+  s_11d006ffa3862c::t_b28831c1613af0 20
+  s_11d006ffa3862c::t_5713eaf4eb9827 14
+components/user/social-links.tsx
+  s_11d006ffa3862c::t_5129dab9843da4 44,50-51
+  s_11d006ffa3862c::t_c40dc5b9420d46 1-2,13-41,45,47-48
+components/shared/report-dialog.tsx
+  s_11d006ffa3862c::t_24ee5dd1cb4f9e 4
+  s_11d006ffa3862c::t_747cc986199019 70
+components/emergency/emergency-actions.tsx
+  s_11d006ffa3862c::t_0b950ea21bd5c6 95
+  s_11d006ffa3862c::t_a0a18ffef139de 5
+components/feedback/feedback-dialog.tsx
+  s_11d006ffa3862c::t_b8c5e8891451c0 4
+  s_11d006ffa3862c::t_9adbf51f1631c3 75
+package.json
+  s_11d006ffa3862c::t_98141367b8199b 22,28
+package-lock.json
+  s_11d006ffa3862c::t_cf2cd4a23cfaf5 21,27,2864-2866,2869,4216-4218
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.21",
+  "base_commit_sha": "ff37465ab913b6f279f96c112a77a12e96410d68",
+  "prompts": {},
+  "sessions": {
+    "s_11d006ffa3862c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "606fcb6b-753b-4cd7-bfda-04d97779ca8f",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "cihan <b.cihancengiz@gmail.com>"
+    }
+  }
+}
