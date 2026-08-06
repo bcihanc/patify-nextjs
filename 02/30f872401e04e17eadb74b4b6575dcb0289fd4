@@ -1,0 +1,19 @@
+next.config.ts
+  s_11d006ffa3862c::t_e75130c1b956d4 12-14
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.21",
+  "base_commit_sha": "0230f872401e04e17eadb74b4b6575dcb0289fd4",
+  "prompts": {},
+  "sessions": {
+    "s_11d006ffa3862c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "606fcb6b-753b-4cd7-bfda-04d97779ca8f",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "cihan <b.cihancengiz@gmail.com>"
+    }
+  }
+}
