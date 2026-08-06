@@ -1,6 +1,6 @@
 import type { LucideIcon } from 'lucide-react';
 import {
-  MapPin, CheckCircle2, Eye, Home, XCircle, MessageSquare, MessageCircle, UserPlus, Heart, Bell,
+  MapPin, CircleCheckBig, Eye, Home, CircleX, MessageSquare, MessageCircle, UserPlus, Heart, Bell,
 } from 'lucide-react';
 
 export function notificationIcon(type: string): LucideIcon {
@@ -11,13 +11,13 @@ export function notificationIcon(type: string): LucideIcon {
     case 'chip_match':
     case 'sighting_chip':
     case 'adoption_accepted':
-      return CheckCircle2;
+      return CircleCheckBig;
     case 'sighting_report':
       return Eye;
     case 'adoption_application':
       return Home;
     case 'adoption_rejected':
-      return XCircle;
+      return CircleX;
     case 'listing_comment':
     case 'post_comment':
     case 'discussion_comment':

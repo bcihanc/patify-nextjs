@@ -2,7 +2,7 @@
 
 import { useState, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
-import { CheckCircle2, HandHelping } from 'lucide-react';
+import { CircleCheckBig, HandHelping } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { MessageUserButton } from '@/components/chats/message-user-button';
 import { claimEmergencyAction, resolveEmergencyAction } from '@/lib/emergency/actions';
@@ -92,7 +92,7 @@ export function EmergencyActions({
         )}
         {canResolve && (
           <Button variant="outline" size="sm" disabled={pending} onClick={handleResolve}>
-            <CheckCircle2 className="mr-1.5 h-4 w-4" aria-hidden />
+            <CircleCheckBig className="mr-1.5 h-4 w-4" aria-hidden />
             Çözüldü
           </Button>
         )}

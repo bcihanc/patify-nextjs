@@ -1,5 +1,3 @@
-import React from "react";
-
 export default function CSAEPolicyPage() {
   return (
     <main className="max-w-2xl mx-auto py-12 px-4">

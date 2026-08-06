@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState, useTransition } from 'react';
-import { CheckCircle2 } from 'lucide-react';
+import { CircleCheckBig } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
@@ -18,7 +18,7 @@ const FEEDBACK_CATEGORIES = Object.keys(FEEDBACK_CATEGORY_LABELS) as FeedbackCat
 const MESSAGE_MAX = 2000;
 
 const textareaClass =
-  'flex w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50';
+  'flex w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50';
 
 type FeedbackDialogProps = {
   open: boolean;
@@ -72,7 +72,7 @@ export function FeedbackDialog({ open, onOpenChange }: FeedbackDialogProps) {
                 zorunlu tuttuğu başlık — report-dialog.tsx'teki eksik. */}
             <DialogTitle className="sr-only">Geri bildirim gönderildi</DialogTitle>
             <div className="flex flex-col items-center gap-2 py-4 text-center">
-              <CheckCircle2 className="h-8 w-8 text-primary" aria-hidden />
+              <CircleCheckBig className="h-8 w-8 text-primary" aria-hidden />
               <p className="text-sm font-medium">Teşekkürler, geri bildirimin alındı</p>
             </div>
           </>

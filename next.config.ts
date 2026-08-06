@@ -9,6 +9,9 @@ const nextConfig: NextConfig = {
   },
   compress: true,
   poweredByHeader: false,
+  // Next 16 otherwise appends an "agent rules" block to the project's CLAUDE.md
+  // on every dev/build; this repo's CLAUDE.md is hand-maintained, so opt out.
+  agentRules: false,
 };
 
 export default nextConfig;

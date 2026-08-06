@@ -9,6 +9,7 @@ import {
   AppNotification,
   notificationActorPhoto,
   notificationActorUsername,
+  toWebNotificationPath,
 } from '@/lib/notifications/types';
 import { cn } from '@/lib/utils';
 
@@ -40,7 +41,7 @@ export function NotificationTile({ n }: { n: AppNotification }) {
     void markRead([n.id]);
     // Internal-only navigation — never follow an external/javascript: url.
     if (n.url && n.url.startsWith('/')) {
-      router.push(n.url);
+      router.push(toWebNotificationPath(n.url));
     }
   }
 
