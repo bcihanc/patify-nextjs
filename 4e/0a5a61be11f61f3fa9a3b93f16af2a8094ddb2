@@ -1,0 +1,21 @@
+app/auth/login/page.tsx
+  s_cfc2699a24f1f3::t_a590c2106d62e6 1-18
+components/login-form.tsx
+  s_cfc2699a24f1f3::t_2b2a22b93bee25 11,22,51-102,104-105,107-157,161-180
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.21",
+  "base_commit_sha": "4e0a5a61be11f61f3fa9a3b93f16af2a8094ddb2",
+  "prompts": {},
+  "sessions": {
+    "s_cfc2699a24f1f3": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "8bde3d5a-cb36-4db7-b566-ee19a306de06",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "cihan <b.cihancengiz@gmail.com>"
+    }
+  }
+}
