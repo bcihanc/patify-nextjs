@@ -1,0 +1,23 @@
+components/emergency/emergency-card.tsx
+  s_097f3c9fa1dbc1::t_ca0bd7b7715bb6 20
+components/adoptions/adoption-card.tsx
+  s_097f3c9fa1dbc1::t_c9c3f90ff9efda 27
+components/lost-found/lf-listing-card.tsx
+  s_097f3c9fa1dbc1::t_f57a9aa031435a 40
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.21",
+  "base_commit_sha": "91fbf1a718c85b68d28010d3ab5c71eaa1ebb78a",
+  "prompts": {},
+  "sessions": {
+    "s_097f3c9fa1dbc1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "1d1cd8ac-27b0-4d8d-b921-9aa4c9271392",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "cihan <b.cihancengiz@gmail.com>"
+    }
+  }
+}
