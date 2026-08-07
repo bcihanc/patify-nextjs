@@ -1,0 +1,28 @@
+lib/lost-found.ts
+  s_097f3c9fa1dbc1::t_61a3aa47a2c715 2-3
+  s_097f3c9fa1dbc1::t_c778d5879038c7 89-90,93
+  s_097f3c9fa1dbc1::t_75b06e3b76a4a0 77-82,84-88,92,94-111
+  s_097f3c9fa1dbc1::t_63684934b2654b 49-58
+lib/lost-found/actions.ts
+  s_097f3c9fa1dbc1::t_f98481500113fc 144
+  s_097f3c9fa1dbc1::t_3fbf883b52b753 4
+  s_097f3c9fa1dbc1::t_67bc4bec12c8b8 154
+app/(public)/lost-found/item/[id]/opengraph-image.tsx
+  s_097f3c9fa1dbc1::t_f19571dc196c0b 8-9
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.21",
+  "base_commit_sha": "9221c00f8bb29bdea5787ee5f141fef956a50555",
+  "prompts": {},
+  "sessions": {
+    "s_097f3c9fa1dbc1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "1d1cd8ac-27b0-4d8d-b921-9aa4c9271392",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "cihan <b.cihancengiz@gmail.com>"
+    }
+  }
+}
