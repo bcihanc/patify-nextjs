@@ -24,14 +24,15 @@ Yukarıdaki 4 boşluğu + görsel CLS/bant genişliği acısını, auth/veri kat
 ### 1. Public sayfa cache'i (ISR)
 - **Amaç:** `lost-found/item/[id]` sayfası + OG görselini CDN'de cache'lemek; en pahalı işi (RPC + Satori PNG) id başına bir kez yapmak.
 - **Yaklaşım:** Public okumayı cookie'siz anon Supabase client'a çevir (bu sayfa anonim, session gereksiz) → sayfa dynamic olmaktan çıkar → `export const revalidate = 60` (sayfa + `opengraph-image.tsx`). Web mutation'larında (`markReunited`, `reactivate`) `revalidatePath` ile anında bust.
+- **`revalidatePath` biçimi:** Dinamik route id-bazlı çağrılmalı — `revalidatePath('/lost-found/item/' + id)`. Generic `'/lost-found/item/[id]'` string'i tek listing'i bust etmez.
 - **Neden 60s:** `revalidatePath` yalnızca web mutation'ında tetiklenir; mobil/API kaynaklı statü değişikliği yalnızca zaman-tabanlı `revalidate` ile yakalanır. 60s viral burst trafiğini tek cache'lenmiş render'dan emerken statü bayatlığını 1 dakikayla sınırlar.
 - **Dosyalar:** `lib/lost-found.ts` (cookie-free client), `app/(public)/lost-found/item/[id]/page.tsx`, `.../opengraph-image.tsx`, `lib/lost-found/actions.ts`.
-- **Uygulama sırasında doğrula:** `app/(public)/layout.tsx` (ve zincirdeki hiçbir şey) dynamic'e zorlamıyor olmalı; zorluyorsa okumayı izole et.
+- **Uygulama sırasında doğrula:** (a) `app/(public)/layout.tsx` (ve zincirdeki hiçbir şey) dynamic'e zorlamıyor olmalı; zorluyorsa okumayı izole et. (b) `opengraph-image.tsx`'in `revalidate` export'unu onurlandırdığı doğrulanmalı — metadata image route'ları segment config'i biraz farklı işleyebilir.
 - **Risk:** Düşük. Bayatlık 60s ile sınırlı.
 
 ### 2. Güvenlik header'ları (güvenli beşli)
 - **Amaç:** Temel güvenlik header'larını sıfır kırılma riskiyle eklemek.
-- **Yaklaşım:** `next.config.ts` → `async headers()`, tüm route'lara: HSTS, X-Frame-Options, X-Content-Type-Options: nosniff, Referrer-Policy (`strict-origin-when-cross-origin`), Permissions-Policy. Permissions-Policy'de Maps için `geolocation=self` bırakılır; kamera/mikrofon/ödeme kapatılır.
+- **Yaklaşım:** `next.config.ts` → `async headers()`, tüm route'lara: HSTS, X-Frame-Options: `DENY` (uygulama hiçbir yere gömülmüyor), X-Content-Type-Options: nosniff, Referrer-Policy (`strict-origin-when-cross-origin`), Permissions-Policy. Permissions-Policy'de Maps için `geolocation=self` bırakılır; kamera/mikrofon/ödeme kapatılır.
 - **Dosya:** `next.config.ts`.
 - **Kapsam dışı:** CSP — Maps + Turnstile + Supabase-realtime allowlist + nonce plumbing gerektirir; kendi spec'i.
 
@@ -39,7 +40,7 @@ Yukarıdaki 4 boşluğu + görsel CLS/bant genişliği acısını, auth/veri kat
 - **Amaç:** Beyaz-ekran, sessiz env hatası ve sessiz-null gibi gerçek boşlukları ucuza kapatmak.
 - **Yaklaşım:**
   - `app/global-error.tsx` + `app/error.tsx` — dostça fallback UI + "tekrar dene" (reset).
-  - Fail-loud env doğrulaması: `instrumentation.ts` `register()` içinde zorunlu env var'ları assert et (eksikse boot patlasın). (Alternatif: küçük `lib/env.ts`.)
+  - Fail-loud env doğrulaması: `instrumentation.ts` `register()` içinde zorunlu env var'ları assert et (eksikse boot patlasın). (Alternatif: küçük `lib/env.ts`.) Zorunlu liste: `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `PUBLIC_URL`, `NEXT_PUBLIC_GOOGLE_MAPS_API_KEY`.
   - `getLostFoundById` hatada `console.error` ile loglasın (kardeşleriyle tutarlı).
 - **Kapsam dışı:** Sentry/monitoring (KVKK/PII kararı + hesap/maliyet → kendi spec'i) ve logger framework (YAGNI; `console.error` çalışıyor, Netlify yakalıyor).
 - **Dosyalar:** `app/global-error.tsx`, `app/error.tsx`, `instrumentation.ts`, `lib/lost-found.ts`.
