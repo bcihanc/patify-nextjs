@@ -37,7 +37,7 @@ export function LfListingCard({
         {photo ? (
           // Plain <img> on purpose — next/image remotePatterns not configured (F0/F2 idiom).
           // eslint-disable-next-line @next/next/no-img-element
-          <img src={photo} alt={title} className="h-full w-full object-cover" />
+          <img src={photo} alt={title} loading="lazy" decoding="async" className="h-full w-full object-cover" />
         ) : (
           <div className="flex h-full w-full items-center justify-center bg-muted">
             <PawPrint className="h-10 w-10 text-muted-foreground" aria-hidden />
