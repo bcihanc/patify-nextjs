@@ -1,0 +1,30 @@
+CLAUDE.md
+  s_fee4522632983e::t_03cdc6d240e4fe 103
+  s_fee4522632983e::t_142f53eade9883 27
+  s_fee4522632983e::t_e727772b14e889 30-34
+  s_fee4522632983e::t_d2cfdc59f78b2c 44-53
+  s_fee4522632983e::t_6437db43112034 7-11
+  s_fee4522632983e::t_4874fafafcf42d 15,17-19
+  s_fee4522632983e::t_4ece5fc6280584 85-100
+  s_fee4522632983e::t_5993d8c52b7130 61-65,67,69
+  s_fee4522632983e::t_34526b9e54b414 71-77
+  s_fee4522632983e::t_b746c223531dfa 57,59
+  s_fee4522632983e::t_8633d5c627be7a 60
+  s_fee4522632983e::t_fe57e6bef5125f 70
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.21",
+  "base_commit_sha": "ba03e0b6da2f1a2fcb5b336109689e933bc2c22c",
+  "prompts": {},
+  "sessions": {
+    "s_fee4522632983e": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "074b5123-6f6d-4046-8591-14e51cfcfc2b",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "cihan <b.cihancengiz@gmail.com>"
+    }
+  }
+}
