@@ -115,6 +115,7 @@ export async function updateListingAction(
 
   const cip = clean(input.cipNo);
   if (cip) await supabase.from('lost_found_private').upsert({ lost_found_id: id, cip_no: cip });
+  updateTag(`lf-${id}`);
   return { ok: true, id };
 }
 
@@ -130,6 +131,7 @@ export async function deleteListingAction(id: string, images?: string[]): Promis
     const paths = images.map((u) => u.split('/').pop()).filter((x): x is string => !!x);
     if (paths.length) await supabase.storage.from('assets').remove(paths);
   }
+  updateTag(`lf-${id}`);
   return { ok: true };
 }
 

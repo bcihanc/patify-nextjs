@@ -82,9 +82,10 @@ export async function getLostFoundById(
         .returns<RpcRow[]>()
 
       if (error) {
-        // Önceden sessizce null dönüyordu — RPC hatası 404'ten ayırt edilemiyordu.
-        console.error('getLostFoundById:', error.message)
-        return null
+        // Throw to prevent caching RPC errors (transient DB issues would poison
+        // cache for 60s). Caller catches and returns null. Genuine missing listings
+        // (rows.length === 0) are fine to cache.
+        throw error
       }
       const rows = data as RpcRow[]
       if (!rows || rows.length === 0) return null
@@ -108,5 +109,10 @@ export async function getLostFoundById(
     ['lf-by-id', id],
     { revalidate: 60, tags: [`lf-${id}`] },
   )
-  return load()
+  try {
+    return await load()
+  } catch (error) {
+    console.error('getLostFoundById:', error instanceof Error ? error.message : String(error))
+    return null
+  }
 }
