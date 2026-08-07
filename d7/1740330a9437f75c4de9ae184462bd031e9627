@@ -1,0 +1,21 @@
+app/global-error.tsx
+  s_097f3c9fa1dbc1::t_299713c3403549 1-15
+app/error.tsx
+  s_097f3c9fa1dbc1::t_1aaee85d927f47 1-12
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.21",
+  "base_commit_sha": "d71740330a9437f75c4de9ae184462bd031e9627",
+  "prompts": {},
+  "sessions": {
+    "s_097f3c9fa1dbc1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "1d1cd8ac-27b0-4d8d-b921-9aa4c9271392",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "cihan <b.cihancengiz@gmail.com>"
+    }
+  }
+}
