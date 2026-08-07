@@ -1,0 +1,19 @@
+docs/superpowers/specs/2026-08-07-hardening-quick-wins-design.md
+  s_097f3c9fa1dbc1::t_a7c6202894588f 1-76
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.21",
+  "base_commit_sha": "f2c0f74cb668eb0d1b991a9ef5764d9ed6113539",
+  "prompts": {},
+  "sessions": {
+    "s_097f3c9fa1dbc1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "1d1cd8ac-27b0-4d8d-b921-9aa4c9271392",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "cihan <b.cihancengiz@gmail.com>"
+    }
+  }
+}
