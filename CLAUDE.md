@@ -4,14 +4,14 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Patify — a Next.js 15 App Router app. Two distinct concerns live here:
+Patify — a Next.js 16 App Router app. Two distinct concerns live here:
 1. **Auth surface** — Supabase cookie-based sessions with email/password and Apple Sign-In.
 2. **Public "lost & found" listing pages** — server-rendered, shareable pet-listing pages with dynamic OpenGraph images, backed by a Supabase RPC. These pages are what get shared into WhatsApp/social, so link-preview correctness matters.
 
 ## Tech Stack
-- Next.js 15 (App Router), React 19, TypeScript (strict + `noUncheckedIndexedAccess`)
+- Next.js 16 (App Router), React 19, TypeScript 6 (strict + `noUncheckedIndexedAccess`)
 - Supabase Auth via `@supabase/ssr` (cookie sessions)
-- Tailwind CSS 3 + shadcn/ui (Radix primitives), `lucide-react`, `next-themes`, Geist font
+- Tailwind CSS 4 + shadcn/ui (Radix primitives), `lucide-react`, `next-themes`, Geist font
 - Path alias: `@/*` → repo root (e.g. `@/lib/supabase/server`)
 
 ## Commands
