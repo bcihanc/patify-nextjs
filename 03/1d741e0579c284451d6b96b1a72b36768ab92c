@@ -1,0 +1,22 @@
+lib/lost-found/actions.ts
+  s_097f3c9fa1dbc1::t_f17b7e08749dfd 118
+  s_097f3c9fa1dbc1::t_03116ef5a7bdd3 134
+lib/lost-found.ts
+  s_097f3c9fa1dbc1::t_b8e22222bdae07 85-88,112-117
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.21",
+  "base_commit_sha": "031d741e0579c284451d6b96b1a72b36768ab92c",
+  "prompts": {},
+  "sessions": {
+    "s_097f3c9fa1dbc1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "1d1cd8ac-27b0-4d8d-b921-9aa4c9271392",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "cihan <b.cihancengiz@gmail.com>"
+    }
+  }
+}
