@@ -1,0 +1,19 @@
+app/actions.ts
+  s_097f3c9fa1dbc1::t_4b97b86abc77fd 115-117
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.21",
+  "base_commit_sha": "5949b7438c276f1ece65805b85759970eba557ed",
+  "prompts": {},
+  "sessions": {
+    "s_097f3c9fa1dbc1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "1d1cd8ac-27b0-4d8d-b921-9aa4c9271392",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "cihan <b.cihancengiz@gmail.com>"
+    }
+  }
+}
