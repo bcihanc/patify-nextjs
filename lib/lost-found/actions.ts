@@ -1,6 +1,7 @@
 'use server';
 
 import { createClient } from '@/lib/supabase/server';
+import { updateTag } from 'next/cache';
 import { browseLostFound, nearbyLostFound, lostFoundInBounds } from './read';
 import type { MapBounds } from './read';
 import { EMPTY_LF_FILTERS } from './types';
@@ -140,6 +141,7 @@ export async function markReunitedAction(id: string, viaPatify: boolean): Promis
     p_listing_id: id, p_via_patify: viaPatify, p_helper_user_id: null,
   });
   if (error) { console.error('markReunitedAction:', error.message); return { error: 'İşlem başarısız, tekrar dene.' }; }
+  updateTag(`lf-${id}`);
   return { ok: true };
 }
 
@@ -149,6 +151,7 @@ export async function reactivateListingAction(id: string): Promise<Result> {
   if (!user) return { error: 'Oturum bulunamadı.' };
   const { error } = await supabase.rpc('reactivate_lost_found', { p_listing_id: id });
   if (error) { console.error('reactivateListingAction:', error.message); return { error: 'İşlem başarısız, tekrar dene.' }; }
+  updateTag(`lf-${id}`);
   return { ok: true };
 }
 

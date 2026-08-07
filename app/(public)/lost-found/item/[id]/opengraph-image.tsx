@@ -5,6 +5,8 @@ import { getLostFoundById, petTypeLabel } from '@/lib/lost-found'
 export const size = { width: 1200, height: 630 }
 export const contentType = 'image/png'
 export const alt = 'Patify kayıp ilanı'
+// getLostFoundById artık cookie-free + cache'li → bu route ISR olabilir.
+export const revalidate = 60
 
 export default async function OgImage({
   params,

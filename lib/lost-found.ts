@@ -1,5 +1,6 @@
 // lib/lost-found.ts
-import { createClient } from '@/lib/supabase/server'
+import { createClient as createSupabaseClient } from '@supabase/supabase-js'
+import { unstable_cache } from 'next/cache'
 
 export type PetType =
   | 'dog' | 'cat' | 'bird' | 'rabbit' | 'hamster'
@@ -45,6 +46,16 @@ function toImageUrl(fileName: string): string {
   return `${STORAGE_PUBLIC_BASE}/${fileName}`
 }
 
+// Cookie-free anon client for PUBLIC reads. No session → callable inside
+// unstable_cache (which forbids cookies()/headers()). Data is not user-specific.
+function anonClient() {
+  return createSupabaseClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    { auth: { persistSession: false } },
+  )
+}
+
 // RPC returns snake_case columns; map to our camelCase shape.
 type RpcRow = {
   id: string
@@ -63,28 +74,39 @@ type RpcRow = {
 export async function getLostFoundById(
   id: string,
 ): Promise<LostFoundListing | null> {
-  const supabase = await createClient()
-  const { data, error } = await supabase
-    .rpc('get_lost_found_by_id', { p_id: id })
-    .returns<RpcRow[]>()
+  const load = unstable_cache(
+    async (): Promise<LostFoundListing | null> => {
+      const supabase = anonClient()
+      const { data, error } = await supabase
+        .rpc('get_lost_found_by_id', { p_id: id })
+        .returns<RpcRow[]>()
 
-  if (error || !data) return null
-  const rows = data as RpcRow[]
-  if (rows.length === 0) return null
+      if (error) {
+        // Önceden sessizce null dönüyordu — RPC hatası 404'ten ayırt edilemiyordu.
+        console.error('getLostFoundById:', error.message)
+        return null
+      }
+      const rows = data as RpcRow[]
+      if (!rows || rows.length === 0) return null
 
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  const r = rows[0]!
-  return {
-    id: r.id,
-    type: r.type,
-    breed: r.breed,
-    color: r.color,
-    gender: r.gender,
-    city: r.city,
-    district: r.district,
-    status: r.status,
-    lostDate: r.lost_date,
-    description: r.description,
-    images: r.images?.map(toImageUrl) ?? null,
-  }
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const r = rows[0]!
+      return {
+        id: r.id,
+        type: r.type,
+        breed: r.breed,
+        color: r.color,
+        gender: r.gender,
+        city: r.city,
+        district: r.district,
+        status: r.status,
+        lostDate: r.lost_date,
+        description: r.description,
+        images: r.images?.map(toImageUrl) ?? null,
+      }
+    },
+    ['lf-by-id', id],
+    { revalidate: 60, tags: [`lf-${id}`] },
+  )
+  return load()
 }
