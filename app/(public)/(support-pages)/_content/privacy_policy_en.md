@@ -1,7 +1,7 @@
 # Patify Privacy Policy
 
 **Effective Date:** 19 July 2026
-**Last Updated:** 19 July 2026
+**Last Updated:** 9 August 2026
 
 ---
 
@@ -60,6 +60,13 @@ Content you create or interact with in the App:
 
 - **OneSignal player_id** — to enable delivery of push notifications to your device.
 
+### 2.6 Advertising Measurement Data
+
+This category is processed **only when you have granted explicit consent for advertising measurement**. No data is collected without that consent.
+
+- **Advertising identifier (IDFA / GAID)** — the resettable advertising ID assigned by your device's operating system; shared with Meta solely to measure which advertising campaign led to an app installation.
+- **App events** — a predefined set of events such as install, registration, and listing creation. Contains no free text, location coordinates, or search queries.
+
 ---
 
 ## 3. Purposes of Processing and Legal Basis
@@ -74,6 +81,7 @@ We process your personal data for the following purposes and on the following le
 | Sending push notifications | OneSignal player_id | Performance of a contract + explicit consent (GDPR Art. 6(1)(b)/(a)) |
 | Crash and error monitoring | Device/technical data | Legitimate interests (GDPR Art. 6(1)(f); KVKK Art. 5(2)(f)) — ensuring the App operates safely and stably |
 | Usage statistics (Patify infrastructure) | In-app behavioural events (including platform and app version) | Explicit consent (GDPR Art. 6(1)(a); KVKK Art. 5(1)) |
+| Advertising campaign measurement and install attribution | Advertising identifier (IDFA/GAID) + app events (install, registration, listing creation) | Explicit consent (GDPR Art. 6(1)(a); KVKK Art. 5(1)) |
 
 ---
 
@@ -89,6 +97,7 @@ We process your personal data for the following purposes and on the following le
 | Usage statistics (raw) | 90 days; permanently deleted at the end of this period. During this window, a subset is converted into aggregate statistics that cannot be linked back to a person |
 | Usage statistics (aggregate/anonymised) | Retained indefinitely in anonymised form — cannot be linked back to a person |
 | Push notification tokens (OneSignal player_id) | Cleared via OneSignal logout on account deletion |
+| Advertising measurement data (transferred to Meta) | Subject to Meta's own retention policy. When consent is withdrawn, the App stops collection and clears the device/user identifiers in the Meta SDK |
 | Audit records | May be retained as required by applicable law |
 
 ---
@@ -124,6 +133,11 @@ Patify works with the following third-party data processors to deliver its servi
 ### 5.6 Apple Sign-In
 - **Purpose:** OAuth-based authentication
 - **Location:** Apple infrastructure (US/EU)
+
+### 5.7 Meta Platforms, Inc. / Meta Platforms Ireland Ltd.
+- **Purpose:** Advertising campaign measurement and install attribution — only when explicit consent for advertising measurement has been granted
+- **Location:** United States and EU (Ireland)
+- **DPA:** Meta standard data processing terms (https://www.facebook.com/legal/terms/dataprocessing)
 
 ### Cross-Border Data Transfers (KVKK Article 9 / GDPR Chapter V)
 
@@ -167,8 +181,9 @@ However, the App uses the following identifiers:
 - **Usage statistics (Patify infrastructure):** A limited set of in-app usage events (e.g. screen views, searches performed, listing-creation steps) is recorded on **Patify's own Supabase infrastructure** to understand which screens are used and where users get stuck. This is recorded only after the user's explicit consent has been obtained, and is linked to their account — it is therefore personal data and rests on explicit consent under KVKK Art. 5(1). Free text, search queries, location coordinates, or device identifiers are never recorded — only fields with a predefined, limited set of values are collected, and these are deleted after 90 days (see Section 4). You may withdraw this consent at any time via **Settings > Usage statistics**; withdrawal immediately deletes the raw records linked to your account.
 - **Anonymous visitor counter:** For users who are not signed in (guests), only a daily, aggregate counter is kept of how the App is used (e.g. how many times a given screen was viewed). This counter **contains no user ID, device identifier, session ID, or IP address**, and cannot be linked to any individual.
 - **OneSignal:** A device-level `player_id` is assigned for push notification delivery. This is active only when the user is subscribed to notifications and is cleared when notifications are disabled or the account is deleted.
+- **Meta advertising measurement:** Only when you have granted **explicit consent for advertising measurement**, the App shares your device's advertising identifier (IDFA/GAID) and a limited set of app events (install, registration, listing creation) with Meta (Facebook/Instagram). The sole purpose is to measure which advertising campaign led to an app installation. Without consent, the Meta SDK is disabled by default and collects nothing; on iOS, a system-level App Tracking Transparency prompt is also shown. You may withdraw this consent at any time via **Settings > Usage statistics**; withdrawal stops collection and clears the identifiers.
 
-No third-party advertising trackers or retargeting identifiers are used.
+Other than the above, no third-party retargeting or advertising-profiling trackers are used.
 
 ---
 
@@ -199,7 +214,7 @@ Continued use of the App after a change takes effect constitutes acceptance of t
 
 ## 11. Effective Date
 
-This Privacy Policy first entered into force on **23 May 2026** and was updated on **19 July 2026** to reflect the removal of Firebase Analytics and its replacement with a first-party, consent-based usage-statistics system operated on Patify's own infrastructure.
+This Privacy Policy first entered into force on **23 May 2026** and was updated on **19 July 2026** to reflect the removal of Firebase Analytics and its replacement with a first-party, consent-based usage-statistics system operated on Patify's own infrastructure. It was updated on **9 August 2026** to reflect a consent-based Meta (Facebook/Instagram) advertising-measurement integration used to measure the effectiveness of advertising campaigns.
 
 ---
 

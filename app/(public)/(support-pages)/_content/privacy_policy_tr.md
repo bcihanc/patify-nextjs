@@ -1,7 +1,7 @@
 # Patify Gizlilik Politikası
 
 **Yürürlük Tarihi:** 19 Temmuz 2026
-**Son Güncelleme:** 19 Temmuz 2026
+**Son Güncelleme:** 9 Ağustos 2026
 
 ---
 
@@ -60,6 +60,13 @@ Uygulamada oluşturduğunuz içerikler:
 
 - **OneSignal player_id** — push bildirimlerinin gönderilmesini sağlamak için.
 
+### 2.6 Reklam Ölçüm Verileri
+
+Bu kategori yalnızca **reklam ölçümü açık rızası** verildiğinde işlenir. Rıza verilmediğinde toplama yapılmaz.
+
+- **Reklam tanımlayıcısı (IDFA / GAID)** — cihazınızın işletim sistemi tarafından atanan, sıfırlanabilir reklam kimliği; hangi reklam kampanyasının uygulama kurulumuyla sonuçlandığını ölçmek için Meta ile paylaşılır.
+- **Uygulama olayları** — kurulum, kayıt olma ve ilan oluşturma gibi önceden tanımlanmış olaylar. Serbest metin, konum koordinatı veya arama sorgusu içermez.
+
 ---
 
 ## 3. İşleme Amaçları ve Hukuki Dayanak
@@ -74,6 +81,7 @@ Kişisel verilerinizi aşağıdaki amaçlarla ve hukuki dayanaklara göre işliy
 | Push bildirim gönderimi | OneSignal player_id | Sözleşmenin ifası + açık rıza (GDPR Madde 6(1)(b)/(a)) |
 | Uygulama hatalarını izleme ve kararlılık sağlama | Cihaz/teknik veriler | Meşru menfaat (GDPR Madde 6(1)(f); KVKK m.5/2-f) — uygulamanın güvenli ve kararlı çalışması |
 | Kullanım istatistikleri (Patify altyapısı) | Uygulama içi davranış olayları (platform ve uygulama sürümü dahil) | Açık rıza (GDPR Madde 6(1)(a); KVKK m.5/1) |
+| Reklam kampanyası ölçümü ve kurulum ilişkilendirmesi | Reklam tanımlayıcısı (IDFA/GAID) + uygulama olayları (kurulum, kayıt, ilan oluşturma) | Açık rıza (GDPR Madde 6(1)(a); KVKK m.5/1) |
 
 ---
 
@@ -89,6 +97,7 @@ Kişisel verilerinizi aşağıdaki amaçlarla ve hukuki dayanaklara göre işliy
 | Kullanım istatistikleri (ham) | 90 gün; süre sonunda kalıcı olarak silinir. Bu süre boyunca bir kısmı, kişiye bağlanamayan toplu istatistiklere dönüştürülür |
 | Kullanım istatistikleri (toplu/anonim) | Anonimleştirilmiş biçimde süresiz saklanır — kişiye bağlanamaz |
 | Push bildirim tokenleri (OneSignal player_id) | Hesap silinince OneSignal çıkış (logout) işlemiyle temizlenir |
+| Reklam ölçüm verileri (Meta'ya aktarılan) | Meta'nın kendi saklama politikasına tabidir. Rıza geri çekildiğinde uygulama toplamayı durdurur ve Meta SDK'sındaki cihaz/kullanıcı tanımlayıcıları temizlenir |
 | Audit kayıtları | Yasal yükümlülükler doğrultusunda tutulabilir |
 
 ---
@@ -124,6 +133,11 @@ Patify, hizmetlerin yürütülmesi için aşağıdaki üçüncü taraf veri işl
 ### 5.6 Apple Sign-In
 - **Konu:** OAuth tabanlı kimlik doğrulama
 - **Konum:** Apple altyapısı (ABD/AB)
+
+### 5.7 Meta Platforms, Inc. / Meta Platforms Ireland Ltd.
+- **Konu:** Reklam kampanyası ölçümü ve kurulum ilişkilendirmesi — yalnızca reklam ölçümü açık rızası verildiğinde
+- **Konum:** ABD ve AB (İrlanda)
+- **DPA:** Meta standart veri işleme koşulları (https://www.facebook.com/legal/terms/dataprocessing)
 
 ### Yurt Dışı Veri Aktarımı (KVKK Madde 9)
 
@@ -167,8 +181,9 @@ Bununla birlikte uygulama, aşağıdaki tanımlayıcıları kullanmaktadır:
 - **Kullanım istatistikleri (Patify altyapısı):** Hangi ekranların kullanıldığını ve kullanıcıların nerede takıldığını anlayabilmek için sınırlı sayıda uygulama içi kullanım olayı (ör. ekran görüntüleme, arama yapılması, ilan oluşturma adımları), **Patify'nin kendi Supabase altyapısında** kaydedilir. Bu kayıt yalnızca kullanıcının açık rızası alındıktan sonra ve hesabıyla ilişkilendirilerek yapılır; bu nedenle kişisel veri niteliğindedir ve KVKK m.5/1 uyarınca açık rızaya dayanır. Serbest metin, arama sorgusu, konum koordinatı veya cihaz tanımlayıcısı hiçbir zaman kaydedilmez — yalnızca önceden tanımlanmış, sınırlı bir değer kümesine sahip alanlar toplanır ve 90 gün sonunda silinir (bkz. Bölüm 4). Bu izni istediğiniz zaman **Ayarlar > Kullanım istatistikleri** üzerinden geri çekebilirsiniz; geri çekme işlemi hesabınıza bağlı ham kayıtları derhal siler.
 - **Anonim ziyaretçi sayacı:** Oturum açmamış (misafir) kullanıcıların uygulamayı nasıl kullandığına dair yalnızca günlük, toplu bir sayaç tutulur (ör. belirli bir ekranın kaç kez görüntülendiği). Bu sayaçta **kullanıcı kimliği, cihaz tanımlayıcısı, oturum kimliği veya IP adresi bulunmaz** ve herhangi bir kişiyle ilişkilendirilemez.
 - **OneSignal:** Push bildirimleri için cihaz düzeyinde `player_id` atanır. Bildirime abone olunması durumunda aktif olur; bildirimler devre dışı bırakıldığında veya hesap silindiğinde temizlenir.
+- **Meta reklam ölçümü:** Uygulama, yalnızca **reklam ölçümü için açık rıza** verdiğinizde, cihazınızın reklam tanımlayıcısını (IDFA/GAID) ve sınırlı sayıda uygulama olayını (kurulum, kayıt olma, ilan oluşturma) Meta (Facebook/Instagram) ile paylaşır. Bunun tek amacı, hangi reklam kampanyasının uygulama kurulumuyla sonuçlandığını ölçmektir. Rıza verilmediğinde Meta yazılım geliştirme kiti (SDK) varsayılan olarak kapalıdır ve hiçbir veri toplamaz; iOS'ta ayrıca sistem düzeyinde İzleme İzni (App Tracking Transparency) sorulur. Bu izni istediğiniz zaman **Ayarlar > Kullanım istatistikleri** üzerinden geri çekebilirsiniz; geri çekildiğinde toplama durur ve tanımlayıcılar temizlenir.
 
-Üçüncü taraf reklamcılık veya yeniden hedefleme (retargeting) amacıyla herhangi bir izleyici kullanılmamaktadır.
+Bunun dışında, üçüncü taraf yeniden hedefleme (retargeting) veya reklam profilleme amacıyla herhangi bir izleyici kullanılmamaktadır.
 
 ---
 
@@ -199,7 +214,7 @@ Değişikliğin yürürlüğe girmesinden sonra uygulamayı kullanmaya devam etm
 
 ## 11. Yürürlük Tarihi
 
-Bu Gizlilik Politikası ilk olarak **23 Mayıs 2026** tarihinde yürürlüğe girmiş; **19 Temmuz 2026** tarihinde, Firebase Analytics'in kaldırılıp Patify'nin kendi altyapısında yürütülen, açık rızaya dayalı kullanım istatistikleri sistemiyle değiştirilmesini yansıtacak şekilde güncellenmiştir.
+Bu Gizlilik Politikası ilk olarak **23 Mayıs 2026** tarihinde yürürlüğe girmiş; **19 Temmuz 2026** tarihinde, Firebase Analytics'in kaldırılıp Patify'nin kendi altyapısında yürütülen, açık rızaya dayalı kullanım istatistikleri sistemiyle değiştirilmesini yansıtacak şekilde güncellenmiştir. **9 Ağustos 2026** tarihinde, reklam kampanyalarının etkinliğini ölçmek amacıyla açık rızaya dayalı Meta (Facebook/Instagram) reklam ölçümü entegrasyonunu yansıtacak şekilde güncellenmiştir.
 
 ---
 
