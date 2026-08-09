@@ -1,0 +1,33 @@
+app/(public)/(support-pages)/_content/privacy_policy_tr.md
+  s_00311e77a3e714::t_950b5a978fe95a 100
+  s_00311e77a3e714::t_bad7a3e70ea4f1 217
+  s_00311e77a3e714::t_3780806ca32955 84
+  s_00311e77a3e714::t_a81470e2505ce0 184,186
+  s_00311e77a3e714::t_d03adcc3f77d7a 137-141
+  s_00311e77a3e714::t_b4efb499e29cf1 63-69
+  s_00311e77a3e714::t_eb6958acb0d51c 4
+app/(public)/(support-pages)/_content/privacy_policy_en.md
+  s_00311e77a3e714::t_8b0f22699b889e 217
+  s_00311e77a3e714::t_d40579133c55cb 63-69
+  s_00311e77a3e714::t_47f292659b1f9e 184,186
+  s_00311e77a3e714::t_f421a500ef36b9 100
+  s_00311e77a3e714::t_478e57c91f62e4 84
+  s_00311e77a3e714::t_f29d3f74d02e5b 4
+  s_00311e77a3e714::t_2d1368d843d0f1 137-141
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.21",
+  "base_commit_sha": "1cc67c73e1f28531590a746902965e86986498f1",
+  "prompts": {},
+  "sessions": {
+    "s_00311e77a3e714": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "c488a15b-7144-49ec-8c31-b394774e53cc",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "cihan <b.cihancengiz@gmail.com>"
+    }
+  }
+}
