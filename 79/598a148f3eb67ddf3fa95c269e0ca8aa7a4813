@@ -1,0 +1,24 @@
+CLAUDE.md
+  s_301bb898c477e0::t_7b8ad3d9cf6fb8 77
+  s_301bb898c477e0::t_69f9845cd931af 68,70,74-76,78
+  s_301bb898c477e0::t_0a98561d2c94f9 102
+  s_301bb898c477e0::t_46e0d06896186c 7,10
+  s_301bb898c477e0::t_cff773f5e623b0 117-119
+  s_301bb898c477e0::t_97de1bff74f64d 79
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.23",
+  "base_commit_sha": "79598a148f3eb67ddf3fa95c269e0ca8aa7a4813",
+  "prompts": {},
+  "sessions": {
+    "s_301bb898c477e0": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "dc4fb5ef-6cfd-40d2-a3b8-bb124ab4d952",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "cihan <b.cihancengiz@gmail.com>"
+    }
+  }
+}
