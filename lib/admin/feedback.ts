@@ -2,11 +2,12 @@ import { createClient } from '@/lib/supabase/server';
 import type { FeedbackStatus } from './feedback-types';
 
 // admin_feedback_list() satırı (setof feedback, snake_case). `feedback.category`
-// tabloda var (lib/feedback/actions.ts onu dolduruyor) ama brief kapsamı bu kutuda
-// kategori göstermiyor — kasıtlı olarak burada taşınmıyor.
+// gerçek kullanıcı verisi (text NOT NULL, mobil/web feedback formu dolduruyor —
+// lib/feedback/actions.ts) — inbox'ta gösteriliyor (bkz. FEEDBACK_CATEGORY_LABELS).
 type FeedbackRow = {
   id: string;
   user_id: string;
+  category: string;
   message: string;
   status: FeedbackStatus;
   app_version: string | null;
@@ -19,6 +20,7 @@ type FeedbackRow = {
 export type FeedbackItem = {
   id: string;
   userId: string;
+  category: string;
   message: string;
   status: FeedbackStatus;
   appVersion: string | null;
@@ -32,6 +34,7 @@ function mapFeedbackRow(r: FeedbackRow): FeedbackItem {
   return {
     id: r.id,
     userId: r.user_id,
+    category: r.category,
     message: r.message,
     status: r.status,
     appVersion: r.app_version,
