@@ -81,6 +81,13 @@ Each authenticated feature has a `lib/` module (typically `read.ts` for queries,
 - **`metadataBase` must never fall back to localhost in production** — WhatsApp/social crawlers can't fetch localhost, so previews break. `app/layout.tsx` defaults to `https://patify.net` when `NODE_ENV==='production'` and normalizes `PUBLIC_URL` so a protocol-carrying value doesn't produce `https://https://…`.
 - **Strict TS beyond `strict`.** `tsconfig.json` also enables `noUncheckedIndexedAccess` (array indexing yields `T | undefined` — hence non-null assertions like `rows[0]!` with disable comments; keep that pattern), plus `noImplicitReturns`, `noUnusedLocals`, and `noUnusedParameters`. The last two fail `next build` on any unused import or variable, so drop dead imports rather than leaving them.
 
+### KVKK / location masking — owner-aware, server-side (don't re-derive this every time)
+Listing coordinates are privacy-masked **in the Supabase RPC, not in web code**. This is a cross-cutting rule that keeps getting re-discovered — treat it as fixed:
+- **Lost & Found + Adoptions: owner-aware masking.** Non-owner reads receive MASKED `lat`/`long` (grid ~100–150m) to protect the owner's home; the owner's own read receives raw coordinates. The mask is applied by the RPC; the web client never masks or unmasks — it renders whatever the RPC returns (`lib/lost-found/types.ts:32`, `lib/adoptions/types.ts:61`).
+- **Emergency: intentionally UNMASKED.** A street animal has no home to protect, so `lat`/`long` come through raw and the real location is shown on the map (`lib/emergency/{types,read}.ts`, spec §8). Do not add masking to Emergency to "match" the others — the delta is deliberate.
+- **Never `.select('*')` on a listing table in a Server Action** — the location columns have SELECT revoked (→ 42501). Insert with an explicit column list and `.select('id')`. Writes are session-authoritative: the owner id comes from `auth.getUser()`, never client input.
+- Guest visibility is a separate axis: LF in-app detail + public profile RPCs are anon-CLOSED (login-gated), while Adoptions/Emergency detail RPCs are anon-open. Check the RPC's anon grant before exposing a page to guests.
+
 ### Routes
 Route groups don't affect URLs — they only pick the layout/trust boundary. `(app)` = authenticated (gated by `app/(app)/layout.tsx`); `(public)` = unauthenticated.
 
