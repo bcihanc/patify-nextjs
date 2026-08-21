@@ -1,0 +1,21 @@
+docs/superpowers/specs/2026-08-21-admin-bi-panel-design.md
+  s_301bb898c477e0::t_170f71049381bb 1-291
+docs/superpowers/plans/2026-08-21-admin-panel-p0-foundation.md
+  s_301bb898c477e0::t_24583115159635 1-581
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.23",
+  "base_commit_sha": "1dc4fbc61c8e77e93d18bb25ece5ad994b700832",
+  "prompts": {},
+  "sessions": {
+    "s_301bb898c477e0": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "dc4fb5ef-6cfd-40d2-a3b8-bb124ab4d952",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "cihan <b.cihancengiz@gmail.com>"
+    }
+  }
+}
