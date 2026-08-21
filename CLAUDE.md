@@ -46,6 +46,7 @@ No test runner or linter is configured in `package.json`. Type errors surface vi
 
 ### Feature domain modules — `lib/<feature>/`
 Each authenticated feature has a `lib/` module (typically `read.ts` for queries, `actions.ts` for Server Actions, `types.ts`, `filters.ts`). The matching UI is `app/(app)/<feature>/`.
+**Don't merge `read.ts` and `actions.ts` into one file.** If a Client Component imports even one Server Action from a file that also has plain reads using `createClient` (`next/headers`), Next bundles the whole file for the client and `next build` fails with "You're importing next/headers... in the Pages Router" — verified live while building `lib/admin/moderation.ts`. Reads and mutations need separate files whenever a Client Component will call the mutation directly.
 - `lib/adoptions/`, `lib/emergency/`, `lib/lost-found/` — the three listing features (browse list + map view + create/edit/detail).
 - `lib/chats/` — realtime DM (`repository.ts`, `realtime.ts`, `dm.ts`).
 - `lib/notifications/` — in-app notifications (`read.ts`, `actions.ts`, `copy.ts`).
