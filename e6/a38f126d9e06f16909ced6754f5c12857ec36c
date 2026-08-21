@@ -1,0 +1,23 @@
+lib/admin/feedback.ts
+  s_301bb898c477e0::t_0b294b0611e905 1-55,57-60,64-76
+  s_301bb898c477e0::t_dbe92db0d981a1 56,61-63
+lib/admin/moderation.ts
+  s_301bb898c477e0::t_20968d11ef0a65 1-66,68-71,75-142
+  s_301bb898c477e0::t_a6e9f3527ba367 67,72-74
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.23",
+  "base_commit_sha": "e6a38f126d9e06f16909ced6754f5c12857ec36c",
+  "prompts": {},
+  "sessions": {
+    "s_301bb898c477e0": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "dc4fb5ef-6cfd-40d2-a3b8-bb124ab4d952",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "cihan <b.cihancengiz@gmail.com>"
+    }
+  }
+}
