@@ -1,0 +1,23 @@
+lib/admin/feedback.ts
+  s_301bb898c477e0::t_81ce0c3b65f7cf 5-6,10,23,37
+app/(admin)/admin/feedback/page.tsx
+  s_301bb898c477e0::t_cf3210d16e5dd8 38-43
+  s_301bb898c477e0::t_95d6bef60c56e6 1,4,7-9
+  s_301bb898c477e0::t_cf2a80ef84d0d1 10
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.23",
+  "base_commit_sha": "d0796a6b7fcafd41c412ae539e0934c4cd9bc036",
+  "prompts": {},
+  "sessions": {
+    "s_301bb898c477e0": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "dc4fb5ef-6cfd-40d2-a3b8-bb124ab4d952",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "cihan <b.cihancengiz@gmail.com>"
+    }
+  }
+}
