@@ -1,12 +1,5 @@
 import { createClient } from '@/lib/supabase/server';
-
-export type FeedbackStatus = 'new' | 'in_review' | 'closed';
-
-export const FEEDBACK_STATUS_LABELS: Record<FeedbackStatus, string> = {
-  new: 'Yeni',
-  in_review: 'İnceleniyor',
-  closed: 'Kapandı',
-};
+import type { FeedbackStatus } from './feedback-types';
 
 // admin_feedback_list() satırı (setof feedback, snake_case). `feedback.category`
 // tabloda var (lib/feedback/actions.ts onu dolduruyor) ama brief kapsamı bu kutuda

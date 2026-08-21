@@ -6,7 +6,7 @@
 import { revalidatePath } from 'next/cache';
 import { createClient } from '@/lib/supabase/server';
 import { requireAdmin } from './auth';
-import type { FeedbackStatus } from './feedback';
+import type { FeedbackStatus } from './feedback-types';
 
 type ActionResult = { ok: true } | { error: string };
 
