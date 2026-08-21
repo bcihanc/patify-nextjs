@@ -1,0 +1,23 @@
+CLAUDE.md
+  s_136984c6a883b8::t_c9266bfe5a263a 84-90
+.claude/agents/parity-check.md
+  s_136984c6a883b8::t_2320fc2ff402ad 1-67
+.claude/skills/scaffold-feature-module/SKILL.md
+  s_136984c6a883b8::t_495c3c0c62084b 1-84
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.23",
+  "base_commit_sha": "733b34c169a9fbafeebdc6a6c21f151c8ed4636e",
+  "prompts": {},
+  "sessions": {
+    "s_136984c6a883b8": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "75de1125-b2c0-49af-815a-949bd3d4e5e9",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "cihan <b.cihancengiz@gmail.com>"
+    }
+  }
+}
