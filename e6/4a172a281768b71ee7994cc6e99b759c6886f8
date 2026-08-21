@@ -1,0 +1,38 @@
+components/ui/skeleton.tsx
+  s_301bb898c477e0::t_0e1c036d0a75c6 1-15
+package.json
+  s_301bb898c477e0::t_9fe1728726de9a 21,33
+  s_301bb898c477e0::t_0e1c036d0a75c6 10,15-16,18,35-36
+components/ui/sonner.tsx
+  s_301bb898c477e0::t_0e1c036d0a75c6 1-45
+components/ui/table.tsx
+  s_301bb898c477e0::t_0e1c036d0a75c6 1-117
+components/ui/separator.tsx
+  s_301bb898c477e0::t_0e1c036d0a75c6 1-31
+components/ui/sheet.tsx
+  s_301bb898c477e0::t_0e1c036d0a75c6 1-140
+components/ui/tabs.tsx
+  s_301bb898c477e0::t_0e1c036d0a75c6 1-55
+components/ui/alert-dialog.tsx
+  s_301bb898c477e0::t_c863ce42feb456 1-141
+components/ui/select.tsx
+  s_301bb898c477e0::t_0e1c036d0a75c6 1-160
+package-lock.json
+  s_301bb898c477e0::t_43f96d2bdef0d1 16,28,1431-1468,1880-2006,2096-2101,2310-2430,2448-2453,2528-2539,2562-2567,2658-2667,2674-2682,4188-4194,4222-4244,4314-4358,4425-4430,4631-4636,4824-4832,4868-4889
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.23",
+  "base_commit_sha": "e64a172a281768b71ee7994cc6e99b759c6886f8",
+  "prompts": {},
+  "sessions": {
+    "s_301bb898c477e0": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "dc4fb5ef-6cfd-40d2-a3b8-bb124ab4d952",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "cihan <b.cihancengiz@gmail.com>"
+    }
+  }
+}
