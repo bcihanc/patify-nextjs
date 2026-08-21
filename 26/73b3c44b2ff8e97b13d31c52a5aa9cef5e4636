@@ -1,0 +1,21 @@
+app/(admin)/admin/moderation/page.tsx
+  s_301bb898c477e0::t_8ffd1a49430037 1-36
+app/(admin)/admin/moderation/_components/report-row.tsx
+  s_301bb898c477e0::t_b2771675363975 1-61
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.23",
+  "base_commit_sha": "2673b3c44b2ff8e97b13d31c52a5aa9cef5e4636",
+  "prompts": {},
+  "sessions": {
+    "s_301bb898c477e0": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "dc4fb5ef-6cfd-40d2-a3b8-bb124ab4d952",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "cihan <b.cihancengiz@gmail.com>"
+    }
+  }
+}
