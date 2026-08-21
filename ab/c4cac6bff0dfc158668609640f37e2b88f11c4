@@ -1,0 +1,23 @@
+lib/supabase/admin.ts
+  s_301bb898c477e0::t_441ba6e5f0bd1a 1-16
+package.json
+  s_301bb898c477e0::t_e5b771608292eb 28-29
+package-lock.json
+  s_301bb898c477e0::t_91bda967a83777 27-28,4051-4056
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.23",
+  "base_commit_sha": "abc4cac6bff0dfc158668609640f37e2b88f11c4",
+  "prompts": {},
+  "sessions": {
+    "s_301bb898c477e0": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "dc4fb5ef-6cfd-40d2-a3b8-bb124ab4d952",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "cihan <b.cihancengiz@gmail.com>"
+    }
+  }
+}
