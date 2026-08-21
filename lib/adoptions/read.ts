@@ -10,15 +10,23 @@ export { PER_PAGE };
 const STORAGE_PUBLIC_BASE = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/assets`;
 const toImageUrl = (f: string) => `${STORAGE_PUBLIC_BASE}/${f}`;
 
-// jsonb → AdoptionExtraInfo; shape'i garanti etme, personalityTags eksikse [] varsay.
+// jsonb → AdoptionExtraInfo. Sub-keys are stored snake_case to match the mobile
+// app (the jsonb passes through the RPC verbatim); legacy web rows wrote camelCase.
+// Read both, prefer snake_case, so mobile and old web listings both resolve.
+function extraStr(e: Record<string, unknown>, snake: string, camel: string): string | null {
+  const v = e[snake] ?? e[camel];
+  return typeof v === 'string' && v.length > 0 ? v : null;
+}
+
 function mapExtraInfo(e: AdoptionRow['extra_info']): AdoptionExtraInfo | null {
   if (!e) return null;
+  const tags = e['personality_tags'] ?? e['personalityTags'];
   return {
-    healthNotes: e.healthNotes ?? null,
-    personalityTags: Array.isArray(e.personalityTags) ? e.personalityTags : [],
-    personalityDesc: e.personalityDesc ?? null,
-    adoptionRequirements: e.adoptionRequirements ?? null,
-    returnPolicy: e.returnPolicy ?? null,
+    healthNotes: extraStr(e, 'health_notes', 'healthNotes'),
+    personalityTags: Array.isArray(tags) ? tags.filter((x): x is string => typeof x === 'string') : [],
+    personalityDesc: extraStr(e, 'personality_desc', 'personalityDesc'),
+    adoptionRequirements: extraStr(e, 'adoption_requirements', 'adoptionRequirements'),
+    returnPolicy: extraStr(e, 'return_policy', 'returnPolicy'),
   };
 }
 

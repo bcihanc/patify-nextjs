@@ -41,14 +41,18 @@ function clean(s: string | null | undefined): string | null {
   return t.length ? t : null;
 }
 
-function cleanExtraInfo(e: AdoptionExtraInfo | null | undefined): AdoptionExtraInfo | null {
+// extra_info jsonb sub-keys are written snake_case to match the mobile app — the
+// jsonb passes through the RPC verbatim, so casing must agree cross-platform, or
+// health/personality/requirements/return-policy read back empty on the other app.
+// (read.ts mapExtraInfo reads both snake_case and legacy camelCase.)
+function cleanExtraInfo(e: AdoptionExtraInfo | null | undefined): Record<string, unknown> | null {
   if (!e) return null;
   return {
-    healthNotes: clean(e.healthNotes),
-    personalityTags: Array.isArray(e.personalityTags) ? e.personalityTags : [],
-    personalityDesc: clean(e.personalityDesc),
-    adoptionRequirements: clean(e.adoptionRequirements),
-    returnPolicy: clean(e.returnPolicy),
+    health_notes: clean(e.healthNotes),
+    personality_tags: Array.isArray(e.personalityTags) ? e.personalityTags : [],
+    personality_desc: clean(e.personalityDesc),
+    adoption_requirements: clean(e.adoptionRequirements),
+    return_policy: clean(e.returnPolicy),
   };
 }
 

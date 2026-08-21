@@ -149,7 +149,9 @@ export type AdoptionRow = {
   vaccinated: boolean | null;
   good_with_kids: boolean | null;
   good_with_pets: boolean | null;
-  extra_info: AdoptionExtraInfo | null;
+  // Raw jsonb — sub-keys are snake_case (mobile parity) but legacy web rows wrote
+  // camelCase; mapExtraInfo (read.ts) normalizes both. Never typed as AdoptionExtraInfo.
+  extra_info: Record<string, unknown> | null;
   status: AdoptionStatus;
   lifecycle_last_activity_at: string;
   application_questions: unknown | null;
