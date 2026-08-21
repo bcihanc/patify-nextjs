@@ -1,0 +1,36 @@
+lib/admin/ban.ts
+  s_301bb898c477e0::t_ec11986bc16424 1-58
+app/(admin)/admin/moderation/_components/report-actions.tsx
+  s_301bb898c477e0::t_023c9f38ffbdc4 15
+  s_301bb898c477e0::t_5287d399806a5b 1-14,16-77,79-98,100-124,127-197
+  s_301bb898c477e0::t_24b26f0a08bb17 125-126
+  s_301bb898c477e0::t_8d55375361b5ed 99
+  s_301bb898c477e0::t_98e943eea65e25 78
+app/(admin)/admin/moderation/page.tsx
+  s_301bb898c477e0::t_8322e64eb5e61e 24
+lib/admin/moderation-actions.ts
+  s_301bb898c477e0::t_ba2f339d02e354 1-73
+app/(admin)/admin/moderation/_components/report-row.tsx
+  s_301bb898c477e0::t_5eda9dce6270c0 5
+  s_301bb898c477e0::t_35cc0db3de8c45 60-62
+app/(admin)/layout.tsx
+  s_301bb898c477e0::t_4c6ffa16df329d 4,12
+lib/admin/feedback-actions.ts
+  s_301bb898c477e0::t_07ba4572dee81d 1-20
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.23",
+  "base_commit_sha": "cd3183c2cbdd2eb9386dc24cff393e38ef0e1a5c",
+  "prompts": {},
+  "sessions": {
+    "s_301bb898c477e0": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "dc4fb5ef-6cfd-40d2-a3b8-bb124ab4d952",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "cihan <b.cihancengiz@gmail.com>"
+    }
+  }
+}
