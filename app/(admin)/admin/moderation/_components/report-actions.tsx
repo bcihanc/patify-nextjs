@@ -109,7 +109,7 @@ export function ReportActions({ item }: { item: ReportQueueItem }) {
           <AlertDialogHeader>
             <AlertDialogTitle>İçeriği gizle</AlertDialogTitle>
             <AlertDialogDescription>
-              İçerik kullanıcılardan gizlenir (pasif/silinmiş işaretlenir). Geri almak için &quot;Aktifleştir&quot; kullanılır.
+              İçerik kullanıcılardan gizlenir (pasif/silinmiş işaretlenir).
             </AlertDialogDescription>
           </AlertDialogHeader>
           <div className="space-y-2">

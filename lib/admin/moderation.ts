@@ -57,16 +57,18 @@ function mapQueueRow(r: ReportQueueRow): ReportQueueItem {
   };
 }
 
-// Server Component'ten (moderation/page.tsx) doğrudan çağrılır. RPC zaten is_admin()
-// guard'lı — non-admin çağrısı 'not_admin' hatasıyla reddedilir, burada boş dizi döner
-// (layout zaten notFound() ile non-admin'i engelliyor; bu yalnızca savunma katmanı).
+// Server Component'ten (moderation/page.tsx) doğrudan çağrılır. Gerçek bir RPC
+// hatasını (ör. DB kesintisi) [] ile maskelemiyoruz — sessizce "Bekleyen rapor yok"
+// göstermek yanıltıcı olur; fırlatıp error boundary'ye bırakıyoruz (fail loud).
+// data null ama error yoksa (teorik, TABLE dönüşünde beklenmez) boş dizi.
 export async function getReportQueue(): Promise<ReportQueueItem[]> {
   const supabase = await createClient();
   const { data, error } = await supabase.rpc('admin_report_queue');
-  if (error || !data) {
-    if (error) console.error('getReportQueue:', error.message);
-    return [];
+  if (error) {
+    console.error('getReportQueue:', error.message);
+    throw new Error(`getReportQueue: ${error.message}`);
   }
+  if (!data) return [];
   // .returns<T[]>() supabase-js'te bu RPC şekliyle sahte "single object to array"
   // tip hatası veriyor (setof olmayan TABLE(...) dönüşü) — düz cast ile aşılıyor.
   return (data as ReportQueueRow[]).map(mapQueueRow);

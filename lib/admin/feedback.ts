@@ -45,13 +45,17 @@ function mapFeedbackRow(r: FeedbackRow): FeedbackItem {
   };
 }
 
+// Gerçek bir RPC hatasını (ör. DB kesintisi) [] ile maskelemiyoruz — sessizce
+// "Henüz geri bildirim yok" göstermek yanıltıcı olur; fırlatıp error boundary'ye
+// bırakıyoruz (fail loud). data null ama error yoksa (teorik) boş dizi.
 export async function getFeedback(): Promise<FeedbackItem[]> {
   const supabase = await createClient();
   const { data, error } = await supabase.rpc('admin_feedback_list');
-  if (error || !data) {
-    if (error) console.error('getFeedback:', error.message);
-    return [];
+  if (error) {
+    console.error('getFeedback:', error.message);
+    throw new Error(`getFeedback: ${error.message}`);
   }
+  if (!data) return [];
   // .returns<T[]>() supabase-js'te setof-feedback dönüşünde sahte "single object to
   // array" tip hatası veriyor — düz cast ile aşılıyor.
   return (data as FeedbackRow[]).map(mapFeedbackRow);

@@ -21,10 +21,14 @@ export async function banUser(
 ): Promise<ActionResult> {
   const adminId = await requireAdmin(); // layout'a güvenme — action kendi başına doğrular.
 
+  // 0 (veya negatif) durationHours "falsy" değil — `durationHours ? ... : PERMANENT`
+  // 0'ı kalıcı bana çevirirdi (footgun). Açıkça > 0 kontrol ediyoruz.
+  const hasFiniteDuration = typeof durationHours === 'number' && durationHours > 0;
+
   // (b) Gerçek enforcement: Supabase Auth admin API, service-role ile.
   const admin = createAdminClient();
   const { error: authError } = await admin.auth.admin.updateUserById(targetUserId, {
-    ban_duration: durationHours ? `${durationHours}h` : PERMANENT_BAN_DURATION,
+    ban_duration: hasFiniteDuration ? `${durationHours}h` : PERMANENT_BAN_DURATION,
   });
   if (authError) {
     console.error('banUser (auth):', authError.message);
@@ -32,7 +36,7 @@ export async function banUser(
   }
 
   // (c) Bizim metadata/audit kaydımız — null = kalıcı, aksi halde now()+duration.
-  const bannedUntil = durationHours
+  const bannedUntil = hasFiniteDuration
     ? new Date(Date.now() + durationHours * 60 * 60 * 1000).toISOString()
     : null;
   const { error: banRowError } = await admin
