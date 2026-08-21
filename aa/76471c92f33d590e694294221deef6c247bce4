@@ -1,0 +1,27 @@
+lib/admin/moderation.ts
+  s_301bb898c477e0::t_aa2f1a73e8bf52 60-63,67-69,71
+CLAUDE.md
+  s_301bb898c477e0::t_ad1298f69866f4 49
+lib/admin/ban.ts
+  s_301bb898c477e0::t_47209460cd9370 24-27,31,39
+lib/admin/feedback.ts
+  s_301bb898c477e0::t_ddef99f0571e6c 48-50,54-56,58
+app/(admin)/admin/moderation/_components/report-actions.tsx
+  s_301bb898c477e0::t_11f9040361e316 112
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.23",
+  "base_commit_sha": "aa76471c92f33d590e694294221deef6c247bce4",
+  "prompts": {},
+  "sessions": {
+    "s_301bb898c477e0": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "dc4fb5ef-6cfd-40d2-a3b8-bb124ab4d952",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "cihan <b.cihancengiz@gmail.com>"
+    }
+  }
+}
