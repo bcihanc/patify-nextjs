@@ -1,0 +1,23 @@
+lib/adoptions/types.ts
+  s_136984c6a883b8::t_bbd5bcab11fcb1 152-154
+lib/adoptions/read.ts
+  s_136984c6a883b8::t_c8a4dd19092739 13-20,23,25-29
+lib/adoptions/actions.ts
+  s_136984c6a883b8::t_924aa877f35a18 44-48,51-55
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.23",
+  "base_commit_sha": "ef1312d10e433a50b2e46ef72158c9ff592c6464",
+  "prompts": {},
+  "sessions": {
+    "s_136984c6a883b8": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "75de1125-b2c0-49af-815a-949bd3d4e5e9",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "cihan <b.cihancengiz@gmail.com>"
+    }
+  }
+}
