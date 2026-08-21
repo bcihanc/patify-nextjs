@@ -1,6 +1,4 @@
-import { revalidatePath } from 'next/cache';
 import { createClient } from '@/lib/supabase/server';
-import { requireAdmin } from './auth';
 
 export type FeedbackStatus = 'new' | 'in_review' | 'closed';
 
@@ -61,16 +59,4 @@ export async function getFeedback(): Promise<FeedbackItem[]> {
   // .returns<T[]>() supabase-js'te setof-feedback dönüşünde sahte "single object to
   // array" tip hatası veriyor — düz cast ile aşılıyor.
   return (data as FeedbackRow[]).map(mapFeedbackRow);
-}
-
-type ActionResult = { ok: true } | { error: string };
-
-export async function setFeedbackStatus(id: string, status: FeedbackStatus): Promise<ActionResult> {
-  'use server';
-  await requireAdmin();
-  const supabase = await createClient();
-  const { error } = await supabase.rpc('admin_set_feedback_status', { p_id: id, p_status: status });
-  if (error) { console.error('setFeedbackStatus:', error.message); return { error: 'İşlem başarısız, tekrar dene.' }; }
-  revalidatePath('/admin/feedback');
-  return { ok: true };
 }

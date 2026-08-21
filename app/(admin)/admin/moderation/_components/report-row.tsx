@@ -2,6 +2,7 @@ import { Badge } from '@/components/ui/badge';
 import { TableCell, TableRow } from '@/components/ui/table';
 import { REPORT_TYPE_LABELS, type ReportType } from '@/lib/reports/types';
 import type { ReportEntity, ReportQueueItem } from '@/lib/admin/moderation';
+import { ReportActions } from './report-actions';
 
 const ENTITY_LABELS: Record<ReportEntity, string> = {
   posts: 'Gönderi',
@@ -55,6 +56,9 @@ export function ReportRow({ item }: { item: ReportQueueItem }) {
       <TableCell className="whitespace-nowrap text-sm text-muted-foreground">
         <div>İlk: {formatDateTime(item.firstAt)}</div>
         <div>Son: {formatDateTime(item.lastAt)}</div>
+      </TableCell>
+      <TableCell>
+        <ReportActions item={item} />
       </TableCell>
     </TableRow>
   );

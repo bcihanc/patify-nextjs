@@ -21,6 +21,7 @@ export default async function ModerationQueuePage() {
                 <TableHead>Tür dağılımı</TableHead>
                 <TableHead>Risk</TableHead>
                 <TableHead>İlk / Son rapor</TableHead>
+                <TableHead>Aksiyonlar</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
