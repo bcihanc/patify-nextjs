@@ -24,7 +24,9 @@ Auth itself is Supabase cookie-based sessions (email/password + Apple Sign-In).
 - `npm run build` — production build
 - `npm start` — serve production build
 
-No test runner or linter is configured in `package.json`. Type errors surface via `npm run build`. There is no `npm run lint` script despite `eslint-disable` comments in source (ESLint runs as part of `next build`). `prettier` is a dependency but has no npm script — run it via `npx prettier`.
+No test runner or linter is configured in `package.json`. Type errors surface via `npm run build`. **ESLint is not installed at all** — no `eslint` dependency, no config — so `next build` does NOT lint, and the `eslint-disable` comments scattered in source are inert legacy no-ops. `prettier` is a dependency but has no npm script — run it via `npx prettier`.
+
+- **`next.config.ts` sets `agentRules: false`.** Next 16 otherwise appends its own "agent rules" block to this CLAUDE.md on every dev/build. This file is hand-maintained — keep the opt-out, don't remove the flag.
 
 ## Environment Variables
 - `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY` — Supabase project (also used to build public storage URLs). **Required** — `instrumentation.ts` fails loud (throws on boot) if either is missing.
@@ -80,6 +82,7 @@ Each authenticated feature has a `lib/` module (typically `read.ts` for queries,
 - **Satori requires `display:flex` on any element with >1 child.** In the OG image, the headline is built as a single string so its `<div>` stays single-child. Adding child nodes without `display:flex` breaks image generation.
 - **`metadataBase` must never fall back to localhost in production** — WhatsApp/social crawlers can't fetch localhost, so previews break. `app/layout.tsx` defaults to `https://patify.net` when `NODE_ENV==='production'` and normalizes `PUBLIC_URL` so a protocol-carrying value doesn't produce `https://https://…`.
 - **Strict TS beyond `strict`.** `tsconfig.json` also enables `noUncheckedIndexedAccess` (array indexing yields `T | undefined` — hence non-null assertions like `rows[0]!` with disable comments; keep that pattern), plus `noImplicitReturns`, `noUnusedLocals`, and `noUnusedParameters`. The last two fail `next build` on any unused import or variable, so drop dead imports rather than leaving them.
+- **jsonb columns pass through RPCs verbatim — nest their sub-keys in snake_case to match mobile.** Each `read.ts` maps snake_case→camelCase for top-level RPC columns only; keys **inside** a jsonb column (`adoptions.extra_info`, and the pending `application_questions`) are NOT remapped. Write and read those sub-keys as snake_case (`health_notes`, not `healthNotes`), or the values silently read back empty on the mobile app and vice-versa. This already bit `extra_info` — fixed by writing snake_case plus a legacy-camelCase read fallback (`lib/adoptions/{actions,read}.ts`).
 
 ### KVKK / location masking — owner-aware, server-side (don't re-derive this every time)
 Listing coordinates are privacy-masked **in the Supabase RPC, not in web code**. This is a cross-cutting rule that keeps getting re-discovered — treat it as fixed:
