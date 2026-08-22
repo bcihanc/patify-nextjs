@@ -161,13 +161,13 @@ function mapUserDetail(r: AdminUserDetailRow): AdminUserDetail {
       ? { reason: r.ban.reason, bannedUntil: r.ban.banned_until, createdAt: r.ban.created_at }
       : null,
     content: {
-      lostFound: r.content.lost_found,
-      adoptions: r.content.adoptions,
-      posts: r.content.posts,
-      emergency: r.content.emergency,
+      lostFound: r.content.lost_found ?? 0,
+      adoptions: r.content.adoptions ?? 0,
+      posts: r.content.posts ?? 0,
+      emergency: r.content.emergency ?? 0,
     },
-    blocksAgainst: r.blocks_against,
-    reportsAgainst: r.reports_against,
+    blocksAgainst: r.blocks_against ?? 0,
+    reportsAgainst: r.reports_against ?? 0,
     recentModeration: (r.recent_moderation ?? []).map((m) => ({
       action: m.action,
       targetEntity: m.target_entity,
