@@ -4,9 +4,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Patify — a Next.js 16 App Router pet community app. Two route groups split the app by trust boundary:
+Patify — a Next.js 16 App Router pet community app. Three route groups split the app by trust boundary:
 1. **`app/(app)/` — the authenticated app.** A full social surface behind a Supabase session: lost & found, adoptions, emergency, chats (realtime DM), notifications, profiles + follow, complete-profile onboarding, consent gate, feedback, reports/trust/blocking. Each feature has a matching `lib/<feature>/` domain module.
 2. **`app/(public)/` — the public/unauthenticated surface.** Auth pages, support/legal pages, and the server-rendered, shareable **lost & found item** pages (`/lost-found/item/[id]`) with dynamic OpenGraph images, backed by a Supabase RPC. These get shared into WhatsApp/social, so link-preview correctness matters. Public guest profiles (`/profile/user/[id]`) live here too.
+3. **`app/(admin)/` — the internal admin panel.** Gated by **presence of a row** in the `admin_users` table (the table has a `role` column reserved for future levels, but the gate checks row presence, not its value — see Admin panel below). P0 foundation only as of 2026-08-21: `/admin` overview placeholder + 8-section sidebar nav; most sections 404 until their P1+ modules land.
 
 Auth itself is Supabase cookie-based sessions (email/password + Apple Sign-In).
 
@@ -45,6 +46,7 @@ No test runner or linter is configured in `package.json`. Type errors surface vi
 
 ### Feature domain modules — `lib/<feature>/`
 Each authenticated feature has a `lib/` module (typically `read.ts` for queries, `actions.ts` for Server Actions, `types.ts`, `filters.ts`). The matching UI is `app/(app)/<feature>/`.
+**Don't merge `read.ts` and `actions.ts` into one file.** Next's precise rule (verified live, its own error text): a *per-function* inline `'use server'` (the directive as the first line inside a function body, not at the top of the file) cannot be imported by a Client Component — "It is not allowed to define inline 'use server' annotated Server Actions in Client Components... export them from a separate file with 'use server' at the top." Hitting that also drags the file's other imports (e.g. `createClient`'s `next/headers`) into a second, uglier "You're importing next/headers... in the Pages Router" error. Reads and mutations need separate files (mutations file-level `'use server'`) whenever a Client Component will call the mutation directly — confirmed while building `lib/admin/moderation.ts`.
 - `lib/adoptions/`, `lib/emergency/`, `lib/lost-found/` — the three listing features (browse list + map view + create/edit/detail).
 - `lib/chats/` — realtime DM (`repository.ts`, `realtime.ts`, `dm.ts`).
 - `lib/notifications/` — in-app notifications (`read.ts`, `actions.ts`, `copy.ts`).
@@ -64,11 +66,20 @@ Each authenticated feature has a `lib/` module (typically `read.ts` for queries,
 `middleware.ts` → `updateSession` (`lib/supabase/middleware.ts`) runs on every non-static request (matcher excludes `_next/*`, images, favicon). It does three things:
 1. **Refreshes the session cookie** (the `getUser()` call — do not move/remove it; see inline warnings).
 2. **Forwards `x-pathname` as a REQUEST header** so `app/(app)/layout.tsx` can read the current path (Next 16 server components can't read it natively; a response header wouldn't be visible to `headers()`).
-3. **Coarse auth guard:** unauthenticated requests to `AUTHED_PREFIXES` (`/chats`, `/profile`, `/notifications`, `/complete-profile`, `/accept-consent`) redirect to `/auth/login`. Public exceptions carved out: `/lost-found/item/*` (crawlable listing) and `/profile/user/*` (guest profile).
+3. **Coarse auth guard:** unauthenticated requests to `AUTHED_PREFIXES` (`/chats`, `/profile`, `/notifications`, `/complete-profile`, `/accept-consent`, `/admin`) redirect to `/auth/login`. Public exceptions carved out: `/lost-found/item/*` (crawlable listing) and `/profile/user/*` (guest profile).
 
-**This is only the coarse pass — the authoritative gate is `app/(app)/layout.tsx`** (`resolveGateRedirect` in `lib/auth/gate.ts`): no profile → `GuestShell`; otherwise enforces username + consent (`/complete-profile`, `/accept-consent`) before rendering the app shell. Feature routes like `/adoptions`, `/emergency`, `/lost-found` (the authed browse, not `/lost-found/item/*`) are guarded by the layout, not listed in `AUTHED_PREFIXES`.
+**This is only the coarse pass — the authoritative gate is `app/(app)/layout.tsx`** (`resolveGateRedirect` in `lib/auth/gate.ts`): no profile → `GuestShell`; otherwise enforces username + consent (`/complete-profile`, `/accept-consent`) before rendering the app shell. Feature routes like `/adoptions`, `/emergency`, `/lost-found` (the authed browse, not `/lost-found/item/*`) are guarded by the layout, not listed in `AUTHED_PREFIXES`. `/admin` has its own separate authoritative gate — see Admin panel below, not `gate.ts`.
 
 **`/home` is legacy** — middleware redirects it to `/lost-found` (the current post-login target). It is not a protected page anymore.
+
+### Admin panel — third trust boundary, gated by table membership
+- **Gate:** `requireAdmin()` / `getAdminUserId()` (`lib/admin/auth.ts`) check `public.admin_users` for a row matching `auth.getUser().id` — the gate is **row presence**, not the value of the `role` column (which exists, defaults to `'admin'`, reserved for future level-splitting per spec K2). `app/(admin)/layout.tsx` calls `requireAdmin()`: anon → `/auth/login`, authenticated non-admin → `notFound()` (404, not a 403 — the panel's existence isn't revealed to non-admins). This layout gate is authoritative; the middleware `/admin` prefix (above) is only the coarse early pass — it intercepts a logged-out `/admin` visit first and redirects to plain `/auth/login` (no `next`), so `requireAdmin`'s own anon branch mainly covers a session that expires between middleware and render. Same relationship as `(app)`/`gate.ts`.
+- **Service-role client:** `lib/supabase/admin.ts` (`createAdminClient()`) wraps `@supabase/supabase-js` directly with `SUPABASE_SERVICE_ROLE_KEY`, bypassing RLS. Guarded by the `server-only` package (throws if imported from a Client Component) and by a runtime throw if the env var is missing. Used ONLY by the ban action (`lib/admin/ban.ts`) for the Supabase Auth admin API — everything else goes through admin RPCs under the normal cookie client. Never expose the service key as `NEXT_PUBLIC_*`. **`SUPABASE_SERVICE_ROLE_KEY` is not committed; add it to `.env.local` — ban is the only feature that needs it.**
+- **All 8 sections shipped (P0–P4):** `/admin` (Genel Bakış work-queue), `/admin/moderation`, `/admin/feedback`, `/admin/metrics`, `/admin/users` (+`[id]` detail), `/admin/content`, `/admin/ops`, `/admin/push`. Nav: `components/admin/admin-nav.tsx` (client, `usePathname`). Each feature has a `lib/admin/<x>.ts` (reads) + `<x>-actions.ts` (Server Actions) — **kept as separate files** (a Client Component importing a Server Action from a file that also has `next/headers` reads breaks `next build`; see the read/actions rule above).
+- **Admin data layer = SECURITY DEFINER RPCs, authored in the MOBILE repo.** The web app has no committed migrations; all admin tables/RLS/RPCs live in the sibling Flutter repo (`~/IdeaProjects/patify/supabase/migrations/`, `admin_*` + `20260821*`/`20260822*`). Every admin RPC guards internally with `public.is_admin()` (SECURITY DEFINER, EXECUTE-revoked from clients so it can't be probed) and raises `not_admin` for non-admins. Cross-user reads (reports queue, user PII detail) MUST go through these RPCs — the base tables' RLS is own-row-only, so a direct `.from()` returns nothing. Regenerate `database.types.ts` after any RPC change.
+- **Moderation:** reports queue grouped by `entity+entity_id`; actions dismiss/hide/warn/ban all write an append-only `moderation_actions` audit row. **Hide** = per-entity (`pasif` for lost_found/adoptions, `deleted_at` for comments/posts/discussions; `lost_found_sightings` has no hide). **Ban** = Supabase Auth `ban_duration` (finite; permanent = a far-future duration) + a `user_bans` row — **NEVER `banned_until = 'infinity'`, which is the account-deletion tombstone**. PII (phone/birth_date/home) is shown ONLY on the user *detail* page, never in the list (KVKK).
+- **Notifications from admin RPCs (`admin_warn_user`, `admin_broadcast_announcement`) must use an allowed `category`.** `notifications_category_check` only permits `proximity/matches/sighting/my_listing/adoption_status/chat/social` — admin messages use `category='social'` and carry the real kind in `type` (`admin_warning`/`admin_announcement`); mobile `notification_copy.dart` renders unknown types via a title/body fallback. A new category value would fail the insert. The Push broadcast is **in-app notifications only** — no OneSignal phone-push fan-out.
+- **UI deps added for this surface:** `recharts` (v3, React-19-compatible) for future charts, `@tanstack/react-table` for future data tables, plus shadcn primitives `table`/`tabs`/`select`/`sheet`/`sonner`/`skeleton`/`alert-dialog`/`separator` in `components/ui/`.
 
 ### Lost & Found — TWO data layers, don't conflate them
 - **Public layer: `lib/lost-found.ts` (flat file).** `getLostFoundById()` — anon (cookie-free) Supabase client wrapped in `unstable_cache` (60s revalidate, `lf-${id}` tag), calls RPC `get_lost_found_by_id`, maps snake_case → camelCase `LostFoundListing`, and turns bare filenames into full URLs against the **public** `assets` bucket. Cookie-free because `unstable_cache` forbids `cookies()`/`headers()`.
@@ -92,7 +103,7 @@ Listing coordinates are privacy-masked **in the Supabase RPC, not in web code**.
 - Guest visibility is a separate axis: LF in-app detail + public profile RPCs are anon-CLOSED (login-gated), while Adoptions/Emergency detail RPCs are anon-open. Check the RPC's anon grant before exposing a page to guests.
 
 ### Routes
-Route groups don't affect URLs — they only pick the layout/trust boundary. `(app)` = authenticated (gated by `app/(app)/layout.tsx`); `(public)` = unauthenticated.
+Route groups don't affect URLs — they only pick the layout/trust boundary. `(app)` = authenticated (gated by `app/(app)/layout.tsx`); `(public)` = unauthenticated; `(admin)` = admin-only (gated by `app/(admin)/layout.tsx` + `requireAdmin()`).
 
 **`app/(app)/` — authenticated:**
 - Listings: `/lost-found`, `/adoptions`, `/emergency` — each with `/create`, `/[id]`, `/[id]/edit` (adoptions/lost-found), `/map`, and `/mine` (lost-found/adoptions).
@@ -106,6 +117,9 @@ Route groups don't affect URLs — they only pick the layout/trust boundary. `(a
 - Auth: `/sign-up`, `/forgot-password`, `/auth/error`, `/auth/oauth` (OAuth callback)
 - Recovery: `/reset-password` (universal-link landing → `/home/reset-password` new-password form); `/home` redirects to `/lost-found`
 - Support/legal: `/cr`, `/pp`, `/tos`, `/csae`. Long-form text is Markdown in `app/(public)/(support-pages)/_content/` (TR + EN), rendered via `react-markdown` + `remark-gfm`.
+
+**`app/(admin)/` — admin-only:**
+- `/admin` — Genel Bakış (overview), currently a placeholder. Sidebar (`admin-nav.tsx`) lists 8 planned sections (`/admin/moderation`, `/admin/feedback`, `/admin/metrics`, `/admin/users`, `/admin/content`, `/admin/ops`, `/admin/push`) — none of those routes exist yet, so they 404 until their P1+ tasks ship.
 
 **Top-level (outside groups):** `/auth/login`, `/protected` (example), plus `error.tsx` / `global-error.tsx` / `not-found.tsx`.
 
