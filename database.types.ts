@@ -2216,6 +2216,10 @@ export type Database = {
         }
         Returns: undefined
       }
+      admin_broadcast_announcement: {
+        Args: { p_body: string; p_city: string; p_title: string }
+        Returns: number
+      }
       admin_content_health: {
         Args: never
         Returns: {
@@ -2270,6 +2274,40 @@ export type Database = {
           isSetofReturn: true
         }
       }
+      admin_get_flags: {
+        Args: never
+        Returns: {
+          enabled: boolean
+          key: string
+          updated_at: string
+        }[]
+        SetofOptions: {
+          from: "*"
+          to: "app_flags"
+          isOneToOne: false
+          isSetofReturn: true
+        }
+      }
+      admin_get_release_gate: {
+        Args: never
+        Returns: {
+          latest_store_build: number
+          maintenance: boolean
+          message_en: string | null
+          message_tr: string | null
+          min_build_number: number
+          platform: string
+          recommended_build: number
+          store_url: string | null
+          updated_at: string
+        }[]
+        SetofOptions: {
+          from: "*"
+          to: "app_release_gate"
+          isOneToOne: false
+          isSetofReturn: true
+        }
+      }
       admin_hide_content: {
         Args: {
           p_entity: Database["public"]["Enums"]["report_entity"]
@@ -2303,6 +2341,17 @@ export type Database = {
         }[]
       }
       admin_overview_counts: { Args: never; Returns: Json }
+      admin_push_audit: {
+        Args: { p_limit?: number }
+        Returns: {
+          created_at: string
+          id: number
+          receiver_id: string
+          receiver_username: string
+          sender_id: string
+          sender_username: string
+        }[]
+      }
       admin_reactivate_content: {
         Args: {
           p_entity: Database["public"]["Enums"]["report_entity"]
@@ -2329,6 +2378,21 @@ export type Database = {
       }
       admin_set_feedback_status: {
         Args: { p_id: string; p_status: string }
+        Returns: undefined
+      }
+      admin_set_flag: {
+        Args: { p_enabled: boolean; p_key: string }
+        Returns: undefined
+      }
+      admin_set_release_gate: {
+        Args: {
+          p_maintenance: boolean
+          p_message_en?: string
+          p_message_tr?: string
+          p_min_build: number
+          p_platform: string
+          p_recommended_build: number
+        }
         Returns: undefined
       }
       admin_user_detail: { Args: { p_user_id: string }; Returns: Json }
