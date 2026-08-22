@@ -1,0 +1,19 @@
+database.types.ts
+  s_301bb898c477e0::t_72a7ebb1f31da1 2227-2243,2281-2296,2334
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.23",
+  "base_commit_sha": "aebcd8f8e62dc92b7ba51ce3fbaf65ee92132453",
+  "prompts": {},
+  "sessions": {
+    "s_301bb898c477e0": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "dc4fb5ef-6cfd-40d2-a3b8-bb124ab4d952",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "cihan <b.cihancengiz@gmail.com>"
+    }
+  }
+}
