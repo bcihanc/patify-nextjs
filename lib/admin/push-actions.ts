@@ -21,8 +21,8 @@ export async function broadcast(
   const supabase = await createClient();
   const { data, error } = await supabase.rpc('admin_broadcast_announcement', {
     p_city: city,
-    p_title: title,
-    p_body: body,
+    p_title: title.trim(),
+    p_body: body.trim(),
   });
   if (error) {
     if (error.message.includes('empty_message')) {
