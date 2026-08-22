@@ -1,0 +1,27 @@
+lib/admin/ops.ts
+  s_301bb898c477e0::t_8e5cce2c3a2fea 1-82
+app/(admin)/admin/ops/_components/flag-row.tsx
+  s_301bb898c477e0::t_4731f57287a708 1-35
+lib/admin/ops-actions.ts
+  s_301bb898c477e0::t_d10d2804f5671e 1-51
+app/(admin)/admin/ops/_components/release-gate-editor.tsx
+  s_301bb898c477e0::t_339e4497cf6794 1-149
+app/(admin)/admin/ops/page.tsx
+  s_301bb898c477e0::t_ac58332ea8f34b 1-77
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.23",
+  "base_commit_sha": "855fff5cb25dbdb2eb2f13f71c394d91db1c0e53",
+  "prompts": {},
+  "sessions": {
+    "s_301bb898c477e0": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "dc4fb5ef-6cfd-40d2-a3b8-bb124ab4d952",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "cihan <b.cihancengiz@gmail.com>"
+    }
+  }
+}
