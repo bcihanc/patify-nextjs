@@ -2216,6 +2216,14 @@ export type Database = {
         }
         Returns: undefined
       }
+      admin_content_health: {
+        Args: never
+        Returns: {
+          n: number
+          status: string
+          surface: string
+        }[]
+      }
       admin_dismiss_reports: {
         Args: {
           p_entity: Database["public"]["Enums"]["report_entity"]
@@ -2253,6 +2261,15 @@ export type Database = {
         }
         Returns: undefined
       }
+      admin_metric_series: {
+        Args: { p_days?: number; p_metric: string }
+        Returns: {
+          day: string
+          dims: Json
+          value: number
+        }[]
+      }
+      admin_overview_counts: { Args: never; Returns: Json }
       admin_reactivate_content: {
         Args: {
           p_entity: Database["public"]["Enums"]["report_entity"]
