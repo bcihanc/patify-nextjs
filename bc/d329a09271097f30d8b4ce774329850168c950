@@ -1,0 +1,23 @@
+lib/admin/users.ts
+  s_301bb898c477e0::t_8597f2b44c1095 1-193
+app/(admin)/admin/users/page.tsx
+  s_301bb898c477e0::t_3604b7cb667c07 1-94
+app/(admin)/admin/users/[id]/page.tsx
+  s_301bb898c477e0::t_e7baf3964f24be 1-133
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.23",
+  "base_commit_sha": "bcd329a09271097f30d8b4ce774329850168c950",
+  "prompts": {},
+  "sessions": {
+    "s_301bb898c477e0": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "dc4fb5ef-6cfd-40d2-a3b8-bb124ab4d952",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "cihan <b.cihancengiz@gmail.com>"
+    }
+  }
+}
