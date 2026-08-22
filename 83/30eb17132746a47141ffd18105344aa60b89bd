@@ -1,0 +1,25 @@
+app/(admin)/admin/push/_components/broadcast-form.tsx
+  s_301bb898c477e0::t_0f3e5b654c5b14 1-81
+lib/admin/push.ts
+  s_301bb898c477e0::t_3c5104712efe65 1-44
+lib/admin/push-actions.ts
+  s_301bb898c477e0::t_462ea1cde2ecc0 1-36
+app/(admin)/admin/push/page.tsx
+  s_301bb898c477e0::t_37c511282eef49 1-65
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.23",
+  "base_commit_sha": "8330eb17132746a47141ffd18105344aa60b89bd",
+  "prompts": {},
+  "sessions": {
+    "s_301bb898c477e0": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "dc4fb5ef-6cfd-40d2-a3b8-bb124ab4d952",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "cihan <b.cihancengiz@gmail.com>"
+    }
+  }
+}
