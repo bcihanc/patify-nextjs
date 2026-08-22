@@ -1,0 +1,30 @@
+app/(admin)/admin/metrics/page.tsx
+  s_301bb898c477e0::t_abcfe48f8dbc40 1-144
+lib/admin/metrics.ts
+  s_301bb898c477e0::t_301eb536da4751 1-139
+app/(admin)/admin/metrics/_components/retention-trend-chart.tsx
+  s_301bb898c477e0::t_cbbf6ed241440f 19-20
+  s_301bb898c477e0::t_2bcc0e4840ad1d 1-18,21-34
+app/(admin)/admin/metrics/_components/content-health-table.tsx
+  s_301bb898c477e0::t_3570c055727e23 1-38
+app/(admin)/admin/metrics/_components/funnel-bars.tsx
+  s_301bb898c477e0::t_532effa8e805b1 1-27
+app/(admin)/admin/metrics/_components/north-star-trend-chart.tsx
+  s_301bb898c477e0::t_54f1b5c01b58c3 1-47
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.23",
+  "base_commit_sha": "9206650f5991e2c2598c81de5764ccb690f5de56",
+  "prompts": {},
+  "sessions": {
+    "s_301bb898c477e0": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "dc4fb5ef-6cfd-40d2-a3b8-bb124ab4d952",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "cihan <b.cihancengiz@gmail.com>"
+    }
+  }
+}
