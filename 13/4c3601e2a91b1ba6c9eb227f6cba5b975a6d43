@@ -1,0 +1,25 @@
+lib/admin/content.ts
+  s_301bb898c477e0::t_2e58b5f01a32fa 1-58
+app/(admin)/admin/content/_components/content-row-actions.tsx
+  s_301bb898c477e0::t_6ef3a710431dc1 1-106
+app/(admin)/admin/content/page.tsx
+  s_301bb898c477e0::t_a441ef6b0cc5d1 1-96
+app/(admin)/admin/content/_components/content-filters.tsx
+  s_301bb898c477e0::t_97bc231c49bd23 1-59
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.23",
+  "base_commit_sha": "134c3601e2a91b1ba6c9eb227f6cba5b975a6d43",
+  "prompts": {},
+  "sessions": {
+    "s_301bb898c477e0": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "dc4fb5ef-6cfd-40d2-a3b8-bb124ab4d952",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "cihan <b.cihancengiz@gmail.com>"
+    }
+  }
+}
