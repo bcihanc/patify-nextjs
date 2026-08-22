@@ -2224,6 +2224,23 @@ export type Database = {
           surface: string
         }[]
       }
+      admin_content_list: {
+        Args: {
+          p_limit?: number
+          p_offset?: number
+          p_status?: string
+          p_surface: string
+        }
+        Returns: {
+          created_at: string
+          id: string
+          owner_id: string
+          owner_username: string
+          preview: string
+          reports_count: number
+          status: string
+        }[]
+      }
       admin_dismiss_reports: {
         Args: {
           p_entity: Database["public"]["Enums"]["report_entity"]
@@ -2260,6 +2277,22 @@ export type Database = {
           p_reason: string
         }
         Returns: undefined
+      }
+      admin_list_users: {
+        Args: { p_limit?: number; p_offset?: number; p_search?: string }
+        Returns: {
+          adoption_count: number
+          blocks_against: number
+          created_at: string
+          id: string
+          is_banned: boolean
+          is_trusted: boolean
+          last_seen: string
+          lf_count: number
+          post_count: number
+          profile_photo: string
+          username: string
+        }[]
       }
       admin_metric_series: {
         Args: { p_days?: number; p_metric: string }
@@ -2298,6 +2331,7 @@ export type Database = {
         Args: { p_id: string; p_status: string }
         Returns: undefined
       }
+      admin_user_detail: { Args: { p_user_id: string }; Returns: Json }
       admin_warn_user: {
         Args: {
           p_entity: Database["public"]["Enums"]["report_entity"]
