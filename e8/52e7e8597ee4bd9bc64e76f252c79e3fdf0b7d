@@ -1,0 +1,21 @@
+app/(public)/(support-pages)/_content/privacy_policy_en.md
+  s_72230d7bb73927::t_510cea52c7bb9c 4,28,63-64,83,104,146-150
+app/(public)/(support-pages)/_content/privacy_policy_tr.md
+  s_72230d7bb73927::t_f27a0e81e77610 4,28,63-64,83,104,146-150
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "e852e7e8597ee4bd9bc64e76f252c79e3fdf0b7d",
+  "prompts": {},
+  "sessions": {
+    "s_72230d7bb73927": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "4fe9589a-ad4a-4deb-80ec-c1e566cdb90d",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "cihan <b.cihancengiz@gmail.com>"
+    }
+  }
+}
