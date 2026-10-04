@@ -116,6 +116,7 @@ Route groups don't affect URLs — they only pick the layout/trust boundary. `(a
 - `/lost-found/item/[id]` (shareable listing + OG image; `+/gordum` sighting form) · `/adoptions/adoption/[id]` · `/emergency/case/[id]` · `/app` → 308 `/indir`
 - Auth: `/sign-up`, `/forgot-password`, `/auth/error`, `/auth/oauth` (OAuth callback)
 - Recovery: `/reset-password` (universal-link landing → `/home/reset-password` new-password form); `/home` redirects to `/lost-found`
+- `/eposta-cikis?u=&t=` — e-posta özeti çıkış onayı (public, `noindex`). GET yalnız formu çizer; server action edge `email-unsubscribe`'a sunucu tarafında POST eder, sonucu çizer. Web'de sır yok (token e-postadaki linkten gelir). Tek segment kalmalı ve uygulamanın `_webOnlyPaths` kümesinde durmalı. AASA bu yolu bilerek dışlar (`/eposta-cikis*` → `exclude`): S1 öncesi iOS build'leri linki Safari'de açar. Android eski build'leri yolu hâlâ yakalar, bu yüzden e-posta açılışı S1 mağazadayken yapılır. Edge'de HTML sunulamaz (`*.supabase.co` GET `text/html`'i `text/plain` yapar), sayfa bu yüzden burada.
 - Support/legal: `/cr`, `/pp`, `/tos`, `/csae`. Long-form text is Markdown in `app/(public)/(support-pages)/_content/` (TR + EN), rendered via `react-markdown` + `remark-gfm`.
 
 **`app/(admin)/` — admin-only:**
