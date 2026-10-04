@@ -1,7 +1,7 @@
 # Patify Gizlilik Politikası
 
 **Yürürlük Tarihi:** 19 Temmuz 2026
-**Son Güncelleme:** 9 Ağustos 2026
+**Son Güncelleme:** 4 Ekim 2026
 
 ---
 
@@ -25,7 +25,7 @@ Patify, aşağıdaki kategorilerdeki kişisel verileri işlemektedir.
 
 ### 2.1 Hesap Verileri
 
-- **E-posta adresi** — kayıt ve kimlik doğrulama için.
+- **E-posta adresi** — kayıt, kimlik doğrulama ve ilanlarına gelen yanıtların e-posta özeti için.
 - **Parola** — yalnızca hash'lenmiş biçimde saklanır; düz metin hiçbir zaman işlenmez.
 - **Kullanıcı adı** — profil tanımlaması için.
 - **Profil fotoğrafı** — isteğe bağlı, kullanıcı tarafından yüklenir.
@@ -60,6 +60,8 @@ Uygulamada oluşturduğunuz içerikler:
 
 - **OneSignal player_id** — push bildirimlerinin gönderilmesini sağlamak için.
 
+İlanına gelen yanıtları uygulamayı açmadığın günlerde e-postayla özetleriz. Bu e-postalar tanıtım içermez; her e-postadaki bağlantıyla ya da uygulamadaki Bildirim Ayarları'ndan kapatabilirsin.
+
 ### 2.6 Reklam Ölçüm Verileri
 
 Bu kategori yalnızca **reklam ölçümü açık rızası** verildiğinde işlenir. Rıza verilmediğinde toplama yapılmaz.
@@ -78,6 +80,7 @@ Kişisel verilerinizi aşağıdaki amaçlarla ve hukuki dayanaklara göre işliy
 | Hesap oluşturma ve yönetimi | Hesap verileri | Sözleşmenin ifası (GDPR Madde 6(1)(b)); açık rıza (KVKK m.5/1) |
 | Sosyal içerik sunma ve etkileşim | İçerik verileri | Sözleşmenin ifası (GDPR Madde 6(1)(b)); açık rıza (KVKK m.5/1) |
 | Sahiplendirme ilanları için konum tabanlı arama | Konum verisi | Açık rıza — kullanıcı her seferinde konum paylaşmayı seçer (GDPR Madde 6(1)(a); KVKK m.5/1) |
+| Yanıt özeti e-postası | E-posta adresi, okunmamış bildirim sayıları | Sözleşmenin ifası (üyelik hizmeti) |
 | Push bildirim gönderimi | OneSignal player_id | Sözleşmenin ifası + açık rıza (GDPR Madde 6(1)(b)/(a)) |
 | Uygulama hatalarını izleme ve kararlılık sağlama | Cihaz/teknik veriler | Meşru menfaat (GDPR Madde 6(1)(f); KVKK m.5/2-f) — uygulamanın güvenli ve kararlı çalışması |
 | Kullanım istatistikleri (Patify altyapısı) | Uygulama içi davranış olayları (platform ve uygulama sürümü dahil) | Açık rıza (GDPR Madde 6(1)(a); KVKK m.5/1) |
@@ -98,6 +101,7 @@ Kişisel verilerinizi aşağıdaki amaçlarla ve hukuki dayanaklara göre işliy
 | Kullanım istatistikleri (toplu/anonim) | Anonimleştirilmiş biçimde süresiz saklanır — kişiye bağlanamaz |
 | Push bildirim tokenleri (OneSignal player_id) | Hesap silinince OneSignal çıkış (logout) işlemiyle temizlenir |
 | Reklam ölçüm verileri (Meta'ya aktarılan) | Meta'nın kendi saklama politikasına tabidir. Rıza geri çekildiğinde uygulama toplamayı durdurur ve Meta SDK'sındaki cihaz/kullanıcı tanımlayıcıları temizlenir |
+| E-posta özeti kayıtları | 90 gün |
 | Audit kayıtları | Yasal yükümlülükler doğrultusunda tutulabilir |
 
 ---
@@ -138,6 +142,11 @@ Patify, hizmetlerin yürütülmesi için aşağıdaki üçüncü taraf veri işl
 - **Konu:** Reklam kampanyası ölçümü ve kurulum ilişkilendirmesi — yalnızca reklam ölçümü açık rızası verildiğinde
 - **Konum:** ABD ve AB (İrlanda)
 - **DPA:** Meta standart veri işleme koşulları (https://www.facebook.com/legal/terms/dataprocessing)
+
+### 5.8 Resend, Inc.
+- **Konu:** Hizmet e-postası gönderimi
+- **Konum:** ABD (hesap verisi, e-posta metadata'sı ve loglar); e-postalar AB'den (İrlanda, eu-west-1) gönderilir
+- **DPA:** Resend standart DPA (https://resend.com/legal/dpa)
 
 ### Yurt Dışı Veri Aktarımı (KVKK Madde 9)
 
