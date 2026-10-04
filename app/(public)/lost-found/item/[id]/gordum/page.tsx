@@ -12,7 +12,7 @@ export async function generateMetadata({
   const { id } = await params
   const l = await getLostFoundById(id)
   const title = l
-    ? `Gördüm · ${l.status === 'bulundu' ? 'BULUNDU' : 'KAYIP'} · ${[l.breed, petTypeLabel(l.type), l.color].filter(Boolean).join(' · ')} · Patify`
+    ? `Gördüm · ${l.status === 'cozuldu' ? 'AİLESİNE KAVUŞTU' : l.status === 'bulundu' ? 'BULUNDU' : 'KAYIP'} · ${[l.breed, petTypeLabel(l.type), l.color].filter(Boolean).join(' · ')} · Patify`
     : 'Gördüm Raporu · Patify'
   return { title, robots: { index: false } }
 }

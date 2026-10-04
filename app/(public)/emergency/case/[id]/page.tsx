@@ -82,6 +82,22 @@ export default async function PublicEmergencyPage({
     ? `https://www.google.com/maps/search/?api=1&query=${item.lat},${item.long}`
     : null
 
+  const help =
+    item.status === 'ustlenildi'
+      ? {
+          title: 'Bu vaka üstlenildi',
+          body: 'Gelişmeleri takip etmek ve bildiren kişiye yazmak için Patify uygulamasını aç.',
+        }
+      : item.kind === 'olu'
+        ? {
+            title: 'Bildirim ayrıntıları',
+            body: 'Ayrıntılar ve bildiren kişiye ulaşmak için Patify uygulamasını aç.',
+          }
+        : {
+            title: 'Yardım edebilir misin?',
+            body: 'Vakayı üstlenmek ve bildiren kişiye yazmak için Patify uygulamasını aç.',
+          }
+
   return (
     <section className="flex-1 flex flex-col items-center gap-6 px-4 py-8">
       <div className="w-full max-w-md flex flex-col gap-4">
@@ -130,10 +146,8 @@ export default async function PublicEmergencyPage({
         )}
 
         <div className="mt-2 flex flex-col gap-2 rounded-2xl border p-4">
-          <p className="font-semibold">Yardım edebilir misin?</p>
-          <p className="text-sm text-muted-foreground">
-            Vakayı üstlenmek ve bildiren kişiye yazmak için Patify uygulamasını aç.
-          </p>
+          <p className="font-semibold">{help.title}</p>
+          <p className="text-sm text-muted-foreground">{help.body}</p>
           <OpenInAppButton
             path={`/emergency/case/${id}`}
             label="Uygulamada Aç"
