@@ -80,7 +80,7 @@ We process your personal data for the following purposes and on the following le
 | Account creation and management | Account data | Performance of a contract (GDPR Art. 6(1)(b)); explicit consent (KVKK Art. 5(1)) |
 | Delivering social content and interactions | Content data | Performance of a contract (GDPR Art. 6(1)(b)); explicit consent (KVKK Art. 5(1)) |
 | Location-based search for adoption listings | Location data | Explicit consent — user chooses to share on each occasion (GDPR Art. 6(1)(a); KVKK Art. 5(1)) |
-| Reply digest email | Email address, unread notification counts | Performance of a contract (GDPR Art. 6(1)(b)) |
+| Reply digest email | Email address, unread notification counts | Performance of a contract (GDPR Art. 6(1)(b); KVKK Art. 5(2)(c)) |
 | Sending push notifications | OneSignal player_id | Performance of a contract + explicit consent (GDPR Art. 6(1)(b)/(a)) |
 | Crash and error monitoring | Device/technical data | Legitimate interests (GDPR Art. 6(1)(f); KVKK Art. 5(2)(f)) — ensuring the App operates safely and stably |
 | Usage statistics (Patify infrastructure) | In-app behavioural events (including platform and app version) | Explicit consent (GDPR Art. 6(1)(a); KVKK Art. 5(1)) |

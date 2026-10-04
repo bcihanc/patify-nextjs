@@ -7,9 +7,15 @@
           "8N7N2FDXT5.com.bcc.buschat"
         ],
         "paths": [
+          "NOT /eposta-cikis*",
           "*"
         ],
         "components": [
+          {
+            "/": "/eposta-cikis*",
+            "exclude": true,
+            "comment": "email unsubscribe page is web-only"
+          },
           {
             "/": "/*"
           }

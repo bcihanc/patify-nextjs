@@ -80,7 +80,7 @@ Kişisel verilerinizi aşağıdaki amaçlarla ve hukuki dayanaklara göre işliy
 | Hesap oluşturma ve yönetimi | Hesap verileri | Sözleşmenin ifası (GDPR Madde 6(1)(b)); açık rıza (KVKK m.5/1) |
 | Sosyal içerik sunma ve etkileşim | İçerik verileri | Sözleşmenin ifası (GDPR Madde 6(1)(b)); açık rıza (KVKK m.5/1) |
 | Sahiplendirme ilanları için konum tabanlı arama | Konum verisi | Açık rıza — kullanıcı her seferinde konum paylaşmayı seçer (GDPR Madde 6(1)(a); KVKK m.5/1) |
-| Yanıt özeti e-postası | E-posta adresi, okunmamış bildirim sayıları | Sözleşmenin ifası (GDPR Madde 6(1)(b)) |
+| Yanıt özeti e-postası | E-posta adresi, okunmamış bildirim sayıları | Sözleşmenin ifası (GDPR Madde 6(1)(b); KVKK m.5/2-c) |
 | Push bildirim gönderimi | OneSignal player_id | Sözleşmenin ifası + açık rıza (GDPR Madde 6(1)(b)/(a)) |
 | Uygulama hatalarını izleme ve kararlılık sağlama | Cihaz/teknik veriler | Meşru menfaat (GDPR Madde 6(1)(f); KVKK m.5/2-f) — uygulamanın güvenli ve kararlı çalışması |
 | Kullanım istatistikleri (Patify altyapısı) | Uygulama içi davranış olayları (platform ve uygulama sürümü dahil) | Açık rıza (GDPR Madde 6(1)(a); KVKK m.5/1) |
