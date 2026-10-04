@@ -20,7 +20,7 @@ const defaultUrl = /^https?:\/\//.test(rawUrl) ? rawUrl : `https://${rawUrl}`;
 export const metadata = {
   metadataBase: new URL(defaultUrl),
   title: "Patify",
-  description: "The fastest way to build apps with Next.js and Supabase",
+  description: "Kayıp ve bulunan hayvan ilanları, sahiplendirme ve acil yardım — Patify.",
 };
 
 const nunito = Nunito({

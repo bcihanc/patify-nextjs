@@ -1,4 +1,5 @@
 import { notFound } from 'next/navigation';
+import { SITE_ORIGIN } from '@/lib/app-links';
 import { MapPin } from 'lucide-react';
 import { getEmergencyById } from '@/lib/emergency/read';
 import { createClient } from '@/lib/supabase/server';
@@ -19,9 +20,7 @@ export default async function EmergencyDetailPage({
   const item = await getEmergencyById(id);
   if (!item) notFound();
 
-  // (app)/layout.tsx already redirects unauthenticated visitors to
-  // /auth/login before this page renders, so `user` is always set here —
-  // still read it via getUser() rather than assert, per brief.
+  // Misafir `GuestShell` içinde görür; `currentUserId` null olabilir.
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   const currentUserId = user?.id ?? null;
@@ -51,7 +50,7 @@ export default async function EmergencyDetailPage({
           entityId={item.id}
           isOwner={item.reporterUserId === currentUserId}
           currentUserId={currentUserId}
-          shareUrl={`https://patify.net/emergency/${item.id}`}
+          shareUrl={`${SITE_ORIGIN}/emergency/case/${item.id}`}
           shareText={`${EMERGENCY_KIND_LABELS[item.kind]} · ${petTypeLabel(item.petType)}`}
         />
       </div>

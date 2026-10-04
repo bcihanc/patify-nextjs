@@ -4,9 +4,17 @@ import { getLostFoundById, petTypeLabel } from '@/lib/lost-found'
 import { OpenInAppButton } from '@/components/open-in-app-button'
 import { SightingForm } from './sighting-form'
 
-export const metadata: Metadata = {
-  title: 'Gördüm Raporu · Patify',
-  robots: { index: false },
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string }>
+}): Promise<Metadata> {
+  const { id } = await params
+  const l = await getLostFoundById(id)
+  const title = l
+    ? `Gördüm · ${l.status === 'bulundu' ? 'BULUNDU' : 'KAYIP'} · ${[l.breed, petTypeLabel(l.type), l.color].filter(Boolean).join(' · ')} · Patify`
+    : 'Gördüm Raporu · Patify'
+  return { title, robots: { index: false } }
 }
 
 export default async function GordumPage({

@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import { SITE_ORIGIN } from '@/lib/app-links';
 import { MapPin, PawPrint } from 'lucide-react';
 import { getAdoptionById } from '@/lib/adoptions/read';
 import { getCurrentUserProfile } from '@/lib/profile/server';
@@ -103,7 +104,7 @@ export default async function AdoptionDetailPage({
           entityId={listing.id}
           isOwner={isOwner}
           currentUserId={me?.id ?? null}
-          shareUrl={`https://patify.net/adoptions/${listing.id}`}
+          shareUrl={`${SITE_ORIGIN}/adoptions/adoption/${listing.id}`}
           shareText={listing.title}
         />
       </div>
