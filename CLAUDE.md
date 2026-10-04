@@ -87,6 +87,9 @@ Each authenticated feature has a `lib/` module (typically `read.ts` for queries,
 - Domain types are Turkish-valued: `LfStatus` is `'kayip' | 'bulundu' | 'cozuldu' | 'pasif'` (lost / found / reunited / inactive); `PetType` keys are English, labels map to Turkish in `PET_TYPE_LABELS`. UI copy is Turkish.
 - Public route: `app/(public)/lost-found/item/[id]/page.tsx` renders the shareable listing (reunited status shows a celebration screen). Uses plain `<img>` on purpose — `next/image` `remotePatterns` is intentionally not configured yet.
   - Sighting subpage `.../item/[id]/gordum/` — anonymous "I saw this pet" report form, protected by Cloudflare Turnstile (`lib/sighting.ts`).
+    - "Ne zaman gördün?" field (az önce / bugün içinde / tarih-saat). `seen_at` is ALWAYS sent via `toISOString()`; never a naive `datetime-local` string (the Deno edge parses it as UTC, so it shifts 3 h).
+    - Edge 400 `seen_at_out_of_range` → in-field message; any other 400 → generic error. The range rule itself lives only in the DB guard (`supabase/CLAUDE.md` in the app repo).
+    - Listing form: `lost_date` input has `max` = today.
 - Dynamic OG image: `app/(public)/lost-found/item/[id]/opengraph-image.tsx` via `next/og` (Satori).
 
 ### Non-obvious constraints (these have bitten before — read the inline comments before touching)
