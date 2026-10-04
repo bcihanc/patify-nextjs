@@ -4,12 +4,10 @@ import { notFound } from 'next/navigation'
 import { MapPin, Calendar, PartyPopper } from 'lucide-react'
 import { getLostFoundById, petTypeLabel, type LostFoundListing } from '@/lib/lost-found'
 import { createClient } from '@/lib/supabase/server'
+import { IOS_APP_ID } from '@/lib/app-links'
 import { OpenInAppButton } from '@/components/open-in-app-button'
 import { EntityActionMenu } from '@/components/shared/entity-action-menu'
 import { Button } from '@/components/ui/button'
-
-// Numeric App Store id (from the live listing) used by the iOS Smart App Banner.
-const IOS_APP_ID = '6478046323'
 
 function headline(status: LostFoundListing['status']): string {
   if (status === 'bulundu') return 'BULUNDU · SAHİBİ ARANIYOR'

@@ -1,5 +1,5 @@
 // lib/lost-found.ts
-import { createClient as createSupabaseClient } from '@supabase/supabase-js'
+import { anonClient } from '@/lib/supabase/anon'
 import { unstable_cache } from 'next/cache'
 
 export type PetType =
@@ -44,16 +44,6 @@ const STORAGE_PUBLIC_BASE = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/
 
 function toImageUrl(fileName: string): string {
   return `${STORAGE_PUBLIC_BASE}/${fileName}`
-}
-
-// Cookie-free anon client for PUBLIC reads. No session → callable inside
-// unstable_cache (which forbids cookies()/headers()). Data is not user-specific.
-function anonClient() {
-  return createSupabaseClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    { auth: { persistSession: false } },
-  )
 }
 
 // RPC returns snake_case columns; map to our camelCase shape.
