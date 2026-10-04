@@ -13,12 +13,35 @@ import {
   type SightingResult,
 } from '@/lib/sighting'
 
+type SeenMode = 'now' | 'today' | 'custom'
 type Status = 'idle' | 'submitting' | 'success' | 'error'
 
 const LOCATION_MAX = 500
 const CONTACT_MAX = 200
 const NOTE_MAX = 500
 const ALLOWED_PHOTO_TYPES = ['image/jpeg', 'image/png', 'image/webp']
+
+// datetime-local wants a naive local "YYYY-MM-DDTHH:mm"
+function toLocalInput(d: Date): string {
+  const pad = (n: number) => String(n).padStart(2, '0')
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`
+}
+
+// Naive local input -> Date in the browser's time zone (null if unparseable).
+function parseSeen(mode: SeenMode, time: string, dt: string): Date | null {
+  if (mode === 'today') {
+    const m = /^(\d{2}):(\d{2})$/.exec(time)
+    if (!m) return null
+    const d = new Date()
+    d.setHours(Number(m[1]), Number(m[2]), 0, 0)
+    return d
+  }
+  const d = new Date(dt)
+  return Number.isNaN(d.getTime()) ? null : d
+}
+
+const FUTURE_MSG = 'Gelecekte bir saat seçilemez.'
+const RANGE_MSG = 'Seçtiğin zaman ilanın kayıp tarihinden önce olamaz.'
 
 function errorMessageFor(result: SightingResult): string {
   switch (result) {
@@ -48,6 +71,10 @@ export function SightingForm({
   const [token, setToken] = useState<string | null>(null)
   const [status, setStatus] = useState<Status>('idle')
   const [errorMsg, setErrorMsg] = useState<string | null>(null)
+  const [seenMode, setSeenMode] = useState<SeenMode>('now')
+  const [seenTime, setSeenTime] = useState('')
+  const [seenDt, setSeenDt] = useState('')
+  const [seenError, setSeenError] = useState<string | null>(null)
   const turnstileRef = useRef<TurnstileInstance>(null)
 
   if (status === 'success') {
@@ -85,6 +112,16 @@ export function SightingForm({
     e.preventDefault()
     if (!location.trim() || !token || status === 'submitting') return
 
+    let seenAt: string | undefined
+    if (seenMode !== 'now') {
+      const d = parseSeen(seenMode, seenTime, seenDt)
+      if (d && d.getTime() > Date.now()) {
+        setSeenError(FUTURE_MSG)
+        return
+      }
+      seenAt = d?.toISOString()
+    }
+    setSeenError(null)
     setStatus('submitting')
     setErrorMsg(null)
 
@@ -104,6 +141,7 @@ export function SightingForm({
         reporterContact: contact.trim() || undefined,
         photoBase64,
         photoMime,
+        seenAt,
         turnstileToken: token,
       })
 
@@ -111,7 +149,8 @@ export function SightingForm({
         setStatus('success')
       } else {
         setStatus('error')
-        setErrorMsg(errorMessageFor(result))
+        if (result === 'invalid_input' && seenAt) setSeenError(RANGE_MSG)
+        else setErrorMsg(errorMessageFor(result))
         turnstileRef.current?.reset()
         setToken(null)
       }
@@ -137,6 +176,48 @@ export function SightingForm({
           placeholder="Örn. Kadıköy, Moda sahili"
           required
         />
+      </div>
+
+      <div className="flex flex-col gap-1.5">
+        <Label>Ne zaman gördün?</Label>
+        {(
+          [
+            ['now', 'Az önce'],
+            ['today', 'Bugün içinde'],
+            ['custom', 'Tarih ve saat seç'],
+          ] as const
+        ).map(([value, text]) => (
+          <label key={value} className="flex items-center gap-2 text-sm">
+            <input
+              type="radio"
+              name="seen-mode"
+              checked={seenMode === value}
+              onChange={() => {
+                setSeenMode(value)
+                setSeenError(null)
+              }}
+            />
+            {text}
+          </label>
+        ))}
+        {seenMode === 'today' && (
+          <Input
+            type="time"
+            value={seenTime}
+            onChange={(e) => setSeenTime(e.target.value)}
+            required
+          />
+        )}
+        {seenMode === 'custom' && (
+          <Input
+            type="datetime-local"
+            value={seenDt}
+            max={toLocalInput(new Date())}
+            onChange={(e) => setSeenDt(e.target.value)}
+            required
+          />
+        )}
+        {seenError && <p className="text-sm text-destructive">{seenError}</p>}
       </div>
 
       <div className="flex flex-col gap-1.5">

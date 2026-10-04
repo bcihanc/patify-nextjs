@@ -16,6 +16,8 @@ export type SightingInput = {
   reporterContact?: string
   photoBase64?: string
   photoMime?: string
+  // ISO-8601 with offset (toISOString); omitted = "just now"
+  seenAt?: string
   turnstileToken: string
 }
 
@@ -33,6 +35,7 @@ export async function submitSighting(input: SightingInput): Promise<SightingResu
         reporter_contact: input.reporterContact || undefined,
         photo_base64: input.photoBase64 || undefined,
         photo_mime: input.photoMime || undefined,
+        seen_at: input.seenAt || undefined,
         turnstile_token: input.turnstileToken,
       }),
     })
