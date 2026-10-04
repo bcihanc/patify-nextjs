@@ -25,7 +25,7 @@ Patify processes personal data in the following categories.
 
 ### 2.1 Account Data
 
-- **Email address** — for registration, authentication and email digests of replies to your listings.
+- **Email address** — for registration, authentication and email digests of your unread notifications.
 - **Password** — stored only in hashed form; plaintext is never processed or stored.
 - **Username** — for profile identification.
 - **Profile photo** — optional, uploaded by the user.
@@ -60,7 +60,7 @@ Content you create or interact with in the App:
 
 - **OneSignal player_id** — to enable delivery of push notifications to your device.
 
-On days you do not open the app, we summarise replies to your listings by email. These emails contain no promotions; you can turn them off with the link in each email or in Notification Settings in the app.
+If you do not read applications, sighting reports or messages about your listings within 24 hours, we summarise them in at most one email per day. These emails contain no promotions; you can turn them off with the link in each email or in Notification Settings in the app.
 
 ### 2.6 Advertising Measurement Data
 
@@ -80,7 +80,7 @@ We process your personal data for the following purposes and on the following le
 | Account creation and management | Account data | Performance of a contract (GDPR Art. 6(1)(b)); explicit consent (KVKK Art. 5(1)) |
 | Delivering social content and interactions | Content data | Performance of a contract (GDPR Art. 6(1)(b)); explicit consent (KVKK Art. 5(1)) |
 | Location-based search for adoption listings | Location data | Explicit consent — user chooses to share on each occasion (GDPR Art. 6(1)(a); KVKK Art. 5(1)) |
-| Reply digest email | Email address, unread notification counts | Performance of a contract (membership service) (GDPR Art. 6(1)(b)) |
+| Reply digest email | Email address, unread notification counts | Performance of a contract (GDPR Art. 6(1)(b)) |
 | Sending push notifications | OneSignal player_id | Performance of a contract + explicit consent (GDPR Art. 6(1)(b)/(a)) |
 | Crash and error monitoring | Device/technical data | Legitimate interests (GDPR Art. 6(1)(f); KVKK Art. 5(2)(f)) — ensuring the App operates safely and stably |
 | Usage statistics (Patify infrastructure) | In-app behavioural events (including platform and app version) | Explicit consent (GDPR Art. 6(1)(a); KVKK Art. 5(1)) |
@@ -223,7 +223,7 @@ Continued use of the App after a change takes effect constitutes acceptance of t
 
 ## 11. Effective Date
 
-This Privacy Policy first entered into force on **23 May 2026** and was updated on **19 July 2026** to reflect the removal of Firebase Analytics and its replacement with a first-party, consent-based usage-statistics system operated on Patify's own infrastructure. It was updated on **9 August 2026** to reflect a consent-based Meta (Facebook/Instagram) advertising-measurement integration used to measure the effectiveness of advertising campaigns.
+This Privacy Policy first entered into force on **23 May 2026** and was updated on **19 July 2026** to reflect the removal of Firebase Analytics and its replacement with a first-party, consent-based usage-statistics system operated on Patify's own infrastructure. It was updated on **9 August 2026** to reflect a consent-based Meta (Facebook/Instagram) advertising-measurement integration used to measure the effectiveness of advertising campaigns. It was updated on **4 October 2026** to reflect the unread-notification email digest and the transactional email processor Resend.
 
 ---
 

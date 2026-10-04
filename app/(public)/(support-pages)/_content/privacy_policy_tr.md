@@ -25,7 +25,7 @@ Patify, aşağıdaki kategorilerdeki kişisel verileri işlemektedir.
 
 ### 2.1 Hesap Verileri
 
-- **E-posta adresi** — kayıt, kimlik doğrulama ve ilanlarına gelen yanıtların e-posta özeti için.
+- **E-posta adresi** — kayıt, kimlik doğrulama ve okunmamış bildirimlerinizin e-posta özeti için.
 - **Parola** — yalnızca hash'lenmiş biçimde saklanır; düz metin hiçbir zaman işlenmez.
 - **Kullanıcı adı** — profil tanımlaması için.
 - **Profil fotoğrafı** — isteğe bağlı, kullanıcı tarafından yüklenir.
@@ -60,7 +60,7 @@ Uygulamada oluşturduğunuz içerikler:
 
 - **OneSignal player_id** — push bildirimlerinin gönderilmesini sağlamak için.
 
-İlanına gelen yanıtları uygulamayı açmadığın günlerde e-postayla özetleriz. Bu e-postalar tanıtım içermez; her e-postadaki bağlantıyla ya da uygulamadaki Bildirim Ayarları'ndan kapatabilirsin.
+İlanlarınıza gelen başvuruları, görülme bildirimlerini ve mesajları 24 saat içinde okumazsanız bunları günde en fazla bir e-postayla özetleriz. Bu e-postalar tanıtım içermez; her e-postadaki bağlantıyla ya da uygulamadaki Bildirim Ayarları'ndan kapatabilirsiniz.
 
 ### 2.6 Reklam Ölçüm Verileri
 
@@ -80,7 +80,7 @@ Kişisel verilerinizi aşağıdaki amaçlarla ve hukuki dayanaklara göre işliy
 | Hesap oluşturma ve yönetimi | Hesap verileri | Sözleşmenin ifası (GDPR Madde 6(1)(b)); açık rıza (KVKK m.5/1) |
 | Sosyal içerik sunma ve etkileşim | İçerik verileri | Sözleşmenin ifası (GDPR Madde 6(1)(b)); açık rıza (KVKK m.5/1) |
 | Sahiplendirme ilanları için konum tabanlı arama | Konum verisi | Açık rıza — kullanıcı her seferinde konum paylaşmayı seçer (GDPR Madde 6(1)(a); KVKK m.5/1) |
-| Yanıt özeti e-postası | E-posta adresi, okunmamış bildirim sayıları | Sözleşmenin ifası (üyelik hizmeti) |
+| Yanıt özeti e-postası | E-posta adresi, okunmamış bildirim sayıları | Sözleşmenin ifası (GDPR Madde 6(1)(b)) |
 | Push bildirim gönderimi | OneSignal player_id | Sözleşmenin ifası + açık rıza (GDPR Madde 6(1)(b)/(a)) |
 | Uygulama hatalarını izleme ve kararlılık sağlama | Cihaz/teknik veriler | Meşru menfaat (GDPR Madde 6(1)(f); KVKK m.5/2-f) — uygulamanın güvenli ve kararlı çalışması |
 | Kullanım istatistikleri (Patify altyapısı) | Uygulama içi davranış olayları (platform ve uygulama sürümü dahil) | Açık rıza (GDPR Madde 6(1)(a); KVKK m.5/1) |
@@ -223,7 +223,7 @@ Değişikliğin yürürlüğe girmesinden sonra uygulamayı kullanmaya devam etm
 
 ## 11. Yürürlük Tarihi
 
-Bu Gizlilik Politikası ilk olarak **23 Mayıs 2026** tarihinde yürürlüğe girmiş; **19 Temmuz 2026** tarihinde, Firebase Analytics'in kaldırılıp Patify'nin kendi altyapısında yürütülen, açık rızaya dayalı kullanım istatistikleri sistemiyle değiştirilmesini yansıtacak şekilde güncellenmiştir. **9 Ağustos 2026** tarihinde, reklam kampanyalarının etkinliğini ölçmek amacıyla açık rızaya dayalı Meta (Facebook/Instagram) reklam ölçümü entegrasyonunu yansıtacak şekilde güncellenmiştir.
+Bu Gizlilik Politikası ilk olarak **23 Mayıs 2026** tarihinde yürürlüğe girmiş; **19 Temmuz 2026** tarihinde, Firebase Analytics'in kaldırılıp Patify'nin kendi altyapısında yürütülen, açık rızaya dayalı kullanım istatistikleri sistemiyle değiştirilmesini yansıtacak şekilde güncellenmiştir. **9 Ağustos 2026** tarihinde, reklam kampanyalarının etkinliğini ölçmek amacıyla açık rızaya dayalı Meta (Facebook/Instagram) reklam ölçümü entegrasyonunu yansıtacak şekilde güncellenmiştir. **4 Ekim 2026** tarihinde, okunmamış bildirimlerin e-posta özetini ve hizmet e-postası işleyeni Resend'i yansıtacak şekilde güncellenmiştir.
 
 ---
 
