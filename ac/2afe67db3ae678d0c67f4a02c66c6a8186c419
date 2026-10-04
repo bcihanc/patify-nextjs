@@ -1,0 +1,23 @@
+CLAUDE.md
+  s_72230d7bb73927::t_e8b25ad2e6d96f 9,69
+app/(public)/emergency/case/[id]/page.tsx
+  s_72230d7bb73927::t_7b1ade9eb727f8 85-100,149-150
+app/(public)/lost-found/item/[id]/gordum/page.tsx
+  s_72230d7bb73927::t_a32c6a358450b8 15
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "ac2afe67db3ae678d0c67f4a02c66c6a8186c419",
+  "prompts": {},
+  "sessions": {
+    "s_72230d7bb73927": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "4fe9589a-ad4a-4deb-80ec-c1e566cdb90d",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "cihan <b.cihancengiz@gmail.com>"
+    }
+  }
+}
