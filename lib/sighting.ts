@@ -7,6 +7,7 @@ export type SightingResult =
   | 'turnstile_failed'
   | 'rate_limited'
   | 'invalid_input'
+  | 'seen_at_out_of_range'
   | 'error'
 
 export type SightingInput = {
@@ -42,7 +43,12 @@ export async function submitSighting(input: SightingInput): Promise<SightingResu
     if (res.status === 201) return 'ok'
     if (res.status === 403) return 'turnstile_failed'
     if (res.status === 429) return 'rate_limited'
-    if (res.status === 400) return 'invalid_input'
+    if (res.status === 400) {
+      const body = await res.json().catch(() => null)
+      return body?.error === 'seen_at_out_of_range'
+        ? 'seen_at_out_of_range'
+        : 'invalid_input'
+    }
     return 'error'
   } catch {
     return 'error'

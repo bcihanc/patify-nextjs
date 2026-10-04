@@ -41,7 +41,7 @@ function parseSeen(mode: SeenMode, time: string, dt: string): Date | null {
 }
 
 const FUTURE_MSG = 'Gelecekte bir saat seçilemez.'
-const RANGE_MSG = 'Seçtiğin zaman ilanın kayıp tarihinden önce olamaz.'
+const RANGE_MSG = 'Seçtiğin zaman bu ilan için geçerli değil.'
 
 function errorMessageFor(result: SightingResult): string {
   switch (result) {
@@ -50,6 +50,7 @@ function errorMessageFor(result: SightingResult): string {
     case 'rate_limited':
       return 'Çok fazla deneme oldu, biraz sonra tekrar dene.'
     case 'invalid_input':
+    case 'seen_at_out_of_range':
     case 'error':
     default:
       return 'Bir şeyler ters gitti, tekrar dene.'
@@ -115,11 +116,15 @@ export function SightingForm({
     let seenAt: string | undefined
     if (seenMode !== 'now') {
       const d = parseSeen(seenMode, seenTime, seenDt)
-      if (d && d.getTime() > Date.now()) {
+      if (!d) {
+        setSeenError(RANGE_MSG)
+        return
+      }
+      if (d.getTime() > Date.now()) {
         setSeenError(FUTURE_MSG)
         return
       }
-      seenAt = d?.toISOString()
+      seenAt = d.toISOString()
     }
     setSeenError(null)
     setStatus('submitting')
@@ -149,7 +154,7 @@ export function SightingForm({
         setStatus('success')
       } else {
         setStatus('error')
-        if (result === 'invalid_input' && seenAt) setSeenError(RANGE_MSG)
+        if (result === 'seen_at_out_of_range') setSeenError(RANGE_MSG)
         else setErrorMsg(errorMessageFor(result))
         turnstileRef.current?.reset()
         setToken(null)
@@ -179,7 +184,8 @@ export function SightingForm({
       </div>
 
       <div className="flex flex-col gap-1.5">
-        <Label>Ne zaman gördün?</Label>
+        <Label id="seen-label">Ne zaman gördün?</Label>
+        <div role="radiogroup" aria-labelledby="seen-label" className="flex flex-col gap-1.5">
         {(
           [
             ['now', 'Az önce'],
@@ -204,7 +210,11 @@ export function SightingForm({
           <Input
             type="time"
             value={seenTime}
-            onChange={(e) => setSeenTime(e.target.value)}
+            aria-label="Görülme saati"
+            onChange={(e) => {
+              setSeenTime(e.target.value)
+              setSeenError(null)
+            }}
             required
           />
         )}
@@ -213,11 +223,20 @@ export function SightingForm({
             type="datetime-local"
             value={seenDt}
             max={toLocalInput(new Date())}
-            onChange={(e) => setSeenDt(e.target.value)}
+            aria-label="Görülme tarihi ve saati"
+            onChange={(e) => {
+              setSeenDt(e.target.value)
+              setSeenError(null)
+            }}
             required
           />
         )}
-        {seenError && <p className="text-sm text-destructive">{seenError}</p>}
+        </div>
+        {seenError && (
+          <p role="alert" className="text-sm text-destructive">
+            {seenError}
+          </p>
+        )}
       </div>
 
       <div className="flex flex-col gap-1.5">

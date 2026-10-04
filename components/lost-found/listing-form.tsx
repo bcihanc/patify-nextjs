@@ -479,7 +479,7 @@ export function ListingForm({ mode, initial, onSubmit }: ListingFormProps) {
 
         <div className="flex flex-col gap-1.5">
           <Label htmlFor="lostDate">Kayıp/bulunma tarihi</Label>
-          <Input id="lostDate" type="date" value={lostDate} onChange={(e) => setLostDate(e.target.value)} />
+          <Input id="lostDate" type="date" max={new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, 10)} value={lostDate} onChange={(e) => setLostDate(e.target.value)} />
         </div>
 
         {effectiveStatus === 'kayip' && (
