@@ -2,6 +2,8 @@ import { TURKEY_CITIES } from './turkey'
 
 const ASCII: Record<string, string> = { ç: 'c', ğ: 'g', ı: 'i', ö: 'o', ş: 's', ü: 'u' }
 
+export const CITY_MIN_LISTINGS = 3
+
 export function citySlug(city: string): string {
   return city
     .toLocaleLowerCase('tr-TR')

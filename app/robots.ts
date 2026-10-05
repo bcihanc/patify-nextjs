@@ -1,5 +1,6 @@
 import type { MetadataRoute } from 'next'
 import { SITE_ORIGIN } from '@/lib/app-links'
+import { AUTHED_PREFIXES } from '@/lib/supabase/middleware'
 
 export default function robots(): MetadataRoute.Robots {
   return {
@@ -7,7 +8,7 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: '*',
         allow: '/',
-        disallow: ['/admin', '/auth', '/profile', '/chats', '/notifications', '/complete-profile', '/accept-consent'],
+        disallow: [...AUTHED_PREFIXES, '/auth'],
       },
     ],
     sitemap: `${SITE_ORIGIN}/sitemap.xml`,

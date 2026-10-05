@@ -8,6 +8,7 @@
         ],
         "paths": [
           "NOT /eposta-cikis*",
+          "NOT /sehir/*",
           "*"
         ],
         "components": [
@@ -15,6 +16,11 @@
             "/": "/eposta-cikis*",
             "exclude": true,
             "comment": "email unsubscribe page is web-only"
+          },
+          {
+            "/": "/sehir/*",
+            "exclude": true,
+            "comment": "city pages are web-only"
           },
           {
             "/": "/*"

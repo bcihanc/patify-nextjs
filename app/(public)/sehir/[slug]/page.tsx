@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { cityFromSlug } from '@/lib/geo/city-slug'
+import { CITY_MIN_LISTINGS, cityFromSlug } from '@/lib/geo/city-slug'
 import { browsePublicLostFound } from '@/lib/lost-found'
 import { browsePublicAdoptions } from '@/lib/adoptions/public'
 import { browsePublicEmergency } from '@/lib/emergency/public'
@@ -11,7 +11,6 @@ import { AdoptionCard } from '@/components/adoptions/adoption-card'
 import { EmergencyCard } from '@/components/emergency/emergency-card'
 
 const LIMIT = 24
-const THIN_THRESHOLD = 3
 
 const loadCity = (city: string) =>
   Promise.all([
@@ -36,7 +35,7 @@ export async function generateMetadata({
     title: `${city} kayıp, bulunan ve sahiplendirme ilanları · Patify`,
     description: `Patify'da ${city} için güncel kayıp, bulunan, sahiplendirme ve acil hayvan ilanları.`,
     alternates: { canonical: `${SITE_ORIGIN}/sehir/${slug}` },
-    ...(total < THIN_THRESHOLD && { robots: { index: false, follow: true } }),
+    ...(total < CITY_MIN_LISTINGS && { robots: { index: false, follow: true } }),
   }
 }
 

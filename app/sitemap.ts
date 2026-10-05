@@ -1,14 +1,13 @@
 import type { MetadataRoute } from 'next'
 import { SITE_ORIGIN } from '@/lib/app-links'
-import { citySlug } from '@/lib/geo/city-slug'
+import { CITY_MIN_LISTINGS, citySlug, cityFromSlug } from '@/lib/geo/city-slug'
 import { browsePublicLostFound } from '@/lib/lost-found'
 import { browsePublicAdoptions } from '@/lib/adoptions/public'
 import { browsePublicEmergency } from '@/lib/emergency/public'
 
-export const revalidate = 3600
+export const revalidate = 600
 
 const PER_TYPE_LIMIT = 1000
-const CITY_MIN_LISTINGS = 3
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const [lf, adoptions, emergency] = await Promise.all([
@@ -29,10 +28,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }
 
   return [
-    ...['/', '/indir', '/pp', '/tos'].map((p) => ({ url: `${SITE_ORIGIN}${p}` })),
+    ...['/lost-found', '/indir', '/pp', '/tos'].map((p) => ({ url: `${SITE_ORIGIN}${p}` })),
     ...listings.map((l) => ({ url: `${SITE_ORIGIN}${l.path}`, lastModified: l.createdAt })),
     ...[...perCity]
-      .filter(([, n]) => n >= CITY_MIN_LISTINGS)
+      .filter(([city, n]) => n >= CITY_MIN_LISTINGS && cityFromSlug(citySlug(city)) === city)
       .map(([city]) => ({ url: `${SITE_ORIGIN}/sehir/${citySlug(city)}` })),
   ]
 }
