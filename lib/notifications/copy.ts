@@ -6,6 +6,7 @@ import {
 export function notificationIcon(type: string): LucideIcon {
   switch (type) {
     case 'proximity_lost':
+    case 'proximity_found':
       return MapPin;
     case 'possible_match':
     case 'chip_match':
