@@ -4,13 +4,13 @@ import { EmergencyKindBadge } from './emergency-kind-badge';
 import { EmergencyStatusBadge } from './emergency-status-badge';
 import { petTypeLabel, type EmergencyListing } from '@/lib/emergency/types';
 
-export function EmergencyCard({ item }: { item: EmergencyListing }) {
+export function EmergencyCard({ item, href }: { item: EmergencyListing; href?: string }) {
   const title = petTypeLabel(item.petType);
   const location = [item.city, item.district].filter(Boolean).join(' · ');
 
   return (
     <Link
-      href={`/emergency/${item.id}`}
+      href={href ?? `/emergency/${item.id}`}
       className="flex flex-col overflow-hidden rounded-2xl border bg-card transition-colors hover:bg-accent"
     >
       <div className="relative aspect-square w-full">

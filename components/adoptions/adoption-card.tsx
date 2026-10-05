@@ -10,14 +10,14 @@ function isStale(lifecycleLastActivityAt: string): boolean {
   return Date.now() - new Date(lifecycleLastActivityAt).getTime() > THIRTY_DAYS_MS;
 }
 
-export function AdoptionCard({ listing }: { listing: AdoptionListing }) {
+export function AdoptionCard({ listing, href }: { listing: AdoptionListing; href?: string }) {
   const photo = listing.images?.[0] ?? null;
   const title = listing.title;
   const typeLine = listing.breed ?? petTypeLabel(listing.type);
 
   return (
     <Link
-      href={`/adoptions/${listing.id}`}
+      href={href ?? `/adoptions/${listing.id}`}
       className="flex flex-col overflow-hidden rounded-2xl border bg-card transition-colors hover:bg-accent"
     >
       <div className="relative aspect-square w-full">
