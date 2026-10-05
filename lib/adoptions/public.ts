@@ -31,3 +31,28 @@ export async function getPublicAdoptionById(id: string): Promise<AdoptionListing
     return null
   }
 }
+
+export async function browsePublicAdoptions(city: string | null, limit: number): Promise<AdoptionListing[]> {
+  const load = unstable_cache(
+    async (): Promise<AdoptionListing[]> => {
+      const { data, error } = await anonClient()
+        .rpc('browse_adoptions', {
+          limits: limit,
+          offsets: 0,
+          city_param: city,
+        })
+        .returns<AdoptionRow[]>()
+      // Throw so transient RPC errors are not cached.
+      if (error) throw error
+      return ((data as AdoptionRow[] | null) ?? []).map(mapRowToAdoption)
+    },
+    ['adoption-browse-public', city ?? '*', String(limit)],
+    { revalidate: 600 },
+  )
+  try {
+    return await load()
+  } catch (error) {
+    console.error('browsePublicAdoptions:', error instanceof Error ? error.message : String(error))
+    return []
+  }
+}

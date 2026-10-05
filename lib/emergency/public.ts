@@ -31,3 +31,29 @@ export async function getPublicEmergencyById(id: string): Promise<EmergencyListi
     return null
   }
 }
+
+export async function browsePublicEmergency(city: string | null, limit: number): Promise<EmergencyListing[]> {
+  const load = unstable_cache(
+    async (): Promise<EmergencyListing[]> => {
+      const { data, error } = await anonClient()
+        .rpc('browse_emergency_cases', {
+          limits: limit,
+          offsets: 0,
+          city_param: city,
+          status_param: ['acik', 'ustlenildi'],
+        })
+        .returns<EmergencyRow[]>()
+      // Throw so transient RPC errors are not cached.
+      if (error) throw error
+      return ((data as EmergencyRow[] | null) ?? []).map(mapRowToEmergency)
+    },
+    ['emergency-browse-public', city ?? '*', String(limit)],
+    { revalidate: 600 },
+  )
+  try {
+    return await load()
+  } catch (error) {
+    console.error('browsePublicEmergency:', error instanceof Error ? error.message : String(error))
+    return []
+  }
+}

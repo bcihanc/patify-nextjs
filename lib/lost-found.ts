@@ -1,6 +1,8 @@
 // lib/lost-found.ts
 import { anonClient } from '@/lib/supabase/anon'
 import { unstable_cache } from 'next/cache'
+import { mapRowToListing } from '@/lib/lost-found/read'
+import type { LfListRow, LostFoundListing as LfBrowseListing } from '@/lib/lost-found/types'
 
 export type PetType =
   | 'dog' | 'cat' | 'bird' | 'rabbit' | 'hamster'
@@ -104,5 +106,40 @@ export async function getLostFoundById(
   } catch (error) {
     console.error('getLostFoundById:', error instanceof Error ? error.message : String(error))
     return null
+  }
+}
+
+export async function browsePublicLostFound(
+  city: string | null,
+  limit: number,
+): Promise<LfBrowseListing[]> {
+  const load = unstable_cache(
+    async (): Promise<LfBrowseListing[]> => {
+      const { data, error } = await anonClient()
+        .rpc('browse_lost_found', {
+          city_param: city,
+          district_param: null,
+          type_param: null,
+          status_param: ['kayip', 'bulundu'],
+          owner_user_id_param: null,
+          limits: limit,
+          offsets: 0,
+          search_param: null,
+          color_param: null,
+          reward_only: false,
+        })
+        .returns<LfListRow[]>()
+      // Throw so transient RPC errors are not cached.
+      if (error) throw error
+      return ((data as LfListRow[] | null) ?? []).map(mapRowToListing)
+    },
+    ['lf-browse-public', city ?? '*', String(limit)],
+    { revalidate: 600 },
+  )
+  try {
+    return await load()
+  } catch (error) {
+    console.error('browsePublicLostFound:', error instanceof Error ? error.message : String(error))
+    return []
   }
 }
