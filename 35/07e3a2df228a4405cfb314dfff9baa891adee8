@@ -1,0 +1,19 @@
+lib/geo/city-slug.ts
+  s_72230d7bb73927::t_ba965f056ab01d 1-18
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "3507e3a2df228a4405cfb314dfff9baa891adee8",
+  "prompts": {},
+  "sessions": {
+    "s_72230d7bb73927": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "4fe9589a-ad4a-4deb-80ec-c1e566cdb90d",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "cihan <b.cihancengiz@gmail.com>"
+    }
+  }
+}
