@@ -1,7 +1,7 @@
 # Patify Gizlilik Politikası
 
 **Yürürlük Tarihi:** 19 Temmuz 2026
-**Son Güncelleme:** 4 Ekim 2026
+**Son Güncelleme:** 8 Ekim 2026
 
 ---
 
@@ -190,7 +190,7 @@ Bununla birlikte uygulama, aşağıdaki tanımlayıcıları kullanmaktadır:
 - **Kullanım istatistikleri (Patify altyapısı):** Hangi ekranların kullanıldığını ve kullanıcıların nerede takıldığını anlayabilmek için sınırlı sayıda uygulama içi kullanım olayı (ör. ekran görüntüleme, arama yapılması, ilan oluşturma adımları), **Patify'nin kendi Supabase altyapısında** kaydedilir. Bu kayıt yalnızca kullanıcının açık rızası alındıktan sonra ve hesabıyla ilişkilendirilerek yapılır; bu nedenle kişisel veri niteliğindedir ve KVKK m.5/1 uyarınca açık rızaya dayanır. Serbest metin, arama sorgusu, konum koordinatı veya cihaz tanımlayıcısı hiçbir zaman kaydedilmez — yalnızca önceden tanımlanmış, sınırlı bir değer kümesine sahip alanlar toplanır ve 90 gün sonunda silinir (bkz. Bölüm 4). Bu izni istediğiniz zaman **Ayarlar > Kullanım istatistikleri** üzerinden geri çekebilirsiniz; geri çekme işlemi hesabınıza bağlı ham kayıtları derhal siler.
 - **Anonim ziyaretçi sayacı:** Oturum açmamış (misafir) kullanıcıların uygulamayı nasıl kullandığına dair yalnızca günlük, toplu bir sayaç tutulur (ör. belirli bir ekranın kaç kez görüntülendiği). Bu sayaçta **kullanıcı kimliği, cihaz tanımlayıcısı, oturum kimliği veya IP adresi bulunmaz** ve herhangi bir kişiyle ilişkilendirilemez.
 - **OneSignal:** Push bildirimleri için cihaz düzeyinde `player_id` atanır. Bildirime abone olunması durumunda aktif olur; bildirimler devre dışı bırakıldığında veya hesap silindiğinde temizlenir.
-- **Meta reklam ölçümü:** Uygulama, yalnızca **reklam ölçümü için açık rıza** verdiğinizde, cihazınızın reklam tanımlayıcısını (IDFA/GAID) ve sınırlı sayıda uygulama olayını (kurulum, kayıt olma, ilan oluşturma) Meta (Facebook/Instagram) ile paylaşır. Bunun tek amacı, hangi reklam kampanyasının uygulama kurulumuyla sonuçlandığını ölçmektir. Rıza verilmediğinde Meta yazılım geliştirme kiti (SDK) varsayılan olarak kapalıdır ve hiçbir veri toplamaz; iOS'ta ayrıca sistem düzeyinde İzleme İzni (App Tracking Transparency) sorulur. Bu izni istediğiniz zaman **Ayarlar > Kullanım istatistikleri** üzerinden geri çekebilirsiniz; geri çekildiğinde toplama durur ve tanımlayıcılar temizlenir.
+- **Meta reklam ölçümü:** Uygulama, yalnızca **reklam ölçümü için açık rıza** verdiğinizde, cihazınızın reklam tanımlayıcısını (IDFA/GAID) ve sınırlı sayıda uygulama olayını (kurulum, kayıt olma, ilan oluşturma) Meta (Facebook/Instagram) ile paylaşır. Bunun tek amacı, hangi reklam kampanyasının uygulama kurulumuyla sonuçlandığını ölçmektir. Rıza verilmediğinde Meta yazılım geliştirme kiti (SDK) varsayılan olarak kapalıdır ve hiçbir veri toplamaz; iOS'ta ayrıca sistem düzeyinde İzleme İzni (App Tracking Transparency) sorulur. Bu izni istediğiniz zaman **Ayarlar > Kullanım istatistikleri** üzerinden geri çekebilirsiniz; geri çekildiğinde toplama durur ve tanımlayıcılar temizlenir. Bu izin hesap açmadan, uygulamanın ilk açılışında da verilebilir; bu durumda izin yalnızca cihazınızda saklanır. Hesabınız yoksa izni giriş ekranındaki **Gizlilik tercihleri** bağlantısından geri çekebilirsiniz.
 
 Bunun dışında, üçüncü taraf yeniden hedefleme (retargeting) veya reklam profilleme amacıyla herhangi bir izleyici kullanılmamaktadır.
 
@@ -223,7 +223,7 @@ Değişikliğin yürürlüğe girmesinden sonra uygulamayı kullanmaya devam etm
 
 ## 11. Yürürlük Tarihi
 
-Bu Gizlilik Politikası ilk olarak **23 Mayıs 2026** tarihinde yürürlüğe girmiş; **19 Temmuz 2026** tarihinde, Firebase Analytics'in kaldırılıp Patify'nin kendi altyapısında yürütülen, açık rızaya dayalı kullanım istatistikleri sistemiyle değiştirilmesini yansıtacak şekilde güncellenmiştir. **9 Ağustos 2026** tarihinde, reklam kampanyalarının etkinliğini ölçmek amacıyla açık rızaya dayalı Meta (Facebook/Instagram) reklam ölçümü entegrasyonunu yansıtacak şekilde güncellenmiştir. **4 Ekim 2026** tarihinde, okunmamış bildirimlerin e-posta özetini ve hizmet e-postası işleyeni Resend'i yansıtacak şekilde güncellenmiştir.
+Bu Gizlilik Politikası ilk olarak **23 Mayıs 2026** tarihinde yürürlüğe girmiş; **19 Temmuz 2026** tarihinde, Firebase Analytics'in kaldırılıp Patify'nin kendi altyapısında yürütülen, açık rızaya dayalı kullanım istatistikleri sistemiyle değiştirilmesini yansıtacak şekilde güncellenmiştir. **9 Ağustos 2026** tarihinde, reklam kampanyalarının etkinliğini ölçmek amacıyla açık rızaya dayalı Meta (Facebook/Instagram) reklam ölçümü entegrasyonunu yansıtacak şekilde güncellenmiştir. **4 Ekim 2026** tarihinde, okunmamış bildirimlerin e-posta özetini ve hizmet e-postası işleyeni Resend'i yansıtacak şekilde güncellenmiştir. **8 Ekim 2026** tarihinde, Meta reklam ölçümü iznine hesap açmadan uygulamanın ilk açılışında da verilebilmesi ve bu iznin giriş ekranından geri çekilebilmesi yansıtılmıştır.
 
 ---
 

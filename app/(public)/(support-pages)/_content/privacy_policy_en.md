@@ -1,7 +1,7 @@
 # Patify Privacy Policy
 
 **Effective Date:** 19 July 2026
-**Last Updated:** 4 October 2026
+**Last Updated:** 8 October 2026
 
 ---
 
@@ -190,7 +190,7 @@ However, the App uses the following identifiers:
 - **Usage statistics (Patify infrastructure):** A limited set of in-app usage events (e.g. screen views, searches performed, listing-creation steps) is recorded on **Patify's own Supabase infrastructure** to understand which screens are used and where users get stuck. This is recorded only after the user's explicit consent has been obtained, and is linked to their account — it is therefore personal data and rests on explicit consent under KVKK Art. 5(1). Free text, search queries, location coordinates, or device identifiers are never recorded — only fields with a predefined, limited set of values are collected, and these are deleted after 90 days (see Section 4). You may withdraw this consent at any time via **Settings > Usage statistics**; withdrawal immediately deletes the raw records linked to your account.
 - **Anonymous visitor counter:** For users who are not signed in (guests), only a daily, aggregate counter is kept of how the App is used (e.g. how many times a given screen was viewed). This counter **contains no user ID, device identifier, session ID, or IP address**, and cannot be linked to any individual.
 - **OneSignal:** A device-level `player_id` is assigned for push notification delivery. This is active only when the user is subscribed to notifications and is cleared when notifications are disabled or the account is deleted.
-- **Meta advertising measurement:** Only when you have granted **explicit consent for advertising measurement**, the App shares your device's advertising identifier (IDFA/GAID) and a limited set of app events (install, registration, listing creation) with Meta (Facebook/Instagram). The sole purpose is to measure which advertising campaign led to an app installation. Without consent, the Meta SDK is disabled by default and collects nothing; on iOS, a system-level App Tracking Transparency prompt is also shown. You may withdraw this consent at any time via **Settings > Usage statistics**; withdrawal stops collection and clears the identifiers.
+- **Meta advertising measurement:** Only when you have granted **explicit consent for advertising measurement**, the App shares your device's advertising identifier (IDFA/GAID) and a limited set of app events (install, registration, listing creation) with Meta (Facebook/Instagram). The sole purpose is to measure which advertising campaign led to an app installation. Without consent, the Meta SDK is disabled by default and collects nothing; on iOS, a system-level App Tracking Transparency prompt is also shown. You may withdraw this consent at any time via **Settings > Usage statistics**; withdrawal stops collection and clears the identifiers. You may also grant this consent without creating an account, on the App's first launch; in that case the consent is stored only on your device. If you have no account, you may withdraw it via the **Privacy preferences** link on the sign-in screen.
 
 Other than the above, no third-party retargeting or advertising-profiling trackers are used.
 
@@ -223,7 +223,7 @@ Continued use of the App after a change takes effect constitutes acceptance of t
 
 ## 11. Effective Date
 
-This Privacy Policy first entered into force on **23 May 2026** and was updated on **19 July 2026** to reflect the removal of Firebase Analytics and its replacement with a first-party, consent-based usage-statistics system operated on Patify's own infrastructure. It was updated on **9 August 2026** to reflect a consent-based Meta (Facebook/Instagram) advertising-measurement integration used to measure the effectiveness of advertising campaigns. It was updated on **4 October 2026** to reflect the unread-notification email digest and the transactional email processor Resend.
+This Privacy Policy first entered into force on **23 May 2026** and was updated on **19 July 2026** to reflect the removal of Firebase Analytics and its replacement with a first-party, consent-based usage-statistics system operated on Patify's own infrastructure. It was updated on **9 August 2026** to reflect a consent-based Meta (Facebook/Instagram) advertising-measurement integration used to measure the effectiveness of advertising campaigns. It was updated on **4 October 2026** to reflect the unread-notification email digest and the transactional email processor Resend. It was updated on **8 October 2026** to reflect that Meta advertising-measurement consent can also be granted on the App's first launch without an account, and withdrawn from the sign-in screen.
 
 ---
 
