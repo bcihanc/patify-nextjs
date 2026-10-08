@@ -1,0 +1,21 @@
+app/(public)/(support-pages)/_content/privacy_policy_en.md
+  s_547ee1acc3dd2d::t_f56471b7361d18 87,193
+app/(public)/(support-pages)/_content/privacy_policy_tr.md
+  s_547ee1acc3dd2d::t_d05a86a19403dd 87,193
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "183d6415b26f01a9c000ff3e51a6b389a1e459fe",
+  "prompts": {},
+  "sessions": {
+    "s_547ee1acc3dd2d": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "62f940f8-4d16-491f-bf41-cd8bcefaaf0c",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "cihan <b.cihancengiz@gmail.com>"
+    }
+  }
+}
