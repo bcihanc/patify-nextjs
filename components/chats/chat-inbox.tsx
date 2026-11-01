@@ -59,10 +59,30 @@ export function ChatInbox({ currentUserId }: { currentUserId: string }) {
     cancelledRef.current = false;
     void reload();
 
-    const unsubscribe = subscribeRooms(currentUserId, () => void reload());
+    // chats.rooms events from any user reach this channel: the first event
+    // reloads at once, the rest of a 1.5 s window fold into one trailing reload.
+    let cooldown: ReturnType<typeof setTimeout> | null = null;
+    let pending = false;
+    const throttledReload = () => {
+      if (cooldown) {
+        pending = true;
+        return;
+      }
+      void reload();
+      cooldown = setTimeout(() => {
+        cooldown = null;
+        if (pending) {
+          pending = false;
+          throttledReload();
+        }
+      }, 1500);
+    };
+
+    const unsubscribe = subscribeRooms(currentUserId, throttledReload);
 
     return () => {
       cancelledRef.current = true;
+      if (cooldown) clearTimeout(cooldown);
       unsubscribe();
     };
   }, [currentUserId, reload]);
