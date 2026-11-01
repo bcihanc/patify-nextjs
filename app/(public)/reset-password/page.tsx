@@ -2,7 +2,6 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 
 import { createClient } from "@/lib/supabase/server";
-import HashRecoveryHandler from "./hash-recovery-handler";
 
 /// Universal-link landing page for the Supabase password-recovery flow used
 /// by the Patify mobile apps (`redirectTo: https://patify.net/reset-password`).
@@ -13,21 +12,18 @@ import HashRecoveryHandler from "./hash-recovery-handler";
 /// for desktop browsers, devices without the app installed, and Safari
 /// transitions where the Universal Link does not fire**.
 ///
-/// Two recovery URL shapes have to be handled here:
+/// Only the PKCE shape is accepted:
+/// `https://patify.net/reset-password?code=<one-time-code>`. The code is
+/// exchanged for a session on the server (it needs the code verifier stored
+/// by the browser that requested the recovery), then we forward to
+/// `/home/reset-password`, which owns the actual new-password form.
 ///
-/// 1. **PKCE flow** (default for newer Supabase projects):
-///    `https://patify.net/reset-password?code=<one-time-code>` — the code
-///    is in the query string and can be exchanged for a session on the
-///    server. We do that here and forward to `/home/reset-password`, which
-///    owns the actual new-password form.
+/// Implicit-flow links (`#access_token=...&refresh_token=...`) are never
+/// installed as a session: the fragment is attacker-writable, so honouring it
+/// lets any link swap the visitor's session. Web and mobile both send PKCE
+/// links (`@supabase/ssr` and `supabase_flutter` default to PKCE).
 ///
-/// 2. **Implicit flow** (legacy / projects that haven't migrated to PKCE):
-///    `https://patify.net/reset-password#access_token=...&refresh_token=...&type=recovery`.
-///    Hash fragments are not sent to the server, so a client component
-///    ([HashRecoveryHandler]) does `supabase.auth.setSession(...)` and
-///    forwards to `/home/reset-password` from the browser.
-///
-/// Any other shape — missing code/token, expired link, Supabase error —
+/// Any other shape — missing code, expired link, Supabase error —
 /// falls through to an inline "link is invalid" message with a link back
 /// to `/forgot-password` so the user can request a fresh email.
 export default async function ResetPasswordEntryPage(props: {
@@ -61,9 +57,7 @@ export default async function ResetPasswordEntryPage(props: {
     redirect("/home/reset-password");
   }
 
-  // No code in the URL — could be the implicit flow with a hash fragment,
-  // which only the browser can read. Defer to the client handler.
-  return <HashRecoveryHandler />;
+  return <InvalidLinkMessage detail={null} />;
 }
 
 function InvalidLinkMessage({ detail }: { detail: string | null }) {
