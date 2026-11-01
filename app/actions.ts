@@ -2,7 +2,6 @@
 
 import {createClient} from "@/lib/supabase/server";
 import {encodedRedirect} from "@/utils/utils";
-import {headers} from "next/headers";
 import {redirect} from "next/navigation";
 import {isAtLeastAge, MIN_SIGNUP_AGE, PP_VERSION, TOS_VERSION} from "@/lib/consent";
 import {safeNextPath} from "@/lib/auth/next-path";
@@ -16,7 +15,6 @@ export const signUpAction = async (formData: FormData) => {
     const birthDate = formData.get("birthDate")?.toString();
     const consent = formData.get("consent")?.toString();
     const supabase = await createClient();
-    const origin = (await headers()).get("origin");
 
     if (!email || !password) {
         return encodedRedirect(
@@ -51,7 +49,8 @@ export const signUpAction = async (formData: FormData) => {
         email,
         password,
         options: {
-            emailRedirectTo: `${origin}/auth/callback`,
+            // PUBLIC_URL, never the request Origin header: the link must point at this site.
+            emailRedirectTo: `${process.env.PUBLIC_URL}/auth/oauth?next=/lost-found`,
         },
     });
 
@@ -93,7 +92,6 @@ export const signInAction = async (formData: FormData) => {
 export const forgotPasswordAction = async (formData: FormData) => {
     const email = formData.get("email")?.toString();
     const supabase = await createClient();
-    const origin = (await headers()).get("origin");
     const callbackUrl = formData.get("callbackUrl")?.toString();
 
     if (!email) {
@@ -101,7 +99,9 @@ export const forgotPasswordAction = async (formData: FormData) => {
     }
 
     const {error} = await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo: `${origin}/auth/callback?redirect_to=/home/reset-password`,
+        // /reset-password exchanges the PKCE ?code (verifier cookie set by this request's
+        // browser) and forwards to /home/reset-password. PUBLIC_URL, never the Origin header.
+        redirectTo: `${process.env.PUBLIC_URL}/reset-password`,
     });
 
     if (error) {
