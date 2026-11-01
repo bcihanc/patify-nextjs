@@ -36,6 +36,13 @@ export function DeleteAccountForm({ isEmailProvider }: { isEmailProvider: boolea
         />
       </div>
 
+      {!isEmailProvider && (
+        <p className="text-sm text-foreground/60">
+          Google veya Apple ile giriş yaptıysan, güvenliğin için son 5 dakika içinde giriş yapmış
+          olman gerekir. Gerekirse önce çıkış yapıp yeniden giriş yap.
+        </p>
+      )}
+
       {isEmailProvider && (
         <div className="flex flex-col gap-1.5">
           <Label htmlFor="password">Mevcut şifre</Label>

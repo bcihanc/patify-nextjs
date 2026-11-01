@@ -7,6 +7,7 @@ import {redirect} from "next/navigation";
 import {isAtLeastAge, MIN_SIGNUP_AGE, PP_VERSION, TOS_VERSION} from "@/lib/consent";
 import {safeNextPath} from "@/lib/auth/next-path";
 import {authErrorToTurkish} from "@/lib/auth/error-messages";
+import {FunctionsHttpError} from "@supabase/supabase-js";
 
 
 export const signUpAction = async (formData: FormData) => {
@@ -342,14 +343,13 @@ export const signOutAction = async () => {
 // lives client-side (delete-account-form.tsx) — it's a "did you mean it" UX
 // gate, not a security boundary, since an authenticated user is always
 // allowed to delete their own account. The actual security-relevant gate is
-// reauth: email/password accounts must re-prove the current password here
-// (mirrors changePasswordAction) before anything is destroyed, since a
-// merely-active session shouldn't be enough to irreversibly delete. Google/
-// Apple accounts have no Supabase-managed password to re-check — full
-// mid-flow OAuth reauth is impractical on the web (would mean bouncing the
-// user off-site mid-deletion), so for SSO the confirm-phrase + active
-// session is the gate. This is a deliberate deviation from mobile, which
-// forces a fresh native Google/Apple sign-in before deleting.
+// reauth, enforced by the edge function itself: it refuses (403
+// reauth_required) unless the session signed in within the last 5 minutes.
+// Email/password accounts re-prove the current password here (mirrors
+// changePasswordAction), which is that fresh sign-in. Google/Apple accounts
+// have no Supabase-managed password to re-check and mid-flow OAuth reauth is
+// impractical on the web, so they must sign out and back in first; the 403
+// branch tells them so.
 export const deleteAccountAction = async (formData: FormData) => {
   const supabase = await createClient();
   const {
@@ -381,6 +381,13 @@ export const deleteAccountAction = async (formData: FormData) => {
   const { error } = await supabase.functions.invoke("delete-authenticated-user", {
     method: "DELETE",
   });
+  if (error instanceof FunctionsHttpError && error.context.status === 403) {
+    return encodedRedirect(
+      "error",
+      "/profile/delete",
+      "Güvenliğin için önce çıkış yapıp yeniden giriş yap, ardından 5 dakika içinde hesabını sil.",
+    );
+  }
   if (error) {
     console.error("deleteAccountAction:", error.message);
     return encodedRedirect("error", "/profile/delete", "Hesap silinemedi, tekrar dene.");
