@@ -7,7 +7,7 @@ import type { ReportType } from '@/lib/reports/types';
 export type ReportEntity =
   | 'posts' | 'post_comments' | 'discussion' | 'discussion_answers'
   | 'discussion_answer_comments' | 'adoptions' | 'adoption_comments'
-  | 'lost_found' | 'lost_found_sightings';
+  | 'lost_found' | 'lost_found_sightings' | 'emergency';
 
 // admin_report_queue() satırı (snake_case, RPC'den geldiği gibi).
 type ReportQueueRow = {

@@ -14,6 +14,7 @@ const ENTITY_LABELS: Record<ReportEntity, string> = {
   adoption_comments: 'Sahiplendirme yorumu',
   lost_found: 'Kayıp/Bulundu ilanı',
   lost_found_sightings: 'Görülme bildirimi',
+  emergency: 'Acil durum ilanı',
 };
 
 function formatDateTime(iso: string): string {
