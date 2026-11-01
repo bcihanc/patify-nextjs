@@ -12,6 +12,7 @@ import {
   toWebNotificationPath,
 } from '@/lib/notifications/types';
 import { cn } from '@/lib/utils';
+import { safeNextPath } from '@/lib/auth/next-path';
 
 const MINUTE_MS = 60 * 1000;
 const HOUR_MS = 60 * MINUTE_MS;
@@ -39,9 +40,10 @@ export function NotificationTile({ n }: { n: AppNotification }) {
 
   function handleClick() {
     void markRead([n.id]);
-    // Internal-only navigation — never follow an external/javascript: url.
-    if (n.url && n.url.startsWith('/')) {
-      router.push(toWebNotificationPath(n.url));
+    // Internal-only navigation: safeNextPath rejects external, '//' and '/\' urls.
+    const path = safeNextPath(n.url);
+    if (path) {
+      router.push(toWebNotificationPath(path));
     }
   }
 
